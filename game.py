@@ -35,13 +35,21 @@ class Game :
     # la classe jeu regroupe les données décrivant la grille de jeu
     # et la liste des robots
     # elle est chargée de déplacer les robots
+    # 
     
     
-    def __init__(self, grid, robots) :
+    def __init__(self, grid, robots,goal = None) :
+        # constructeur de la classe Game
+        # grid est une grille 
+        
         self.grid = grid.copy()        
         self.robots = robots.copy()
         self.width = len(grid[0])
         self.height = len(grid)
+        
+        if goal != None :       # objectif de jeu
+            self.bot_to_place=goal[0]
+            self.target= goal[1] 
     
     def __cell_is_free__(self, pos):
         """ renvoie True si la case cell est occupée par un robot """
@@ -64,6 +72,16 @@ class Game :
         assert (0 <= y < self.height)
       
         return self.grid[x][y] & side == 0
+    
+    def set_goal(self,bot,target) :
+        # définit l'objectif : le robot bot doit être à la position target
+        self.bot_to_place =bot
+        self.target = target
+        
+    def is_goal_complete(self) :
+        
+        if self.goal ==None : return False
+        return self.bot_to_place.position == self.target
 
     def move_robot(self, robot, direction):
         """ deplace robot sur le plateau suivant la direction
@@ -73,13 +91,13 @@ class Game :
             """ renvoie une fonction qui calcule la prochaine position"""
             
             if direction == SOUTH:
-                return lambda pos: (pos[0]+1, pos[1])
-            if direction == NORTH:
-                return lambda pos: (pos[0]-1, pos[1])
-            if direction == EAST:
-                return lambda pos: (pos[0], pos[1]+1)
-            if direction == WEST:
                 return lambda pos: (pos[0], pos[1]-1)
+            if direction == NORTH:
+                return lambda pos: (pos[0], pos[1]+1)
+            if direction == EAST:
+                return lambda pos: (pos[0]+1, pos[1])
+            if direction == WEST:
+                return lambda pos: (pos[0]-1, pos[1])
         
         next_position = step_builder(direction)
         
