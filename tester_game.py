@@ -23,8 +23,8 @@ test_grid =[[9, 8, 8, 8, 10, 12],
 | |
 """
 
-r1 = game.Robot((3,0),1)
-r2 = game.Robot((4,4),2)
+r1 = game.Robot((3,0),1,'blue')
+r2 = game.Robot((4,4),2,'red')
 jeutest=game.Game(test_grid,robots=[r1,r2])
 
 
