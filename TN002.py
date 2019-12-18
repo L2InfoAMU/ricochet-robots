@@ -23,7 +23,7 @@ window.Finalize()
 for i in range(11) :
     game_zone.DrawLine((0,i), (10,i),width=1,color='grey') 
     game_zone.DrawLine((i,0), (i,10),width=1,color='grey') 
-
+    game_zone.DrawCircle( (1.5,1.5) ,radius=0.4,fill_color='blue')
 while True:                             # The Event Loop
     event, values = window.read() 
 #   print(event)
