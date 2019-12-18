@@ -3104,7 +3104,8 @@ class Graph(Element):
         if center_location == (None, None):
             return
         converted_point = self._convert_xy_to_canvas_xy(center_location[0], center_location[1])
-        radius_converted = self._convert_xy_to_canvas_xy(0, radius)
+        radius_converted_x = round(abs(self._convert_xy_to_canvas_xy(radius, 0)[0] - self._convert_xy_to_canvas_xy(0, 0)[0] ))
+        radius_converted_y = round(abs(self._convert_xy_to_canvas_xy(0, radius)[1] - self._convert_xy_to_canvas_xy(0, 0)[1] ))
         # radius = radius_converted[1]-5
         # print(f'center = {converted_point} radius converted = {radius_converted}')
         if self._TKCanvas2 is None:
@@ -3114,8 +3115,8 @@ class Graph(Element):
         # print('Oval parms', int(converted_point[0]) - int(radius), int(converted_point[1]) - int(radius),
         #                                      int(converted_point[0]) + int(radius), int(converted_point[1]) + int(radius))
         try:  # needed in case the window was closed with an X
-            id = self._TKCanvas2.create_oval(int(converted_point[0]) - int(radius), int(converted_point[1]) - int(radius),
-                                             int(converted_point[0]) + int(radius), int(converted_point[1]) + int(radius), fill=fill_color,
+            id = self._TKCanvas2.create_oval(int(converted_point[0]) - int(radius_converted_x), int(converted_point[1]) - int(radius_converted_y),
+                                             int(converted_point[0]) + int(radius_converted_x), int(converted_point[1]) + int(radius_converted_y), fill=fill_color,
                                              outline=line_color)
         except:
             id = None
