@@ -17,10 +17,11 @@ class Robot:
     # On accède aux champs par robot.position, robot.numero, 
     # to do , écrire des méthodes set et get pour chaque champ  ?
     
-        def __init__(self,position,numero):
+        def __init__(self,position,numero,color):
             assert(0 < numero <= MAX_ROBOT)
             self.position = position
             self.numero = numero
+            self.color = color
             
         def __repr__(self):
             """ pour les besoins de test seulement"""
@@ -38,7 +39,7 @@ class Game :
     # 
     
     
-    def __init__(self, grid, robots,goal = None) :
+    def __init__(self, grid, robots, goal=None) :
         # constructeur de la classe Game
         # grid est une grille 
         
@@ -78,7 +79,7 @@ class Game :
         self.bot_to_place =bot
         self.target = target
         
-    def is_goal_complete(self) :
+    def IsGoalComplete(self) :
         
         if self.goal ==None : return False
         return self.bot_to_place.position == self.target
