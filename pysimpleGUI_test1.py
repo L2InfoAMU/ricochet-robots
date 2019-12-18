@@ -3,95 +3,144 @@ import game as g
 
 
 
-test_grid =[[9, 8, 8, 8, 10, 12],
-            [1, 0, 2, 4,  9, 6],
-            [3, 0, 8, 0,  0, 12],
-            [9, 0, 0, 0,  0, 4],
-            [1, 4, 1, 0, 6, 5],
-            [7, 3, 2, 2, 10, 6]]
-
-
+GAMEZONE_SIZEX = 400
+GAMEZONE_SIZEY = 400
+BACKGROUND_COLOR='white'
+GRID_COLOR='grey'
+WALLS_WIDTH = 4
+WALLS_COLOR = 'black'
+PASSIVE_BOT_SIZE = 0.3
+ACTIVE_BOT_SIZE=0.4
+# sg.change_look_and_feel('DarkAmber')    # Remove line if you want plain gray windows
 class GameDesign :
     # Classe qui a la responsabilité de dessiner le plateau de jeu 
     # et les robots
     # On lui passe une référence à une zone de dessin rectangulaire
     
-    GAMEZONE_SIZEX = 400
-    GAMEZONE_SIZEY = 400
-    BACKGROUND_COLOR='white'
+
     @classmethod
-    def game_zone(cls,grid) :
-        cls.grid_size_x=len(test_grid)
-        cls.grid_size_y=len(test_grid[0])
-        
+    def GameZone(cls,grid) :
+        cls.grid_size_x=len(grid)
+        cls.grid_size_y=len(grid[0])
+        cls.grid=grid
         cls.game_zone = sg.Graph( \
                 canvas_size = (GAMEZONE_SIZEX,GAMEZONE_SIZEY),\
                 graph_bottom_left = (0,0),\
                 graph_top_right =(cls.grid_size_x,cls.grid_size_y),\
                 background_color = BACKGROUND_COLOR,\
                 enable_events = True,\
-                key = '-GAME_ZONE-' 
+                key = '-GAME-ZONE-' 
                 )
         
+    @classmethod   
+    def DrawGrid(cls):
+        # horizontal lines
+        for i in range(cls.grid_size_y+1) :
+            cls.game_zone.DrawLine(
+                    (0,i), 
+                    (cls.grid_size_x,i),
+                    width=1,
+                    color=GRID_COLOR
+                    )
+        # vertical lines
+        for i in range(cls.grid_size_x+1) :           
+            cls.game_zone.DrawLine(
+                    (i,0), 
+                    (i,cls.grid_size_y),
+                    width=1,
+                    color=GRID_COLOR
+                    )
+    @classmethod
+    def _draw_horizontal_wall_(cls,start) :
+        """ Draw an horizontal wall of length 1, starting from position start = (i,j)
+            Ending on position (i+1,j) """
+        i,j = start
+        cls.game_zone.DrawLine((i,j), (i+1,j), 
+                               width=WALLS_WIDTH, 
+                               color=WALLS_COLOR
+                              )
+    @classmethod
+    def _draw_vertical_wall_(cls,start) :
+        """ Draw a vertical wall of length 1, starting from position start = (i,j)
+            Ending on position (i,j+1) """
+        i,j = start
+        cls.game_zone.DrawLine((i,j), (i,j+1), 
+                               width=WALLS_WIDTH, 
+                               color=WALLS_COLOR
+                              )
+    @classmethod        
+    def DrawWalls(cls) :
+        for i in range(cls.grid_size_x) :
+            for j in range(cls.grid_size_y) :
+                cell =cls.grid[i][j]
+                if cell & g.SOUTH : cls._draw_horizontal_wall_((i,j))
+                if cell & g.NORTH : cls._draw_horizontal_wall_((i,j+1))
+                if cell & g.EAST : cls._draw_vertical_wall_((i+1,j))
+                if cell & g.WEST : cls._draw_vertical_wall_((i,j))
+                
+                
+    @classmethod    
+    def __draw_passive_robot__(cls,r):
+        """ crée un objet de type cercle pour dessiner un robot """
+        i,j= r.position
         
+        return cls.game_zone.DrawCircle(
+                            (i+.5,j+.5),
+                            radius=PASSIVE_BOT_SIZE,
+                            fill_color=r.color
+                          )
+    @classmethod    
+    def __draw_active_robot__(cls,r):
+        """ crée un objet de type cercle pour dessiner un robot """
+        i,j= r.position
+        
+        return cls.game_zone.DrawCircle(
+                            (i+.5,j+.5),
+                            radius=ACTIVE_BOT_SIZE,
+                            fill_color=r.color
+                          )
+
+    @classmethod 
+    def DrawRobots(cls, robots):
     
+        assert ( len(robots) > 0)
+        cls.design_robots = []
+        cls.bot_number = len(robots)
+        cls.bot_focused = 0
+        cls.design_robots.append(cls.__draw_active_robot__(robots[0]))
+        for robot in robots[1:] :
+            cls.design_robots.append(cls.__draw_passive_robot__(robot))
+        
+        
+            
+grid =[[9, 8, 8, 8, 10, 12],
+       [1, 0, 2, 4,  9, 6],
+       [3, 0, 8, 0,  0, 12],
+       [9, 0, 0, 0,  0, 4],
+       [1, 4, 1, 0, 6, 5],
+       [7, 3, 2, 2, 10, 6]]        
         
         
         
-        
-
-
-
-
-sg.change_look_and_feel('DarkAmber')    # Remove line if you want plain gray windows
-
-game_zone=sg.Graph(canvas_size=(400,400) ,\
-                   graph_bottom_left = (-1,-1),\
-                   graph_top_right=(grid_size_x+1,grid_size_y+1),\
-                   background_color='White',\
-                   enable_events = True,\
-                   key='graph',\
-                   float_values=True)                     # identifiant de la zone
-
-
-layout = [[game_zone],
-          [sg.Input(key='-IN-')],      
-          [sg.Button('Read'), sg.Exit()]]      
-
+GameDesign.GameZone(grid)
+layout = [[GameDesign.game_zone],
+          [ sg.Exit()]]      
 
 window = sg.Window('Window that stays open', layout) 
 window.Finalize()  
 
-for i in range(grid_size_x) :
-    game_zone.DrawLine((0,i), (grid_size_x,i),width=1,color='grey') 
-    game_zone.DrawLine((i,0), (i,grid_size_y),width=1,color='grey') 
- 
-"""    
-game_zone.DrawLine( (0,0),(grid_size_x,0),width = 4, color='black')
-game_zone.DrawLine( (grid_size_x,0),(grid_size_x,grid_size_y),width = 4, color='black')   
-game_zone.DrawLine( (grid_size_x,grid_size_y),(0,grid_size_y),width = 4, color='black')
-game_zone.DrawLine( (0,0),(0,grid_size_y),width = 4,color='black')
-"""
+GameDesign.DrawGrid()
+GameDesign.DrawWalls()
+r1 = g.Robot((3,0),1,'blue')
+r2 = g.Robot((4,4),2,'red')
 
-r1=game_zone.draw_circle((4.5,4.5),radius=10,fill_color='blue')
-#walls
-for i in range(grid_size_x) :
-    for j in range(grid_size_y) :
-        cell =test_grid[i][j]
-        if cell & g.SOUTH : game_zone.DrawLine( (i,j) , (i+1,j),width=4)
-        if cell & g.EAST : game_zone.DrawLine( (i+1,j) , (i+1,j+1),width=4)
-        if cell & g.NORTH : game_zone.DrawLine( (i,j+1) , (i+1,j+1),width=4)
-        if cell & g.WEST : game_zone.DrawLine( (i,j) , (i,j+1),width=4)
-        
-            
-            
-            
+GameDesign.DrawRobots([r1,r2])
+
     
 while True:                             # The Event Loop
     event, values = window.read() 
     print(event, values)
 
-    game_zone.MoveFigure(r1,-1,0)       
     if event in (None, 'Exit'):      
         break      
 
