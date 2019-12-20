@@ -17,11 +17,11 @@ class Robot:
     # On accède aux champs par robot.position, robot.numero, 
     # to do , écrire des méthodes set et get pour chaque champ  ?
     
-        def __init__(self,position,numero,color):
+        def __init__(self,position,numero):
             assert(0 < numero <= MAX_ROBOT)
             self.position = position
             self.numero = numero
-            self.color = color
+        #    self.color = color    mauvaise idée , 
             
         def __repr__(self):
             """ pour les besoins de test seulement"""
