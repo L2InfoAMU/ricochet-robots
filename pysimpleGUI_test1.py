@@ -1,10 +1,25 @@
 import PySimpleGUI as sg
 import game as g
-
+from itertools import cycle
 
 
 GAMEZONE_SIZEX = 400
 GAMEZONE_SIZEY = 400
+
+# couleurs
+WHITE = '#fff'
+BLACK = '#000'
+
+BLUE = '#00f'
+DARK_BLUE = '#3b3bd1'
+RED = '#f00'
+DARK_RED = '#d13b3b'
+GREEN = '#0f0'
+DARK_GREEN = '#3bd13b'
+YELLOW = '#ff0'
+DARK_YELLOW = '#b3b34b'
+BLACK = '#000'
+GREY = '#888'
 BACKGROUND_COLOR='white'
 GRID_COLOR='grey'
 WALLS_WIDTH = 4
@@ -17,7 +32,11 @@ class GameDesign :
     # et les robots
     # On lui passe une référence à une zone de dessin rectangulaire
     
-
+    BOT_COLORS={1: (DARK_RED,RED),
+                2: (DARK_BLUE,BLUE),
+                3: (DARK_GREEN,GREEN),
+                4: (DARK_YELLOW,YELLOW),
+                5: (GREY, BLACK) }
     @classmethod
     def GameZone(cls,grid) :
         cls.grid_size_x=len(grid)
@@ -83,21 +102,21 @@ class GameDesign :
     def __draw_passive_robot__(cls,r):
         """ crée un objet de type cercle pour dessiner un robot """
         i,j= r.position
-        
+        color = cls.BOT_COLORS[r.numero][0]
         return cls.game_zone.DrawCircle(
                             (i+.5,j+.5),
                             radius=PASSIVE_BOT_SIZE,
-                            fill_color=r.color
+                            fill_color= color #r.color
                           )
     @classmethod    
     def __draw_active_robot__(cls,r):
         """ crée un objet de type cercle pour dessiner un robot """
         i,j= r.position
-        
+        color = cls.BOT_COLORS[r.numero][1]
         return cls.game_zone.DrawCircle(
                             (i+.5,j+.5),
                             radius=ACTIVE_BOT_SIZE,
-                            fill_color=r.color
+                            fill_color= color
                           )
 
     @classmethod 
@@ -131,10 +150,10 @@ window.Finalize()
 
 GameDesign.DrawGrid()
 GameDesign.DrawWalls()
-r1 = g.Robot((3,0),1,'blue')
-r2 = g.Robot((4,4),2,'red')
+r0 = g.Robot((3,0),1)
+r1 = g.Robot((4,4),2)
 
-GameDesign.DrawRobots([r1,r2])
+GameDesign.DrawRobots([r0,r1])
 
     
 while True:                             # The Event Loop
