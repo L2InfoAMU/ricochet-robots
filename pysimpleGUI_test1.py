@@ -145,7 +145,10 @@ GameDesign.GameZone(grid)
 layout = [[GameDesign.game_zone],
           [ sg.Exit()]]      
 
-window = sg.Window('Window that stays open', layout) 
+window = sg.Window('Window that stays open',
+                    layout,
+                    return_keyboard_events=True
+                    ) 
 window.Finalize()  
 
 GameDesign.DrawGrid()
