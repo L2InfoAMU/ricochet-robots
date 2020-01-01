@@ -1,7 +1,7 @@
 import sys
 from PySide2.QtWidgets import QApplication, QWidget, QMainWindow, QGridLayout, QLabel, QPushButton, QMainWindow, QAction
-from PySide2.QtGui import QKeySequence, QPainter, QColor, QBrush, QPaintEvent, QFont
-
+from PySide2.QtGui import QKeySequence, QPainter, QColor, QBrush, QPaintEvent, QFont, QPen
+from PySide2.QtCore import Qt
 
 import game as g
 
@@ -44,24 +44,9 @@ class MaFenetre(QMainWindow):
         self.status = self.statusBar()
         self.status.showMessage("Sur un jeu d'Alex Randolph")
 
-        layout = QGridLayout()
-        self.label = QLabel("Robot Ricochet", self)
-        self.button = QPushButton("Cliquez ici pour commencer", self)
-        self.button.setFont(QFont("Verdana", 25))
-
-        layout.addWidget(self.label, 0, 0, 2, 3)
-        layout.addWidget(self.button, 2, 1, 2, 4)
-
-        self.button.setStyleSheet("color: blue; background-color: black")
-        self.label.setStyleSheet("color: blue; background-color: black")
-
-        # Add button signal to level_choice slot
-        self.button.clicked.connect(self.level_choice)
-        widget = QWidget()
-        widget.setLayout(layout)
-        widget2 = GameDesign(test_grid)
-        widget2.resize(self.GAMEZONE_SIZE, self.GAMEZONE_SIZE)
-        self.setCentralWidget(widget2)
+        widget = GameDesign(test_grid)
+        widget.resize(self.GAMEZONE_SIZE, self.GAMEZONE_SIZE)
+        self.setCentralWidget(widget)
         self.creation_interface()
         self.show()
 
@@ -86,6 +71,7 @@ class GameDesign(QWidget):
         self.grid = grid
         self.repaint()
         self.setMinimumSize(200, 200)
+        self.draw_robot()
 
     def scale_x(self, x):
         return x * MaFenetre.GAMEZONE_SIZE / self.grid_size_x
@@ -105,7 +91,7 @@ class GameDesign(QWidget):
         """ Draw an horizontal wall of length 1, starting from position start = (i,j)
             Ending on position (i+1,j) """
         i, j = start
-        p.drawLine(self.scale_x(i), self.scale_y(j), self.scale_x(i + 1), self.scale_y(j))
+        p.drawLine(self.scale_x(i), self.scale_y(j), self.scale_x(i + 1), self.scale_y(j), )
 
     def _draw_vertical_wall_(self, p, start):
         """ Draw a vertical wall of length 1, starting from position start = (i,j)
@@ -127,7 +113,7 @@ class GameDesign(QWidget):
                     self._draw_vertical_wall_(p, (i, j))
 
     def draw_robot(self):
-        # On ajoute unbouton dans la zone de dessin
+        # On ajoute un bouton dans la zone de dessin
         robot = QPushButton("", self)
         robot.setGeometry(20, 20, 70, 70)
         # On choisit une image à mettre sur le bouton
@@ -139,12 +125,14 @@ class GameDesign(QWidget):
         brush = QBrush(QColor(255, 0, 0))
         p.setBrush(brush)
 
-        # self.draw_grid(p)
-        print(p.brush())
-        p.setBrush(QColor(120, 0, 10))
+        self.draw_grid(p)
+        wall_pen = QPen()
+        wall_pen.setColor(QColor(255, 0, 0))
+        wall_pen.setWidth(3)
+        p.setPen(wall_pen)
+
         print(p.brush())
         self.draw_walls(p)
-        self.draw_robot()
 
 
 app = QApplication(sys.argv)
