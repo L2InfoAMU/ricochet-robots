@@ -120,7 +120,7 @@ class GameDesign :
                             radius=ACTIVE_BOT_SIZE,
                             fill_color= color
                           )
-
+    
     @classmethod 
     def DrawRobots(cls, robots):
     
@@ -147,15 +147,18 @@ GameDesign.GameZone(grid)
 layout = [[GameDesign.game_zone],
           [ sg.Exit()]]      
 
-window = sg.Window('Window that stays open', layout) 
+window = sg.Window('Window that stays open',
+                    layout,
+                    return_keyboard_events=True
+                    ) 
 window.Finalize()  
 
 GameDesign.DrawGrid()
 GameDesign.DrawWalls()
-r0 = g.Robot((3,0),1)
-r1 = g.Robot((4,4),2)
-
-GameDesign.DrawRobots([r0,r1])
+r1 = g.Robot((3,0),1)
+r2 = g.Robot((4,4),2)
+r3 = g.Robot((0,3),3)
+GameDesign.DrawRobots([r1,r2,r3])
 
     
 while True:                             # The Event Loop
