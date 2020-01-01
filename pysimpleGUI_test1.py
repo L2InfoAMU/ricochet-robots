@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import PySimpleGUI as sg
 import game as g
 from itertools import cycle
