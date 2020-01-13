@@ -15,7 +15,7 @@ DARK_BLUE = '#3b3bd1'
 RED = '#f00'
 DARK_RED = '#d13b3b'
 GREEN = '#0f0'
-DARK_GREEN = '#3bd13b'
+DARK_GREEN = '#00d100'
 YELLOW = '#ff0'
 DARK_YELLOW = '#b3b34b'
 BLACK = '#000'
@@ -32,11 +32,11 @@ class GameDesign :
     # et les robots
     # On lui passe une référence à une zone de dessin rectangulaire
     
-    BOT_COLORS={1: (DARK_RED,RED),
-                2: (DARK_BLUE,BLUE),
-                3: (DARK_GREEN,GREEN),
-                4: (DARK_YELLOW,YELLOW),
-                5: (GREY, BLACK) }
+    BOT_COLORS={0: (DARK_RED,RED),
+                1: (DARK_BLUE,BLUE),
+                2: (DARK_GREEN,GREEN),
+                3: (DARK_YELLOW,YELLOW),
+                4: (GREY, BLACK) }
     @classmethod
     def GameZone(cls,grid) :
         cls.grid_size_x=len(grid)
