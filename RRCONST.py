@@ -18,7 +18,8 @@ BLACK = 4
 
 # pour les directions de mouvement
 
-SOUTH       = 0b0001
+SOUTH       = 0b0100
 EAST        = 0b0010
-NORTH       = 0b0100
+NORTH       = 0b0001
 WEST        = 0b1000
+
