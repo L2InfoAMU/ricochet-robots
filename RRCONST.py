@@ -6,6 +6,7 @@ Created on Mon Jan 13 11:32:57 2020
 """
 
 # constantes pour le projet
+ROBOT_NAMES = ['rouge','bleu','vert','jaune','noir']
 MAX_ROBOTS = 5
 
 BLUE = 0
