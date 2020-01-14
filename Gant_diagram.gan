@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2020-01-01" view-index="0" gantt-divider-location="300" resource-divider-location="300" version="2.8.10" locale="fr">
+    <description/>
+    <view zooming-state="default:8" id="gantt-chart">
+        <field id="tpd3" name="Nom" width="167" order="0"/>
+        <field id="tpd4" name="Date de début" width="65" order="1"/>
+        <field id="tpd5" name="Date de fin" width="64" order="2"/>
+        <timeline><![CDATA[1]]></timeline>
+        <option id="color.recent"><![CDATA[#00cc33 #0000ff #f4f4f4 #ff0000]]></option>
+    </view>
+    <view id="resource-table">
+        <field id="0" name="Nom" width="210" order="0"/>
+        <field id="1" name="Rôle par défaut" width="86" order="1"/>
+    </view>
+    <!-- -->
+    <calendars>
+        <day-types>
+            <day-type id="0"/>
+            <day-type id="1"/>
+            <default-week id="1" name="default" sun="1" mon="0" tue="0" wed="0" thu="0" fri="0" sat="1"/>
+            <only-show-weekends value="false"/>
+            <overriden-day-types/>
+            <days/>
+        </day-types>
+    </calendars>
+    <tasks empty-milestones="true">
+        <taskproperties>
+            <taskproperty id="tpd0" name="type" type="default" valuetype="icon"/>
+            <taskproperty id="tpd1" name="priority" type="default" valuetype="icon"/>
+            <taskproperty id="tpd2" name="info" type="default" valuetype="icon"/>
+            <taskproperty id="tpd3" name="name" type="default" valuetype="text"/>
+            <taskproperty id="tpd4" name="begindate" type="default" valuetype="date"/>
+            <taskproperty id="tpd5" name="enddate" type="default" valuetype="date"/>
+            <taskproperty id="tpd6" name="duration" type="default" valuetype="int"/>
+            <taskproperty id="tpd7" name="completion" type="default" valuetype="int"/>
+            <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
+            <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
+        </taskproperties>
+        <task id="1" name="Maitriser Git et GitHub" color="#ff0000" shape="1,1,1,0,1,1,0,0,1,0,0,0,0,0,0,0" meeting="false" start="2020-01-06" duration="8" complete="0" thirdDate="2020-01-06" thirdDate-constraint="0" expand="true"/>
+        <task id="3" name="Ecrire des cas d'utilisation" color="#8cb6ce" meeting="false" start="2020-01-06" duration="8" complete="0" thirdDate="2020-01-06" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[Ecrire un premier cas d'utilisation simple avec interface en ligne de commande et les fonctionnalités de base : joueur humain (pas de solveur). Possibilité de charger des plateaux et de sauvegarder une partie.
+
+Ecrire des cas d'utilisation pour la génération du plateau de jeu. On travaille avec l'ancienne version du jeu. 4 petits plateaux à arranger, pas de vortex, pas de murs en diagonales.
+
+
+
+]]></notes>
+            <depend id="5" type="2" difference="0" hardness="Strong"/>
+            <depend id="9" type="2" difference="0" hardness="Strong"/>
+            <depend id="13" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="5" name="gestion des fichiers" color="#0000ff" shape="1,0,1,0,0,1,0,1,1,0,1,0,0,1,0,1" meeting="false" start="2020-01-16" duration="12" complete="0" thirdDate="2020-01-06" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[Ecrire une classe pour l'enregistrement et la lecture des parties.
+]]></notes>
+            <depend id="16" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="9" name="classe jeu" color="#0000ff" shape="1,0,0,0,1,0,0,0,1,0,0,0,1,1,1,1" meeting="false" start="2020-01-16" duration="12" complete="0" thirdDate="2019-12-16" thirdDate-constraint="0" expand="true">
+            <depend id="16" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="13" name="interface CLI" color="#0000ff" shape="1,0,0,0,1,0,0,0,1,0,0,0,1,1,1,1" meeting="false" start="2020-01-16" duration="12" complete="0" thirdDate="2020-01-16" thirdDate-constraint="0" expand="true">
+            <depend id="16" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="16" name="Version 1" color="#00cc33" shape="1,0,0,0,1,0,0,0,1,0,0,0,1,1,1,1" meeting="false" start="2020-02-03" duration="20" complete="0" thirdDate="2019-12-16" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[Version 1.0 du projet
+Joueur humain, interface en ligne de commandes 
+Gestion des fichiers.]]></notes>
+            <depend id="28" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="8" name="Algo_solveur" color="#8cb6ce" meeting="false" start="2020-01-20" duration="15" complete="0" thirdDate="2020-01-06" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[Ecrire l'algorithme de résolution par exploration du graphe en largeur]]></notes>
+            <depend id="20" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="20" name="classe solveur" color="#0000ff" shape="1,0,0,0,1,0,0,0,1,0,0,0,1,1,1,1" meeting="false" start="2020-02-10" duration="22" complete="0" thirdDate="2020-01-01" thirdDate-constraint="0" expand="true">
+            <depend id="28" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="28" name="Version 1.1" color="#00cc33" shape="1,0,0,0,1,0,0,0,1,0,0,0,1,1,1,1" meeting="false" start="2020-03-11" duration="7" complete="0" thirdDate="2020-01-01" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[Versions 1.1 du logiciel
+intégration du solveur
+]]></notes>
+        </task>
+    </tasks>
+    <resources/>
+    <allocations/>
+    <vacations/>
+    <previous/>
+    <roles roleset-name="Default"/>
+    <roles roleset-name="SoftwareDevelopment"/>
+</project>

@@ -26,5 +26,5 @@ for i in range(11) :
     game_zone.DrawCircle( (1.5,1.5) ,radius=0.4,fill_color='blue')
 while True:                             # The Event Loop
     event, values = window.read() 
-#   print(event)
+    print(event)
     print(values) 
