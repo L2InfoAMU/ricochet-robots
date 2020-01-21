@@ -38,8 +38,8 @@ class Board :
         assert(side in [SOUTH, NORTH, EAST, WEST])
         nblin, nbcol = self.grid.shape
         x, y = pos
-        assert (0 <= x < nbcol)
-        assert (0 <= y < nblin)
+        assert (0 <= x < nblin)
+        assert (0 <= y < nbcol)
       
         return self.grid[pos] & side == 0 
     
@@ -54,16 +54,19 @@ class Board :
                     return False
 
         # test murs horizontaux
-        for i in range(nbcol - 1):
-            for j in range(nblin):
+        for i in range(nblin - 1):
+            for j in range(nbcol):
                 if self.cell_is_open((i,j),SOUTH) != self.cell_is_open((i+1,j),NORTH):
                     print("problème horizontal à ", i, " , ", j)
         return True 
     
     @staticmethod
     def __rotate_cell_left(cell) :
-        """ tourne une case d'un quart de tour vers la droite """
-        turned_cell = 0
+        """ tourne une case d'un quart de tour vers la gauche """
+        # on recopie le contenu de la cellule sauf les 4 derniers bits qui sont mis à 0
+        # Ceci pour penser à des usages futurs, si on souhaite stocker d'autres informations
+        
+        turned_cell = cell & ~15
         if cell & SOUTH : turned_cell += EAST
         if cell & EAST : turned_cell += NORTH
         if cell & NORTH : turned_cell += WEST
