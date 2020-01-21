@@ -29,10 +29,19 @@ class Objectif :
         x, y = self.position
         self.position = (m-1-x, n-1-y)
 
-    def rotate_left(self, dim):
+    def rotate_right(self, dim):
         """ Calcule la position de l'objectif après rotation 
-        d'un 1/4 de tour vers la gauche dans une grille de dimension 
+        d'un 1/4 de tour vers la droite dans une grille de dimension 
         dim =  (m,n) """
         m, n = dim
         x, y = self.position
         self.position = (y, m-1-x )
+        
+    def translate(self, vecteur) :
+        """ renvoie un objectif dont la position est translatée selon le vecteur
+            La couleur est inchangée """
+        
+        x , y = self.position
+        dx , dy = vecteur
+        return Objectif(self.color, ( x + dx , y + dy))
+        
