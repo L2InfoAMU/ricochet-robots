@@ -62,9 +62,11 @@ class Board :
     
     @staticmethod
     def __rotate_cell_left(cell) :
-        """ tourne une case d'un quart de tour vers la gauche """
-        # on recopie le contenu de la cellule sauf les 4 derniers bits qui sont mis à 0
-        # Ceci pour penser à des usages futurs, si on souhaite stocker d'autres informations
+        """ Renvoie le contenu d'une cellule tourné d'un 1/4 de tour 
+            vers la gauche 
+            cell est un entier dont les 4 bits de poids faibles représentent
+            les murs autour de la cellule
+            les bits de poids >4 sont recopiés. """ 
         
         turned_cell = cell & ~15
         if cell & SOUTH : turned_cell += EAST
