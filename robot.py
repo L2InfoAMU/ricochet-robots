@@ -14,8 +14,8 @@ class Robot:
     """ Classe robot
     # qui contient la position du robot : tuple(x , y)
     # un identificateur
-    # une référence au plateau sur laquelle il se déplace robot.board
-    # la liste des robots sur le plaeau : robot.friends
+    # une référence au monde dans lequel évolue le robot robot.world
+    # robot.world.robots , robot.world.board
     # On accède aux champs par robot.position, robot.numero, 
     # 
     # to do , écrire des méthodes set et get pour chaque champ  ?
@@ -35,8 +35,8 @@ class Robot:
     def cell_is_free(self, pos):
         """ renvoie True si la case cell est occupée par un robot """
         """ pos est un tuple (x,y) correspondant à une case de la grille """
-       
-        for robot in self.friends :
+        friends = self.world.robots
+        for robot in friends :
            if robot.position == pos : return False
         return True
     
@@ -49,7 +49,7 @@ class Robot:
     def move(self, direction) :
         """ deplace robot sur le plateau suivant la direction
             la position de robot est changée """
-    
+        
         def step_builder(direction):
             """ renvoie une fonction qui calcule la prochaine position"""
             if direction == SOUTH:
@@ -62,8 +62,8 @@ class Robot:
                 return lambda pos: (pos[0], pos[1]-1)
     
         next_position = step_builder(direction)
-    
-        while self.world.cell_is_open(self.position, direction):
+        board = self.world.board
+        while board.cell_is_open(self.position, direction):
             target = next_position(self.position)
             if not self.cell_is_free(target): break
          
