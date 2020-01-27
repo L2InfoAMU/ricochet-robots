@@ -80,7 +80,7 @@ class ClassicBoard(Board) :
         
         return ClassicBoard(grid3, objs3)
 
-    def __truediv__(self,board2) :
+    def __sub__(self,board2) :
         """ renvoie la fusion verticale de deux board"""
         
         grid1 = self.grid
@@ -130,7 +130,7 @@ if __name__ == "__main__":
     board3.rotate_left()
     board4 = ClassicBoard(grid2,objs2)
     board4.rotate_right()
-    board = (board1 + board2) / (board3 + board4)
+    board = (board1 + board2) - (board3 + board4)
     
         
 #    board1 = ClassicBoard(rouge1, [obj1, obj2])
