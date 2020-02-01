@@ -2,9 +2,7 @@
 # constante du module
 
 from RRCONST import *
-import robot 
-import goal    
-import board
+
 
 class GameWorld :
     """  la classe jeu regroupe les données décrivant 

@@ -8,7 +8,7 @@ class GameDesign :
 
     def __init__(self,game,tools) :
         self.game = game
-        self.tools = tools
+        self.drawing_tools = tools
         pass
 
     def draw_grid() :
