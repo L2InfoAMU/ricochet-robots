@@ -15,6 +15,7 @@ RED = 2
 YELLOW = 3
 BLACK = 4
 
+ROBOT_COLORS = [BLUE,GREEN,RED,YELLOW, BLACK]
 
 # pour les directions de mouvement
 

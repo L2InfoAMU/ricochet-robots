@@ -14,22 +14,22 @@ class Robot:
     """ Classe robot
     # qui contient la position du robot : tuple(x , y)
     # un identificateur
-    # une référence au monde dans lequel évolue le robot robot.world
+    # une référence au monde dans lequel évolue le robot : robot.world
     # robot.world.robots , robot.world.board
     # On accède aux champs par robot.position, robot.numero, 
     # 
     # to do , écrire des méthodes set et get pour chaque champ  ?
     """
-    def __init__(self,position,id_robot):
+    def __init__(self,position,color):
         
-        assert(0 <= id_robot < MAX_ROBOT)
+        assert(color in ROBOT_COLORS)
         self.position = position
-        self.numero = id_robot
-    #    self.color = color    mauvaise idée , 
+#        self.numero = id_robot
+        self.color = color    
         
     def __repr__(self):
         """ pour les besoins de test seulement"""
-        return "r" + str(self.numero) \
+        return "r" + str(self.color) \
                 + " à la position" + str(self.position)
                 
     def cell_is_free(self, pos):
@@ -63,8 +63,9 @@ class Robot:
     
         next_position = step_builder(direction)
         board = self.world.board
+        target = self.position
         while board.cell_is_open(self.position, direction):
             target = next_position(self.position)
             if not self.cell_is_free(target): break
-         
-        robot.position = target
+            else : 
+                self.position = target
