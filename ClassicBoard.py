@@ -6,15 +6,18 @@ Created on Mon Jan 13 23:03:49 2020
 """
 
 from RRCONST import *
+from ClassicBoard_data import *
 from board import Board
 from objectif import Objectif
 from numpy import hstack, vstack
+from random import *
 
 class ClassicBoard(Board) :
     """ Les objets de cette classe contiennent une grille de jeu classique
         En plus de la grille avec les murs il y a les objectifs dessinés
         sur le plateau       
     """
+
     def __init__(self,grid,objectifs) :
         super().__init__(grid)
         self.objectifs = objectifs
@@ -113,8 +116,78 @@ class ClassicBoard(Board) :
                      
         return ClassicBoard(grid3, objs3)
 
+    @staticmethod
+    def random_classic_board(self):
+
+        """ rend une grille 16 x 16 générée au hasard,
+        en prenant 4 quarts de plateau assemblés aléatoirement.
+        Tous les objectifs des quarts de plateau y sont insérés."""
+
+        numj = randint(0, 2)
+        jaune = boardsJaunes[numj]
+        numv = randint(0, 2)
+        vert = boardsVerts[numv]
+        numb = randint(0, 2)
+        bleu = boardsBleus[numb]
+        numr = randint(0, 2)
+        rouge = boardsRouges[numr]
+        quarts = [jaune, vert, bleu, rouge]
+        couleurs = ["jaune", "vert", "bleu", "rouge"]
+        # de l'affichage pour suivre l'assemblage :
+        print(couleurs)
+        print(numj, numv, numb, numr)
+        # On les assemble dans un certain ordre (en affichant cet ordre)
+        chg = randint(0, 3)
+        hg = quarts.pop(chg)
+        print(couleurs.pop(chg), end=" : ")
+
+        chd = randint(0, 2)
+        hd = quarts.pop(chd)
+        hd.rotate_right()
+        print(couleurs.pop(chd), end=" : ")
+
+        cbd = randint(0, 1)
+        bd = quarts.pop(cbd)
+        print(couleurs.pop(cbd), end=" : ")
+        bd.rotate_half()
+
+        bg = quarts.pop(0)
+        bg.rotate_left()
+        print(couleurs[0])
+
+        return (hg + hd) - (bg + bd)
+
+
+boardsBleus = [None] * 3
+for j in range(3):
+    objectifs = [None] * 4
+    for i in range(4):
+        objectifs[i] = Objectif(ROBOT_COLORS[i], objectifsBleus[j][i])
+    boardsBleus[j] = ClassicBoard(bleus[j], objectifs)
+
+boardsJaunes = [None] * 3
+for j in range(3):
+    objectifs = [None] * 4
+    for i in range(4):
+        objectifs[i] = Objectif(ROBOT_COLORS[i], objectifsJaunes[j][i])
+    boardsJaunes[j] = ClassicBoard(jaunes[j], objectifs)
+
+boardsRouges = [None] * 3
+for j in range(3):
+    objectifs = [None] * 4
+    for i in range(4):
+        objectifs[i] = Objectif(ROBOT_COLORS[i], objectifsRouges[j][i])
+    boardsRouges[j] = ClassicBoard(rouges[j], objectifs)
+
+boardsVerts = [None] * 3
+for j in range(3):
+    objectifs = [None] * 4
+    for i in range(4):
+        objectifs[i] = Objectif(ROBOT_COLORS[i], objectifsVerts[j][i])
+    boardsVerts[j] = ClassicBoard(verts[j], objectifs)
+
+
 if __name__ == "__main__":
-    
     grid1 = [[9,1,3],
              [8,6,8],
              [8,1,0]]
@@ -125,12 +198,12 @@ if __name__ == "__main__":
              [8,4,2]]
     objs2 = [ Objectif(BLUE,(1,1))]
     board2 = ClassicBoard(grid2, objs2)
-    
+
     board3 = ClassicBoard(grid1,objs1)
     board3.rotate_left()
     board4 = ClassicBoard(grid2,objs2)
     board4.rotate_right()
     board = (board1 + board2) - (board3 + board4)
-    
-        
+    board2 = ClassicBoard.random_classic_board(ClassicBoard)
+
 #    board1 = ClassicBoard(rouge1, [obj1, obj2])
