@@ -6,13 +6,14 @@ Created on Sun Jan 12 00:30:28 2020
 """
 from RRCONST import *
 
-class Goal :
+
+class Goal:
     """ crée un objet Goal qui correspond à l'objectif du jeu
         Amener robot à sur la case target, 
         robot est un objet de la classe Robot 
         target est un tuple (i,j) d'entiers """
         
-    def __init__(self, robot, target) :
+    def __init__(self, robot, target):
         self.robot = robot
         self.target = target
         
