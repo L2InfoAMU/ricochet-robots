@@ -9,7 +9,7 @@ Created on Thu Jan 30 09:59:40 2020
 from RRCONST import *
 from robot import*
 
-class GameControler :
+class GameController :
     
     
     def __init__(self, game_world) :
