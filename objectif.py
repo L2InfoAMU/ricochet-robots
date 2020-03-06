@@ -6,12 +6,11 @@ Created on Tue Jan 14 01:24:31 2020
 """
 
 
-class Objectif :
+class Objectif:
     
-    def __init__(self, color , target):
+    def __init__(self, color, target):
         self.color = color
         self.position = target
-        
        
     def rotate_left(self, dim):
         """ Calcule la position de l'objectif après rotation 
@@ -19,7 +18,7 @@ class Objectif :
         dim =  (m,n) """
         m, n = dim
         x, y = self.position
-        self.position = (n-1-y, x )
+        self.position = (n-1-y, x)
         
     def rotate_half(self, dim):
         """ Calcule la position de l'objectif après rotation 
@@ -35,13 +34,12 @@ class Objectif :
         dim =  (m,n) """
         m, n = dim
         x, y = self.position
-        self.position = (y, m-1-x )
+        self.position = (y, m-1-x)
         
-    def translate(self, vecteur) :
+    def translate(self, vecteur):
         """ renvoie un objectif dont la position est translatée selon le vecteur
             La couleur est inchangée """
         
-        x , y = self.position
-        dx , dy = vecteur
-        return Objectif(self.color, ( x + dx , y + dy))
-        
+        x, y = self.position
+        dx, dy = vecteur
+        return Objectif(self.color, (x + dx, y + dy))
