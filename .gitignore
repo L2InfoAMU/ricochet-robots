@@ -29,3 +29,4 @@ old.vscode/settings.json
 *.pyc
 .vscode/settings.json
 __pycache__/game.cpython-37.pyc
+__pycache__/game.cpython-37.pyc
