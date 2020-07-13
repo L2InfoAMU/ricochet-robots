@@ -181,44 +181,126 @@ class Robot :
 
     cell_occupied(pos) : renvoie True si un des robots du groupe
 """
-class Robot_group :
-
-    def __init__(self) :
-        self.robots = dict()
-
+class Robot_group(dict) :
 
     def add_robot(self, robot) :
         assert ( not self.cell_occupied(robot.position))
-        assert (robot.color not in self.robots)
-
-        self.robots[robot.color] = robot
+        assert (robot.color not in self)
+        self[robot.color] = robot
 
     def cell_occupied(self, pos) :
-        for _, robot in self.robots.items() :
+        for _, robot in self.items() :
             if robot.position == pos : return True
         return False
+""" 
+La classe Game a pour rôle la gestion des actions sur le plateau de jeu
+Les attributs sont 
+board : un plateau de jeu
+group : un groupe de robots
+goal : l'objectif du jeu
+Méthodes :
+    get_state() : 
+        renvoie un tuple contenant les positions des robots.
+        L'ordre des positions est dans la liste keys.
+    set_state(state) : 
+        positionne les robots dans d'après les positions de state
+    state_is_win (state) : 
+        renvoie True si l'état est gagnant , False sinon
+    game_is_win() :
+        renvoie True si le jeu est en état gagnant
+    actions_list() :
+        renvoie la liste des actions possibles pour un agent
+    do_action(action) :
+        effectue l'action donnée sur le jeu et renvoie l'état du jeu
+
+"""
 
 class Game :
+    color_names = { RColors.RED : 'R',
+                    RColors.BLUE : 'B',
+                    RColors.YELLOW :'Y',
+                    RColors.GREEN : 'G'}
+    color_by_name = {'R' : RColors.RED,
+                      'B' : RColors.BLUE,
+                      'Y' : RColors.YELLOW,
+                      'G' : RColors.GREEN}
+    direction_names = {Direction.E : 'E',
+                        Direction.S : 'S',
+                        Direction.N : 'N',
+                        Direction.W : 'W'}
+    direction_by_name = {'N' : Direction.N,
+                            'E' : Direction.E,
+                            'S' : Direction.S,
+                            'W' : Direction.W}
 
-    def __init__(self, board, group, goal) :
+    def __init__(self, board, robots, goal ):
         self.board = board
-        self.group = group
+        self.group = robots
+        self.robots = robots
         self.goal = goal
-        self.keys = [color for color in group.robots]
+        self.color_keys = [color for color in robots]
 
     def get_state(self) :
-        return tuple([self.group.robots[key].position for key in self.keys])
+        return tuple([self.robots[color].position for color in self.color_keys])
+
+    def set_state(self, state) :
+        for r_color, position in zip(self.color_keys, state) :
+            self.robots[r_color].position = position
+    
+    def state_is_win(self, state) :
+        index = self.color_keys.index(self.goal.color)
+        return state[index] == self.goal.position
+
+    def is_win(self) :
+        return self.robots[self.goal.color].position == self.goal.position
+
+    def actions_list(self) :
+        actions = [] 
+        for color in self.color_keys :
+            color_name = self.color_names[color]
+            for direction in Direction :
+                dir_name = self.direction_names[direction]
+                actions.append(color_name+dir_name)
+        return actions
+
+    def do_action(self, action) :
+        color_name, dir_name = action[0], action[1]
+        color = self.color_by_name[color_name]
+        direction = self.direction_by_name[dir_name]
+        robot = self.robots[color]
+        robot.move(direction, self)
+        return self.get_state()
+
+    def do_actions(self, *actions) :
+        for action in actions :
+            state = self.do_action(action)
+        return state
 
 
 
+""" 
+la classe Goal permet de créer des objets pour l'objectif du jeu.
+Un objectif est la donnée d'une couleur et d'une position
+    goal = Goal(RColors.GREEN, (0,4))
 
+    On accède aux champs par :
+    goal.color
+    goal.position
+"""
+class Goal :
+    def __init__(self, color, position) :
+        self.color = color
+        self.position = position
+
+
+"""
 a = Cell()
 print(a)
 print(a.wall_at(WEST))
 b = Cell(SOUTH+NORTH)
 print(b.wall_at(SOUTH))
 print(b.wall_at(EAST))
-"""
+
 A = Board([[ 1,1,1],[2,2,2],[3,5,3]])
 print(A)
 
@@ -230,17 +312,26 @@ fd = open("test2.txt",'r')
 A = Board.load_from_file(fd)
 
 print(A)
+
 """
-"""
-fd = open('D:/test.txt', 'r')
+fd = open("test2.txt",'r')
 A = Board.load_from_file(fd)
 group = Robot_group()
 r1 = Robot (group, RColors.RED, (0,0) )
-r2 = Robot (group, RColors.GREEN, (5,0) )
+r2 = Robot (group, RColors.GREEN, (4,0) )
+r3 = Robot (group, RColors.BLUE, (3,4) )
+r4 = Robot (group, RColors.YELLOW, (2,4) )
+goal = Goal(RColors.GREEN, (4,2))
+game = Game(A,group,goal)
+print (game.actions_list() )
 
-print(r1)
-game = Game(A,group,None)
+state = game.do_action("RS")
+state = game.do_actions("RE","GN","RN","BW","BN","YS" )
 
+"""
+print(game.get_state())
+
+print ("etat gagnant ? ", game.state_is_win(game.get_state()))
 r1.move(SOUTH,game)
 print(r1)
 r1.move(EAST,game)
@@ -248,6 +339,44 @@ print(r1)
 r1.move(NORTH,game)
 print(r1)
 r1.move(EAST,game)
-print(r1)
+r2.move(EAST, game)
+r2.move(EAST, game)
 print(game.get_state())
+print ("etat gagnant ? ", game.state_is_win(game.get_state()))
+state = ((1, 4), (4, 2), (3, 4), (2, 4))
+game.set_state(state )
+print(game.get_state())
+"""
+
+"""
+import sys
+from PySide2 import QtCore, QtGui, QtWidgets
+from PySide2.QtCore import Qt
+
+class MainWindow(QtWidgets.QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.label = QtWidgets.QLabel()
+        canvas = QtGui.QPixmap(400, 300)
+        canvas.fill(Qt.white)
+        self.label.setPixmap(canvas)
+        self.setCentralWidget(self.label)
+        self.draw_something()
+
+
+    def draw_something(self):
+        painter = QtGui.QPainter(self.label.pixmap())
+       
+        names=["Empty","N","E","EN","S","NS","ES","ENS","W","NW","EW","ENW","SW","NSW","ESW","ENSW"]
+        images = [QtGui.QPixmap("./images/"+name+".bmp", format="bmp")  for name in names]
+        painter.drawPixmap(QtCore.QPoint(0,0) , images[9])
+        painter.drawPixmap(QtCore.QPoint(50,0) , images[3])
+        painter.drawPixmap(QtCore.QPoint(0,50) , images[13])
+        painter.drawPixmap(QtCore.QPoint(50,50) , images[6])                               
+        painter.end()
+        
+app = QtWidgets.QApplication(sys.argv)
+window = MainWindow()
+window.show()
+app.exec_()
 """
