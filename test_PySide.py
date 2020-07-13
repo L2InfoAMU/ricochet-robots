@@ -1,6 +1,6 @@
 import sys
 from PySide2.QtWidgets import QApplication, QWidget, QMainWindow, QGridLayout, QLabel, QPushButton, QMainWindow, QAction
-from PySide2.QtGui import QKeySequence, QPainter, QColor, QBrush, QPaintEvent, QFont, QPen
+from PySide2.QtGui import QKeySequence, QPainter, QColor, QBrush, QPaintEvent, QFont, QPen, QIcon, QImage, QPixmap
 from PySide2.QtCore import Qt
 from random import *
 from ClassicBoard import *
@@ -19,6 +19,8 @@ test_grid = [[ 9,  1, 1, 1,  3, 9, 1, 1],
               [  8, 0, 0, 6, 8, 0, 2, 9]]
 
 test_board = ClassicBoard(test_grid, Objectif(RED,(1,1)))
+
+RED_ROBOT = QImage("robot rouge.png")
 
 class MaFenetre(QMainWindow):
     GAMEZONE_SIZE = 400
@@ -153,7 +155,10 @@ class GameDesign(QWidget):
 
     def draw_robot(self):
         # On ajoute un bouton dans la zone de dessin
-        robot = QPushButton("", self)
+        robot = QPushButton(QPixmap(RED_ROBOT), "", self)
+        robot.setStatusTip("Cliquez sur le robot puis dirigez le avec les flèches")
+        #button_action.triggered.connect(self.onMyToolBarButtonClick)
+        robot.setCheckable(True)
         robot.setGeometry(10, 10, 35, 35)
         # On choisit une image à mettre sur le bouton
     #    robot.setStyleSheet("background-image: url(robot rouge.png);");
