@@ -6,7 +6,7 @@ Chef de projet : CANALS Martin L3
 Développeurs : AUBIN François DU CCIE, GIANI Théo L3
 
 """
-#import numpy as np
+
 
 # Enumération pour les directions
 from enum import IntFlag
@@ -205,9 +205,9 @@ Méthodes :
         L'ordre des positions est dans la liste keys.
     set_state(state) : 
         positionne les robots dans d'après les positions de state
-    state_is_win (state) : 
+    state_is_won (state) : 
         renvoie True si l'état est gagnant , False sinon
-    game_is_win() :
+    is_won() :
         renvoie True si le jeu est en état gagnant
     actions_list() :
         renvoie la liste des actions possibles pour un agent
@@ -248,11 +248,11 @@ class Game :
         for r_color, position in zip(self.color_keys, state) :
             self.robots[r_color].position = position
     
-    def state_is_win(self, state) :
+    def state_is_won(self, state) :
         index = self.color_keys.index(self.goal.color)
         return state[index] == self.goal.position
 
-    def is_win(self) :
+    def is_won(self) :
         return self.robots[self.goal.color].position == self.goal.position
 
     def actions_list(self) :
