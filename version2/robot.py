@@ -179,6 +179,7 @@ class Robot :
 """ classe qui gère un groupe de robots
     Robot_group() : crée un groupe vide de robots
     add_robot(robot) : ajoute le robot au groupe
+    un robot est une couleur, par exemple RColors.RED
 
     cell_occupied(pos) : renvoie True si un des robots du groupe
 """
@@ -236,8 +237,9 @@ class Game :
                             'W' : Direction.W}
 
 
-    def __init__(self, board = None , robots = [], goal = None):
+    def __init__(self, board, robots, goal ):
         self.board = board
+        self.group = robots
         self.robots = robots
         self.goal = goal
         self.color_keys = [color for color in robots]
@@ -278,6 +280,7 @@ class Game :
     def do_action(self, action) :
         color_name, dir_name = action[0], action[1]
         color = self.color_by_name[color_name]
+        #print(color)    #pour le test/à enlever
         direction = self.direction_by_name[dir_name]
         robot = self.robots[color]
         robot.move(direction, self)

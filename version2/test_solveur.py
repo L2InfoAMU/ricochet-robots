@@ -6,6 +6,9 @@ from solveur import solveur
 from robot import *
 from random import *
 import time
+
+
+"""
 time_line = []
 start = time.time()
 time_inter = start
@@ -53,6 +56,7 @@ for x in range (7):
         goal = Goal(RColors.RED, (x,y))
         game = Game(A,group,goal)
 
+
         solution = solveur(game).find_solution()
         print (solution)
         time_line.append(time.time() - time_inter)
@@ -63,10 +67,10 @@ for x in range (7):
         time_line.append(time_inter)
 print ("temps total : " + str(time_inter - start))
 
-
-
 """
-fd = open('./grid3.txt','r')
+
+
+fd = open('./version2/grid3.txt','r')
 board3x3 = Board.load_from_file(fd)
 fd.close()
 group = Robot_group()
@@ -80,7 +84,7 @@ game = Game(board3x3,group,goal)
 solution = solveur(game).find_solution()
 print (solution)
 
-fd = open('./square5.txt','r')
+fd = open('./version2/square5.txt', 'r')
 square5 = Board.load_from_file(fd)
 fd.close()
 group = Robot_group()
@@ -91,6 +95,7 @@ r3 = Robot (group, RColors.BLUE, (0,4) )
 r4 = Robot (group, RColors.YELLOW, (4,4) )
 goal = Goal(RColors.YELLOW, (3,2))
 game = Game(square5,group,goal)
+
+
 solution = solveur(game).find_solution()
 print (solution)
-"""

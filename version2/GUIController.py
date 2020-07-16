@@ -7,7 +7,7 @@ Développeurs : AUBIN François DU CCIE, GIANI Théo L3
 """
 
 import sys
-from PySide2.QtWidgets import QApplication, QWidget, QMainWindow , QGridLayout, QLabel, QPushButton, QMainWindow, QAction, QToolBar, QVBoxLayout, QComboBox, QHBoxLayout, QCheckBox
+from PySide2.QtWidgets import QApplication, QWidget, QMainWindow , QGridLayout, QLabel, QPushButton, QMainWindow, QAction, QToolBar, QVBoxLayout, QComboBox, QHBoxLayout, QCheckBox, QRadioButton, QDialog, QMessageBox
 from PySide2.QtGui import QKeySequence, QPainter, QColor, QBrush, QPaintEvent, QFont, QPen, QIcon, QImage, QPixmap
 from PySide2.QtCore import Qt, QPoint
 from robot import*
@@ -81,6 +81,7 @@ class MainWindow(QMainWindow):
 
         # Play QAction
         play_action = QAction("Jouer !", self)
+        self.number_moves = 0
         play_action.triggered.connect(self.draw_grid)
         self.file_menu.addAction(play_action)
 
@@ -117,25 +118,109 @@ class MainWindow(QMainWindow):
         button_South.setStatusTip("Aller vers le Bas")
         button_South.triggered.connect(self.onButtonSouthClick)
         button_South.setCheckable(False)
-        button_South.setShortcut(QKeySequence("Up"))
+        button_South.setShortcut(QKeySequence("Down"))
         toolbar.addAction(button_South)
+
+        # Selection robot actif
+        button_Red = QPushButton("&Red")
+        button_Red.setIcon(QIcon("./version2/icons/icon_R.png"))
+        button_Red.setAutoExclusive(True)
+        button_Red.setCheckable(True)
+        button_Red.setShortcut(QKeySequence("R"))
+        button_Red.toggled.connect(self.onButtonRedClick)
+
+
+        button_Green = QPushButton("&Green")
+        button_Green.setIcon(QIcon("./version2/icons/icon_G.png"))
+        button_Green.setAutoExclusive(True)
+        button_Green.setCheckable(True)
+        button_Green.setShortcut(QKeySequence("G"))
+        button_Green.toggled.connect(self.onButtonGreenClick)
+
+
+        button_Blue = QPushButton("&Blue")
+        button_Blue.setIcon(QIcon("./version2/icons/icon_B.png"))
+        button_Blue.setAutoExclusive(True)
+        button_Blue.setCheckable(True)
+        button_Blue.setShortcut(QKeySequence("B"))
+        button_Blue.toggled.connect(self.onButtonBlueClick)
+
+
+        button_Yellow = QPushButton("&Yellow")
+        button_Yellow.setIcon(QIcon("./version2/icons/icon_Y.png"))
+        button_Yellow.setAutoExclusive(True)
+        button_Yellow.setCheckable(True)
+        button_Yellow.setShortcut(QKeySequence("Y"))
+        button_Yellow.toggled.connect(self.onButtonYellowClick)
+
+
+        toolbar.addWidget(button_Red)
+        toolbar.addWidget(button_Green)
+        toolbar.addWidget(button_Blue)
+        toolbar.addWidget(button_Yellow)
+
+        """
+        # Selection robot rouge
+        button_Red = QAction(QIcon("./version2/icons/icon_R.png"), "Red", self)
+        button_Red.setStatusTip("Sélectionner le robot rouge")
+        button_Red.setAutoExclusive(True)
+
+        button_Red.setCheckable(True)
+        button_Red.setShortcut(QKeySequence("R"))
+        toolbar.addAction(button_Red)
+
+        # Selection robot vert
+        button_Green = QAction(QIcon("./version2/icons/icon_G.png"), "Green", self)
+        button_Green.setStatusTip("Sélectionner le robot vert")
+        button_Green.setAutoExclusive(True)
+
+        button_Green.setCheckable(True)
+        button_Green.setShortcut(QKeySequence("G"))
+        toolbar.addAction(button_Green)
+
+        # Selection robot bleu
+        button_Blue = QAction(QIcon("./version2/icons/icon_B.png"), "Blue", self)
+        button_Blue.setStatusTip("Sélectionner le robot bleu")
+        button_Blue.setAutoExclusive(True)
+
+        button_Blue.setCheckable(True)
+        button_Blue.setShortcut(QKeySequence("B"))
+        toolbar.addAction(button_Blue)
+
+        # Selection robot jaune
+        button_Yellow = QAction(QIcon("./version2/icons/icon_Y.png"), "Yellow", self)
+        button_Yellow.setStatusTip("Sélectionner le robot jaune")
+        button_Yellow.setAutoExclusive(True)
+
+        button_Yellow.setCheckable(True)
+        button_Yellow.setShortcut(QKeySequence("Y"))
+        toolbar.addAction(button_Yellow)
+
+        button_Red.triggered.connect(self.onButtonRedClick)
+        button_Green.triggered.connect(self.onButtonGreenClick)
+        button_Blue.triggered.connect(self.onButtonBlueClick)
+        button_Yellow.triggered.connect(self.onButtonYellowClick)
+
+        """
+        #Le robot rouge est sélectionné par défaut
+        self.selected_robot = 'R'
 
     def choix_grille(self,i) :
         name_grid = './version2/test' + str(i + 1) + '.txt'
         fd = open(name_grid,'r')
         A = Board.load_from_file(fd)
         self.game.add_board(A)
+        self.number_moves = 0
         self.draw_grid()
 
     def choix_nb_robots(self,i) :
 
 
         self.nb_robots = i + 1
-        print (i)
+
         self.robots_pos = [0] * self.nb_robots
         self.robots_list = [0] * self.nb_robots
         self.robots_colors = [i for i in RColors]
-        self.group = Robot_group()
         if self.placement_aleatoire:
 
             for i in range(self.nb_robots):
@@ -145,14 +230,14 @@ class MainWindow(QMainWindow):
                     x = randint(0, self.game.board.width - 1)
                     y = randint(0, self.game.board.height - 1)
                 self.robots_pos[i] = (x,y)
-                self.robots_list[i] = Robot(self.group, self.robots_colors[i], (x, y))
-            self.game.add_robots(self.robots_list)
+                self.robots_list[i] = Robot(self.game.group, self.robots_colors[i], (x, y))
+            # self.game.add_robots(self.robots_list)  inutile????
 
             x = randint(0, self.game.board.width - 1)
             y = randint(0, self.game.board.height - 1)
             goal = Goal(RColors(randint(1, self.nb_robots )), (x, y))
             self.game.add_goal(goal)
-            self.draw_robots()
+            self.draw_robots_and_goal()
 
     def draw_grid(self):
         painter = QPainter(self.label.pixmap())
@@ -167,35 +252,81 @@ class MainWindow(QMainWindow):
         self.update()
         painter.end()
 
-    def draw_robots(self):
-        print("ici ça va !")
-        for robot in self.game.robots:
-            print(robot)
+    def draw_robots_and_goal(self):
+        self.draw_grid()
+
         painter = QPainter(self.label.pixmap())
+
+        goal_img_name = "./version2/icons/goal_"+ game.color_names[self.game.goal.color] +".png"
+        painter.drawPixmap(QPoint(self.DIMENSION/ self.game.board.height * self.game.goal.position[1] , self.DIMENSION / self.game.board.width * self.game.goal.position[0]) , QPixmap(goal_img_name, format="png").scaled(self.DIMENSION / self.game.board.width * 0.9, self.DIMENSION/ self.game.board.height * 0.9))
+
         images = [QPixmap("./version2/icons/robot_"+ game.color_names[color] +".png", format="png")  for color in self.robots_colors]
 
         for i, robot in enumerate(self.game.robots):
-            painter.drawPixmap(QPoint(self.DIMENSION/ self.game.board.height * robot.position[1] , self.DIMENSION / self.game.board.width * robot.position[0]) , images[i].scaled(self.DIMENSION / self.game.board.width * 0.8, self.DIMENSION/ self.game.board.height))
+
+            painter.drawPixmap(QPoint(self.DIMENSION/ self.game.board.height * self.game.robots[robot].position[1] , self.DIMENSION / self.game.board.width * self.game.robots[robot].position[0]) , images[i].scaled(self.DIMENSION / self.game.board.width * 0.8, self.DIMENSION/ self.game.board.height))
 
         self.update()
         painter.end()
 
     def onButtonEastClick(self, s):
-        print("click", s)
+        self.game.do_action(self.selected_robot + 'E')
+        self.draw_robots_and_goal()
+        self.number_moves  += 1
+        if self.game.is_won():
+            self.game_is_won()
 
     def onButtonWestClick(self, s):
-        print("click", s)
+        self.game.do_action(self.selected_robot + 'W')
+        self.draw_robots_and_goal()
+        self.number_moves  += 1
+        if self.game.is_won():
+            self.game_is_won()
 
     def onButtonNorthClick(self, s):
-        print("click", s)
+        self.game.do_action(self.selected_robot + 'N')
+        self.draw_robots_and_goal()
+        self.number_moves  += 1
+        if self.game.is_won():
+            self.game_is_won()
 
     def onButtonSouthClick(self, s):
-        print("click", s)
+        self.game.do_action(self.selected_robot + 'S')
+        self.draw_robots_and_goal()
+        self.number_moves  += 1
+        if self.game.is_won():
+            self.game_is_won()
 
     def placer_aleatoirement(self):
         self.placement_aleatoire = not(self.placement_aleatoire)
 
+    def onButtonRedClick(self, s):
+        if s:
+            self.selected_robot = 'R'
 
+    def onButtonGreenClick(self, s):
+        if s:
+            self.selected_robot = 'G'
+
+    def onButtonBlueClick(self, s):
+        if s:
+            self.selected_robot = 'B'
+
+    def onButtonYellowClick(self, s):
+        if s:
+            self.selected_robot = 'Y'
+
+    def game_is_won(self):
+        dlg = QMessageBox(self)
+        dlg.setWindowTitle("Bravo!")
+        dlg.setText("Vous avez gagné en " + str(self.number_moves) + " coups ! Voulez-vous rejouer ?")
+        dlg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        button = dlg.exec_()
+        dlg.setIcon(QMessageBox.Question)
+        if button == QMessageBox.Yes:
+            self.draw_grid()
+        else:
+            exit()
 
 
 
@@ -203,7 +334,8 @@ class MainWindow(QMainWindow):
 
 
 app = QApplication(sys.argv)
-game = Game()
+group = Robot_group()
+game = Game(None, group, None)
 fen = MainWindow(game)
 fen.show()
 app.exec_()

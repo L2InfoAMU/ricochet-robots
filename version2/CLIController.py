@@ -23,9 +23,9 @@ while rejouer :
     robots_pos = [0] * nb_robots
     robots_list = [0] * nb_robots
     robots_colors = [i for i in RColors]
-    
+
     if placement_aleatoire:
-        
+
         for i in range(nb_robots):
             x = randint(0, A.width - 1)
             y = randint(0, A.height - 1)
@@ -37,7 +37,7 @@ while rejouer :
 
         x = randint(0, A.width - 1)
         y = randint(0, A.height - 1)
-        
+
         goal = Goal(RColors(randint(0, nb_robots - 1)), (x, y))
     else :
         for i in range(nb_robots):
@@ -49,11 +49,12 @@ while rejouer :
             robots_pos[i] = (x, y)
             robots_list[i] = Robot(group, robots_colors[i], (x, y))
         num_robot = int(input("Quel est le numero de la couleur du robot choisi ? 1 : RED 2 : BLUE 3 : GREEN 4 : YELLOW  ? "))
-        
+
         print("entrez les coordonnées du but sous la forme (x, y)")
         x, y=tuple(map(int, input().split()))
         goal = Goal(RColors(num_robot), (x, y))
     game=Game(A, group, goal)
+
     print("C'est parti !")
     for i in range(nb_robots):
         print(robots_list[i])
@@ -61,16 +62,13 @@ while rejouer :
           " doit aller au point ", goal.position)
 
     number_moves = 0
-    print(game.is_won())
+    
     while (not game.is_won()):
         action = input("Entrez un déplacement sous la forme couleur/direction, par exemple RN ou YE ou BW :  ")
         game.do_action(action)
         number_moves += 1
         print(game.get_state())
     print("Bravo ! Vous avez gagné en ", number_moves , "coups.")
-    
-       
+
+
     rejouer = not(input("Voulez-vous rejouer? (oui/non)") in ["oui", "o"])
-    
-
-
