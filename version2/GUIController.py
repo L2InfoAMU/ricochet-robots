@@ -211,10 +211,13 @@ class MainWindow(QMainWindow):
         A = Board.load_from_file(fd)
         self.game.add_board(A)
         self.number_moves = 0
+        group = Robot_group()
+        self.game = Game(self.game.board, group, self.game.goal)
         self.draw_grid()
 
     def choix_nb_robots(self,i) :
-
+        group = Robot_group()
+        self.game = Game(self.game.board, group, self.game.goal)
 
         self.nb_robots = i + 1
 
@@ -240,6 +243,7 @@ class MainWindow(QMainWindow):
             self.draw_robots_and_goal()
 
     def draw_grid(self):
+        group = Robot_group()
         painter = QPainter(self.label.pixmap())
         names=["Empty","N","E","EN","S","NS","ES","ENS","W","NW","EW","ENW","SW","NSW","ESW","ENSW"]
         images = [QPixmap("./version2/images/"+name+".bmp", format="bmp")  for name in names]
