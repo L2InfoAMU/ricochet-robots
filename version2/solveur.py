@@ -14,11 +14,11 @@ class solveur :
         self.game = game
 
     @staticmethod
-    def action_sequence_from_pred(pred, final_state) :
+    def action_sequence_from_pred(pred, final_state, initial_state) :
         action_sequence = deque()
 
         state = final_state
-        while state is not None :
+        while state != initial_state :
             state , action = pred[state]
             action_sequence.appendleft(action)
         return list(action_sequence)
@@ -45,7 +45,7 @@ class solveur :
                     graph.add(result_state) 
                     pred[result_state] =(state,action)
                     if self.game.state_is_won(result_state) :
-                        return solveur.action_sequence_from_pred(pred,result_state)
+                        return solveur.action_sequence_from_pred(pred,result_state, initial_state)
                     queue.append(result_state)
         
 
