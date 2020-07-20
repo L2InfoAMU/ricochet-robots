@@ -16,7 +16,7 @@ from random import *
 
 class MainWindow(QMainWindow):
     DIMENSION = 600
-    placement_aleatoire = False
+    placement_aleatoire = True
     nb_robots = 0
 
     def __init__(self, game):
@@ -48,19 +48,22 @@ class MainWindow(QMainWindow):
         nb_robots_choice.setGeometry(0,0,40,40)
         nb_robots_choice.activated.connect(self.choix_nb_robots)
 
+        # CheckBox placement aléatoire
+        widget3 = QCheckBox("Placement aléatoire des robots et de l'objectif")
+        widget3.setCheckState(Qt.Checked)
+        widget3.stateChanged.connect(self.placer_aleatoirement)
 
 
+        # layout2 contient les 3 widgets horizontaux de choix de grille, robots et aléa
         layout2.addWidget(grid_choice)
         layout2.addWidget(nb_robots_choice)
-        widget3 = QCheckBox("Placement aléatoire des robots et de l'objectif")
-        widget3.setCheckState(Qt.Unchecked)
-        widget3.stateChanged.connect(self.placer_aleatoirement)
         layout2.addWidget(widget3)
         layout2.setContentsMargins(0,0,0,0)
         layout2.setSpacing(0)
-        #layout2.addWidget(AleaChoice("Positions aleatoires?"))
         widget2 = QWidget()
         widget2.setLayout(layout2)
+
+
         layout.addWidget(widget2)
         layout.addWidget(self.label)
         widget = QWidget()
@@ -159,49 +162,7 @@ class MainWindow(QMainWindow):
         toolbar.addWidget(button_Blue)
         toolbar.addWidget(button_Yellow)
 
-        """
-        # Selection robot rouge
-        button_Red = QAction(QIcon("./version2/icons/icon_R.png"), "Red", self)
-        button_Red.setStatusTip("Sélectionner le robot rouge")
-        button_Red.setAutoExclusive(True)
 
-        button_Red.setCheckable(True)
-        button_Red.setShortcut(QKeySequence("R"))
-        toolbar.addAction(button_Red)
-
-        # Selection robot vert
-        button_Green = QAction(QIcon("./version2/icons/icon_G.png"), "Green", self)
-        button_Green.setStatusTip("Sélectionner le robot vert")
-        button_Green.setAutoExclusive(True)
-
-        button_Green.setCheckable(True)
-        button_Green.setShortcut(QKeySequence("G"))
-        toolbar.addAction(button_Green)
-
-        # Selection robot bleu
-        button_Blue = QAction(QIcon("./version2/icons/icon_B.png"), "Blue", self)
-        button_Blue.setStatusTip("Sélectionner le robot bleu")
-        button_Blue.setAutoExclusive(True)
-
-        button_Blue.setCheckable(True)
-        button_Blue.setShortcut(QKeySequence("B"))
-        toolbar.addAction(button_Blue)
-
-        # Selection robot jaune
-        button_Yellow = QAction(QIcon("./version2/icons/icon_Y.png"), "Yellow", self)
-        button_Yellow.setStatusTip("Sélectionner le robot jaune")
-        button_Yellow.setAutoExclusive(True)
-
-        button_Yellow.setCheckable(True)
-        button_Yellow.setShortcut(QKeySequence("Y"))
-        toolbar.addAction(button_Yellow)
-
-        button_Red.triggered.connect(self.onButtonRedClick)
-        button_Green.triggered.connect(self.onButtonGreenClick)
-        button_Blue.triggered.connect(self.onButtonBlueClick)
-        button_Yellow.triggered.connect(self.onButtonYellowClick)
-
-        """
         #Le robot rouge est sélectionné par défaut
         self.selected_robot = 'R'
 
@@ -301,7 +262,7 @@ class MainWindow(QMainWindow):
         if self.game.is_won():
             self.game_is_won()
 
-    def placer_aleatoirement(self):
+    def placer_aleatoirement(self):   # inverse la sélection de la checkBox
         self.placement_aleatoire = not(self.placement_aleatoire)
 
     def onButtonRedClick(self, s):
