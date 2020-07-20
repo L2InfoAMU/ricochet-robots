@@ -120,7 +120,7 @@ class Board :
 
 from enum import Enum
 class RColors(Enum) :
-    BLACK = 0
+   # BLACK = 0
     RED = 1
     GREEN = 2
     BLUE = 3
@@ -149,7 +149,7 @@ class Robot :
         self.group.add_robot(self)
 
     def __str__(self) :
-        return "Robot"+str(self.color)+" at "+str(self.position)
+        return "Robot"+str(self.color.name)+" at "+str(self.position)
 
     def move (self, dir, game) :
         robots = game.group
@@ -179,6 +179,7 @@ class Robot :
 """ classe qui gère un groupe de robots
     Robot_group() : crée un groupe vide de robots
     add_robot(robot) : ajoute le robot au groupe
+    un robot est une couleur, par exemple RColors.RED
 
     cell_occupied(pos) : renvoie True si un des robots du groupe
 """
@@ -193,19 +194,19 @@ class Robot_group(dict) :
         for _, robot in self.items() :
             if robot.position == pos : return True
         return False
-""" 
+"""
 La classe Game a pour rôle la gestion des actions sur le plateau de jeu
-Les attributs sont 
+Les attributs sont
 board : un plateau de jeu
 group : un groupe de robots
 goal : l'objectif du jeu
 Méthodes :
-    get_state() : 
+    get_state() :
         renvoie un tuple contenant les positions des robots.
         L'ordre des positions est dans la liste keys.
-    set_state(state) : 
+    set_state(state) :
         positionne les robots dans d'après les positions de state
-    state_is_won (state) : 
+    state_is_won (state) :
         renvoie True si l'état est gagnant , False sinon
     is_won() :
         renvoie True si le jeu est en état gagnant
@@ -217,7 +218,8 @@ Méthodes :
 """
 
 class Game :
-    color_names = { RColors.RED : 'R',
+    color_names = {
+                    RColors.RED : 'R',
                     RColors.BLUE : 'B',
                     RColors.YELLOW :'Y',
                     RColors.GREEN : 'G'}
@@ -234,11 +236,22 @@ class Game :
                             'S' : Direction.S,
                             'W' : Direction.W}
 
+
     def __init__(self, board, robots, goal ):
         self.board = board
         self.group = robots
         self.robots = robots
         self.goal = goal
+        self.color_keys = [color for color in robots]
+
+    def add_board(self, board):
+        self.board = board
+
+    def add_goal(self, goal):
+        self.goal = goal
+
+    def add_robots(self, robots):
+        self.robots = robots
         self.color_keys = [color for color in robots]
 
     def get_state(self) :
@@ -247,7 +260,7 @@ class Game :
     def set_state(self, state) :
         for r_color, position in zip(self.color_keys, state) :
             self.robots[r_color].position = position
-    
+
     def state_is_won(self, state) :
         index = self.color_keys.index(self.goal.color)
         return state[index] == self.goal.position
@@ -256,7 +269,7 @@ class Game :
         return self.robots[self.goal.color].position == self.goal.position
 
     def actions_list(self) :
-        actions = [] 
+        actions = []
         for color in self.color_keys :
             color_name = self.color_names[color]
             for direction in Direction :
@@ -267,6 +280,7 @@ class Game :
     def do_action(self, action) :
         color_name, dir_name = action[0], action[1]
         color = self.color_by_name[color_name]
+        #print(color)    #pour le test/à enlever
         direction = self.direction_by_name[dir_name]
         robot = self.robots[color]
         robot.move(direction, self)
@@ -279,7 +293,8 @@ class Game :
 
 
 
-""" 
+
+"""
 la classe Goal permet de créer des objets pour l'objectif du jeu.
 Un objectif est la donnée d'une couleur et d'une position
     goal = Goal(RColors.GREEN, (0,4))
@@ -292,5 +307,3 @@ class Goal :
     def __init__(self, color, position) :
         self.color = color
         self.position = position
-
-
