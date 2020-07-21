@@ -200,6 +200,8 @@ Les attributs sont
 board : un plateau de jeu
 group : un groupe de robots
 goal : l'objectif du jeu
+states_list : la liste de tous les états du jeu depuis le début,
+            permettant de revenir en arrière
 Méthodes :
     get_state() :
         renvoie un tuple contenant les positions des robots.
@@ -214,6 +216,8 @@ Méthodes :
         renvoie la liste des actions possibles pour un agent
     do_action(action) :
         effectue l'action donnée sur le jeu et renvoie l'état du jeu
+    undo() :
+        annule la dernière action
 
 """
 
@@ -242,6 +246,7 @@ class Game :
         self.group = robots
         self.robots = robots
         self.goal = goal
+        self.states_list = []
         self.color_keys = [color for color in robots]
 
     def add_board(self, board):
@@ -284,6 +289,7 @@ class Game :
         direction = self.direction_by_name[dir_name]
         robot = self.robots[color]
         robot.move(direction, self)
+        self.states_list.append(self.get_state)
         return self.get_state()
 
     def do_actions(self, *actions) :
@@ -291,6 +297,8 @@ class Game :
             state = self.do_action(action)
         return state
 
+    def undo(self):
+        self.set_state(self.states_list.pop())
 
 
 

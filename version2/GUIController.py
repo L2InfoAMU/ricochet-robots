@@ -13,6 +13,8 @@ from PySide2.QtCore import Qt, QPoint
 from robot import*
 from random import *
 
+ICON_PATH = "./icons/"
+IMAGES_PATH = "./images/"
 
 class MainWindow(QMainWindow):
     DIMENSION = 600
@@ -93,7 +95,7 @@ class MainWindow(QMainWindow):
         self.addToolBar(toolbar)
 
         # Flèche gauche
-        button_West = QAction(QIcon("./version2/icons/arrow-180.png"), "West", self)
+        button_West = QAction(QIcon(ICON_PATH + "arrow-180.png"), "West", self)
         button_West.setStatusTip("Aller à gauche")
         button_West.triggered.connect(self.onButtonWestClick)
         button_West.setCheckable(False)
@@ -101,7 +103,7 @@ class MainWindow(QMainWindow):
         toolbar.addAction(button_West)
 
         # Flèche droite
-        button_East = QAction(QIcon("./version2/icons/arrow.png"), "Est", self)
+        button_East = QAction(QIcon(ICON_PATH + "arrow.png"), "Est", self)
         button_East.setStatusTip("Aller à droite")
         button_East.triggered.connect(self.onButtonEastClick)
         button_East.setCheckable(False)
@@ -109,7 +111,7 @@ class MainWindow(QMainWindow):
         toolbar.addAction(button_East)
 
         # Flèche Haut
-        button_North = QAction(QIcon("./version2/icons/arrow-090.png"), "North", self)
+        button_North = QAction(QIcon(ICON_PATH + "arrow-090.png"), "North", self)
         button_North.setStatusTip("Aller vers le haut")
         button_North.triggered.connect(self.onButtonNorthClick)
         button_North.setCheckable(False)
@@ -117,7 +119,7 @@ class MainWindow(QMainWindow):
         toolbar.addAction(button_North)
 
         # Flèche Bas
-        button_South = QAction(QIcon("./version2/icons/arrow-270.png"), "South", self)
+        button_South = QAction(QIcon(ICON_PATH + "arrow-270.png"), "South", self)
         button_South.setStatusTip("Aller vers le Bas")
         button_South.triggered.connect(self.onButtonSouthClick)
         button_South.setCheckable(False)
@@ -126,7 +128,7 @@ class MainWindow(QMainWindow):
 
         # Selection robot actif
         button_Red = QPushButton("&Red")
-        button_Red.setIcon(QIcon("./version2/icons/icon_R.png"))
+        button_Red.setIcon(QIcon(ICON_PATH + "icon_R.png"))
         button_Red.setAutoExclusive(True)
         button_Red.setCheckable(True)
         button_Red.setShortcut(QKeySequence("R"))
@@ -134,7 +136,7 @@ class MainWindow(QMainWindow):
 
 
         button_Green = QPushButton("&Green")
-        button_Green.setIcon(QIcon("./version2/icons/icon_G.png"))
+        button_Green.setIcon(QIcon(ICON_PATH + "icon_G.png"))
         button_Green.setAutoExclusive(True)
         button_Green.setCheckable(True)
         button_Green.setShortcut(QKeySequence("G"))
@@ -142,7 +144,7 @@ class MainWindow(QMainWindow):
 
 
         button_Blue = QPushButton("&Blue")
-        button_Blue.setIcon(QIcon("./version2/icons/icon_B.png"))
+        button_Blue.setIcon(QIcon(ICON_PATH + "icon_B.png"))
         button_Blue.setAutoExclusive(True)
         button_Blue.setCheckable(True)
         button_Blue.setShortcut(QKeySequence("B"))
@@ -150,7 +152,7 @@ class MainWindow(QMainWindow):
 
 
         button_Yellow = QPushButton("&Yellow")
-        button_Yellow.setIcon(QIcon("./version2/icons/icon_Y.png"))
+        button_Yellow.setIcon(QIcon(ICON_PATH + "icon_Y.png"))
         button_Yellow.setAutoExclusive(True)
         button_Yellow.setCheckable(True)
         button_Yellow.setShortcut(QKeySequence("Y"))
@@ -167,7 +169,7 @@ class MainWindow(QMainWindow):
         self.selected_robot = 'R'
 
     def choix_grille(self,i) :
-        name_grid = './version2/test' + str(i + 1) + '.txt'
+        name_grid = './test' + str(i + 1) + '.txt'
         fd = open(name_grid,'r')
         A = Board.load_from_file(fd)
         self.game.add_board(A)
@@ -207,7 +209,7 @@ class MainWindow(QMainWindow):
         group = Robot_group()
         painter = QPainter(self.label.pixmap())
         names=["Empty","N","E","EN","S","NS","ES","ENS","W","NW","EW","ENW","SW","NSW","ESW","ENSW"]
-        images = [QPixmap("./version2/images/"+name+".bmp", format="bmp")  for name in names]
+        images = [QPixmap(IMAGES_PATH + name+".bmp", format="bmp")  for name in names]
 
         for x in range(0, self.game.board.width):
             for y in range(0, self.game.board.height):
@@ -222,10 +224,10 @@ class MainWindow(QMainWindow):
 
         painter = QPainter(self.label.pixmap())
 
-        goal_img_name = "./version2/icons/goal_"+ game.color_names[self.game.goal.color] +".png"
+        goal_img_name = ICON_PATH + "/goal_"+ game.color_names[self.game.goal.color] +".png"
         painter.drawPixmap(QPoint(self.DIMENSION/ self.game.board.height * self.game.goal.position[1] , self.DIMENSION / self.game.board.width * self.game.goal.position[0]) , QPixmap(goal_img_name, format="png").scaled(self.DIMENSION / self.game.board.width * 0.9, self.DIMENSION/ self.game.board.height * 0.9))
 
-        images = [QPixmap("./version2/icons/robot_"+ game.color_names[color] +".png", format="png")  for color in self.robots_colors]
+        images = [QPixmap(ICON_PATH + "robot_"+ game.color_names[color] +".png", format="png")  for color in self.robots_colors]
 
         for i, robot in enumerate(self.game.robots):
 

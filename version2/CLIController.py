@@ -62,11 +62,15 @@ while rejouer :
           " doit aller au point ", goal.position)
 
     number_moves = 0
-    
+
     while (not game.is_won()):
-        action = input("Entrez un déplacement sous la forme couleur/direction, par exemple RN ou YE ou BW :  ")
-        game.do_action(action)
-        number_moves += 1
+        action = input("Entrez un déplacement sous la forme couleur/direction, par exemple RN ou YE ou BW (ou tapez undo pour annuler le dernier coup):  ")
+        if action == "undo":
+            game.undo()
+            number_moves -= 1
+        else:
+            game.do_action(action)
+            number_moves += 1
         print(game.get_state())
     print("Bravo ! Vous avez gagné en ", number_moves , "coups.")
 
