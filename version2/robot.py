@@ -89,7 +89,7 @@ class Cell :
 
 class Board :
 
-    def __init__(self, data=[], check_conformity = True) :
+    def __init__(self, data=[], check_conformity = False) :
         self.height = len(data)
         if self.height > 0 :
             self.width = len(data[0])
@@ -121,7 +121,7 @@ class Board :
     Méthode privée pour vérifier la conformité de la grille
             cohérence de la redondance
     """
-    def _grid_conforms(self) :
+    def _grid_conforms(self, verbose = False) :
         w = self.width
         h = self.height
         conforms = True
@@ -132,12 +132,14 @@ class Board :
                     cell_south = self.grid[i+1][j]
                     if cell.wall_at(Direction.S) != cell_south.wall_at(Direction.N) :
                         conforms = False
-                        print (" Grille non conforme au SUD en ",i," , ",j)
+                        if verbose :
+                            print (" Grille non conforme au SUD en ",i," , ",j)
                 if j < w-1 :
                     cell_east = self.grid[i][j+1]
                     if cell.wall_at(Direction.E) != cell_east.wall_at(Direction.W) :
                         conforms = False
-                        print (" Grille non conforme à l'EST en ",i," , ",j)
+                        if verbose :
+                            print (" Grille non conforme à l'EST en ",i," , ",j)
         return conforms
 
     def cell_at(self, position) :
@@ -145,31 +147,46 @@ class Board :
         return self.grid[i][j]
 
 
-    def save_to_file(self, fd) :
+    def write_to_file(self, fd) :
         fd.write(str(self))
 
 
+
     @staticmethod
-    def load_from_file(fd) :
-        import json
+    def load_from_file(fd) :         
+        """ méthode ancienne à ne plus utiliser """   
+        
         data = []
         for line in fd :
             donnees = line.strip().split()
             if donnees == [] : continue
             data.append([ int (value) for value in donnees])
         return Board(data)
-    
+
+    @staticmethod
+    def load_from_json(fd, name = 'grid') :
+        """ charge une grille dans un fichier json, 
+            usage  :  Board.load_from_json( fd , name)
+                    fd est un descripteur de fichier
+                    name est le nom de la donnée dans le fichier , par défaut 'grid'
+        """
+
+        import json
+
+        data = json.load(fd)[name]
+        return Board(data)
+
     def rotate_left(self) :
         nbcol , nblin = self.width , self.height
         turned_grid = [[ self.grid[i][nbcol-j-1].rotate_left() for i in range(nblin)] for j in range(nbcol)]
-        
+
         self.grid = turned_grid
         self.width , self.height = nblin , nbcol
         return self
 
     def rotate_right(self) :
         nbcol , nblin = self.width , self.height
-        turned_grid = [[ self.grid[nblin-1-i][j].rotate_left() for i in range(nblin)] for j in range(nbcol)]
+        turned_grid = [[ self.grid[nblin-1-i][j].rotate_right() for i in range(nblin)] for j in range(nbcol)]
         
         self.grid = turned_grid
         self.width , self.height = nblin , nbcol
@@ -177,7 +194,7 @@ class Board :
 
     def rotate_half(self) :
         nbcol , nblin = self.width , self.height
-        turned_grid = [[ self.grid[nblin-1-i][nbcol_1_j].rotate_half() for j in range(nbcol)] for i in range(nblin)]
+        turned_grid = [[ self.grid[nblin-1-i][nbcol-1-j].rotate_half() for j in range(nbcol)] for i in range(nblin)]
         self.grid = turned_grid
         self.width , self.height = nbcol , nblin
         return self
@@ -198,7 +215,7 @@ class Board :
         
         # suture
         for i in range (nl1) :
-            if grid3[i][nc1-1].wall_at(EAST) or grid3[i][ncl].wall_at(WEST) :
+            if grid3[i][nc1-1].wall_at(EAST) or grid3[i][nc1].wall_at(WEST) :
                 grid3[i][nc1-1].add_wall(EAST)
                 grid3[i][nc1].add_wall(WEST)
         

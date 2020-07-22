@@ -138,13 +138,5 @@ class CellTest(unittest.TestCase) :
             self.assertTrue (cell.wall_at(Direction.W))
             self.assertTrue(cell.wall_at(Direction.S))          
             self.assertTrue(cell.wall_at(Direction.E))
-
-
-            
-            
-
-        
-
-
         
 unittest.main()
