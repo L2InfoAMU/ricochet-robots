@@ -6,11 +6,11 @@ Développeurs : AUBIN François DU CCIE, GIANI Théo L3
 Module pour l'apprentissage par Q_learning'
 
 """
-from robot import *
+from robot import Game
 
 class Q_learner :
 
-    def __init__(self , game) :
+    def __init__(self , game:Game) :
         self.game = game
 
     def learn(self) :

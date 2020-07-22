@@ -48,6 +48,35 @@ class Cell :
 
        self.walls = self.walls | direction
 
+    def rotate_left(self) :
+        walls = Direction(0)
+        if self.wall_at(Direction.E) : walls = walls |Direction.N
+        if self.wall_at(Direction.N) : walls = walls |Direction.W
+        if self.wall_at(Direction.W) : walls = walls |Direction.S
+        if self.wall_at(Direction.S) : walls = walls |Direction.E
+        self.walls = walls
+        return self
+    
+    def rotate_right(self) :
+        walls = Direction(0)
+        if self.wall_at(Direction.E) : walls = walls |Direction.S
+        if self.wall_at(Direction.N) : walls = walls |Direction.E
+        if self.wall_at(Direction.W) : walls = walls |Direction.N
+        if self.wall_at(Direction.S) : walls = walls |Direction.W
+        self.walls = walls
+        return self
+    
+    def rotate_half(self) :
+        walls = Direction(0)
+        if self.wall_at(Direction.E) : walls = walls |Direction.W
+        if self.wall_at(Direction.N) : walls = walls |Direction.S
+        if self.wall_at(Direction.W) : walls = walls |Direction.E
+        if self.wall_at(Direction.S) : walls = walls |Direction.N
+        self.walls = walls
+        return self
+  
+
+
 
 """ Board Class
     La classe Board prend en charge le plateau de jeu
@@ -60,20 +89,32 @@ class Cell :
 
 class Board :
 
-    def __init__(self, data) :
+    def __init__(self, data=[], check_conformity = True) :
         self.height = len(data)
-        self.width = len(data[0])
+        if self.height > 0 :
+            self.width = len(data[0])
+        else : self.width = 0
 
         self.grid = [ [Cell(walls) for walls in line]for line in data]
-        if not self._grid_conforms() : print( "grille non conforme")
-        else : print( "grille conforme")
+
+        if check_conformity :
+            if not self._grid_conforms() : print( "grille non conforme")
+            else : print( "grille conforme")
 
     def __str__(self) :
-        string =""
+        string ="["
+        n = 0
         for line in self.grid :
+            if n > 0 : string += ","
+            string += "\n["
+            n += 1
+            m = 0
             for cell in line :
-                string += str(cell)+" "
-            string +="\n"
+                if m > 0 : string += ", "
+                m += 1
+                string += str(cell)
+            string +="]"
+        string += "]"
         return string
 
     """
@@ -107,14 +148,95 @@ class Board :
     def save_to_file(self, fd) :
         fd.write(str(self))
 
+
     @staticmethod
     def load_from_file(fd) :
+        import json
         data = []
         for line in fd :
             donnees = line.strip().split()
             if donnees == [] : continue
             data.append([ int (value) for value in donnees])
         return Board(data)
+    
+    def rotate_left(self) :
+        nbcol , nblin = self.width , self.height
+        turned_grid = [[ self.grid[i][nbcol-j-1].rotate_left() for i in range(nblin)] for j in range(nbcol)]
+        
+        self.grid = turned_grid
+        self.width , self.height = nblin , nbcol
+        return self
+
+    def rotate_right(self) :
+        nbcol , nblin = self.width , self.height
+        turned_grid = [[ self.grid[nblin-1-i][j].rotate_left() for i in range(nblin)] for j in range(nbcol)]
+        
+        self.grid = turned_grid
+        self.width , self.height = nblin , nbcol
+        return self
+
+    def rotate_half(self) :
+        nbcol , nblin = self.width , self.height
+        turned_grid = [[ self.grid[nblin-1-i][nbcol_1_j].rotate_half() for j in range(nbcol)] for i in range(nblin)]
+        self.grid = turned_grid
+        self.width , self.height = nbcol , nblin
+        return self
+
+    def __add__(self, board2) :
+        """ juxtaposition horizontale de deux grilles """
+        # dimensions
+        nl1, nc1 = self.height, self.width
+        nl2, nc2 = board2.height, board2.width
+
+        #compatibilité
+        assert( nl1 == nl2)
+
+        # jonctions des grilles
+        grid3 = []
+        for num_line in range (nl1) :
+            grid3.append(self.grid[num_line] + board2.grid[num_line])
+        
+        # suture
+        for i in range (nl1) :
+            if grid3[i][nc1-1].wall_at(EAST) or grid3[i][ncl].wall_at(WEST) :
+                grid3[i][nc1-1].add_wall(EAST)
+                grid3[i][nc1].add_wall(WEST)
+        
+        board = Board()
+        board.grid = grid3
+        board.height = nl1
+        board.width = nc1 + nc2
+        return board
+
+    @staticmethod
+    def __sub__(board1, board2) :
+        """ juxtaposition horizontale de deux grilles """
+        # dimensions
+        nl1, nc1 = board1.height, board1.width
+        nl2, nc2 = board2.height, board2.width
+
+        #compatibilité
+        assert( nc1 == nc2)
+
+        # jonctions des grilles
+        grid3 = grid1 + grid2
+        
+        # suture
+        for i in range (nc1) :
+            if grid3[nl1-1][i].wall_at(SOUTH) or grid3[nl1][i].wall_at(NORTH) :
+                grid3[nl1-1][i].add_wall(SOUTH)
+                grid3[nl1][i].add_wall(NORTH)
+        
+        board = Board()
+        board.grid = grid3
+        board.height = nl1 + nl2
+        board.width = nc1 
+        return board
+
+
+
+
+ 
 
 
 
@@ -152,7 +274,7 @@ class Robot :
         return "Robot"+str(self.color.name)+" at "+str(self.position)
 
     def move (self, dir, game) :
-        robots = game.group
+        robots = game.robots
         board = game.board
 
         if dir == Direction.N :
@@ -198,7 +320,7 @@ class Robot_group(dict) :
 La classe Game a pour rôle la gestion des actions sur le plateau de jeu
 Les attributs sont
 board : un plateau de jeu
-group : un groupe de robots
+robots : un groupe de robots, instance de la classe Robot_group
 goal : l'objectif du jeu
 states_list : la liste de tous les états du jeu depuis le début,
             permettant de revenir en arrière
@@ -243,7 +365,7 @@ class Game :
 
     def __init__(self, board, robots, goal ):
         self.board = board
-        self.group = robots
+    #    self.group = robots
         self.robots = robots
         self.goal = goal
         self.states_list = []
@@ -299,6 +421,78 @@ class Game :
 
     def undo(self):
         self.set_state(self.states_list.pop())
+    
+    def save_2_json(self, fp) :
+        """ writing data to a text file, using json format 
+        {       
+        "grid" : [ [int, ..., int],
+                            ...
+                    [int, ..., int]
+                    ] ,
+        "robots" :  {
+            "R" : [x , y],
+
+            }               
+        "Goal" : {
+            "color" : "R",
+            "position" : [x , y]
+            }
+        }
+        """
+        fp.write("{\n")
+        fp.write('"grid" : [')
+        nblines = len (self.board.grid)
+        for num_line in range(nblines):
+            if num_line > 0 : fp.write(",")
+            fp.write("\n\t[")
+            line = self.board.grid[num_line]
+            nbcells = len (line)
+            for num_cell in range (nbcells) :
+                if num_cell > 0 : fp.write(", ")
+                fp.write(str(line[num_cell]))
+            fp.write(" ]")
+        fp.write("\n\t],")
+        fp.write('\n"robots" : { ')
+        
+        num_robot = 0
+        for c, r in self.robots.items() :
+            if num_robot > 0 : fp.write(",")
+            
+            fp.write(f'\n"{Game.color_names[c]}" : [{r.position[0]} , {r.position[1]}] ')
+            num_robot += 1
+        fp.write("\n\t },")
+        fp.write('\n"goal" : { ')
+        color = self.goal.color
+        position = self.goal.position
+        fp.write(f'\n\t"color" : "{Game.color_names[color]}",')
+        fp.write(f'\n\t"position" : [{position[0]}, {position[1]}]')
+        fp.write("\n\t}")
+        fp.write("\n}")
+
+    @staticmethod
+    def load_from_json(fp) :
+        import json
+
+        board = None
+        group = None
+        goal = None 
+
+        data = json.load(fp)
+        if "grid" in data :
+            data_grid = data["grid"]
+            board = Board(data_grid)
+
+        if "robots" in data :
+            data_robots = data["robots"]
+            group = Robot_group()
+            for color_name, position in data_robots.items() :
+                Robot(group,Game.color_by_name[color_name],tuple(position))
+        if "goal" in data :
+            color = Game.color_by_name[data["goal"]["color"]]
+            position = tuple(data["goal"]["position"])
+            goal = Goal(color, position)
+        return Game(board, group, goal)
+
 
 
 

@@ -7,6 +7,17 @@ Module pour la recherche d'une solution par exploration du graphe en largeur
 """
 from collections import deque 
 
+""" 
+La classe solveur a pour responsabilité la recherche d'une 
+Le solveur explore en largeur le graphe des états du jeu.
+Les états nouvellement découverts sont ajoutés à la structure graph (type set)
+La structure pred (type dict) conserve, pour chaque état s découvert, un tuple (s0, action)
+tel que s0 -- action --> s 
+Pour l'état initial ce couple est (None, None).
+
+
+
+"""
 
 class solveur :
 
@@ -24,8 +35,6 @@ class solveur :
         return list(action_sequence)
 
     def find_solution(self) :
-
-
         actions = self.game.actions_list()
         queue = deque()
         empty_queue = deque()
@@ -45,8 +54,9 @@ class solveur :
                     graph.add(result_state) 
                     pred[result_state] =(state,action)
                     if self.game.state_is_won(result_state) :
-                        return solveur.action_sequence_from_pred(pred,result_state, initial_state)
+                        return True, solveur.action_sequence_from_pred(pred,result_state, initial_state)
                     queue.append(result_state)
+        return False,[]
         
 
 
