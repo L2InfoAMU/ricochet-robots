@@ -10,7 +10,7 @@ import sys
 from PySide2.QtWidgets import QApplication, QWidget, QMainWindow , QGridLayout, QLabel, QPushButton, QMainWindow, QAction, QToolBar, QVBoxLayout, QComboBox, QHBoxLayout, QCheckBox, QRadioButton, QDialog, QMessageBox
 from PySide2.QtGui import QKeySequence, QPainter, QColor, QBrush, QPaintEvent, QFont, QPen, QIcon, QImage, QPixmap
 from PySide2.QtCore import Qt, QPoint
-from robot import*
+from robot import *
 from random import *
 
 ICON_PATH = "./icons/"
@@ -196,7 +196,7 @@ class MainWindow(QMainWindow):
                     x = randint(0, self.game.board.width - 1)
                     y = randint(0, self.game.board.height - 1)
                 self.robots_pos[i] = (x,y)
-                self.robots_list[i] = Robot(self.game.group, self.robots_colors[i], (x, y))
+                self.robots_list[i] = Robot(self.game.robots, self.robots_colors[i], (x, y))
             # self.game.add_robots(self.robots_list)  inutile????
 
             x = randint(0, self.game.board.width - 1)
