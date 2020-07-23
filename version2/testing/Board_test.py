@@ -75,13 +75,13 @@ class BoardTest(unittest.TestCase) :
         print ("testing loading from json files ")
         print( "load 'red1' from "+CLASSIC_GRIDS)
         fd = open(CLASSIC_GRIDS,'r')
-        b1 = Board.load_from_json(fd,'red1')
+        b1, = Board.load_from_json(fd,'red1')
         fd.close()
         print (str(b1))
 
         print ("load 'grid' from" + GAME1)
         fd = open(GAME1,'r')
-        b2 = Board.load_from_json(fd)
+        b2, = Board.load_from_json(fd)
         fd.close()
         print (str(b2))
 
@@ -140,14 +140,35 @@ class BoardTest(unittest.TestCase) :
         self.assertEqual(str(b3) , str(Board([[11,9,7],[12,4,7]])) )
 
     def test_add(self) :
+        """ test de la fusion horizontale de deux grilles"""
 
         b1 = Board(self.corner2)
         b2 = Board(self.corner2)
         b3 = b1 + b2.rotate_right()
         self.assertEqual(str(b3) , str(Board([[9,1,1,3],[8,2,12,2]])) )
 
-        
+    def test_div(self) :   
+        """ test de la fusion verticale de deux grilles """
+        b1 = Board(self.corner2)
+        b2 = Board(self.corner2)
+        b3 = b1 - b2.rotate_left()
 
+        self.assertEqual(str(b3) , str(Board([[9,1],[8,6],[8,1],[12,4]])) )
+
+    def test_complete(self) :
+        """ teste la constitution d'un plateau de jeu classique """
+        print ("testing grid construction ")
+        fd = open(CLASSIC_GRIDS,'r')
+        
+        b1,b2,b3,b4 = Board.load_from_json(fd,'red1','blue1','green1','yellow1')
+        fd.close()
+        
+        b = (b1 + b2.rotate_right()) - (b3.rotate_left() + b4.rotate_half())
+
+        self.assertTrue(b._grid_conforms())
+        print(str(b))
+
+        
 
 
 

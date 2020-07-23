@@ -164,17 +164,24 @@ class Board :
         return Board(data)
 
     @staticmethod
-    def load_from_json(fd, name = 'grid') :
-        """ charge une grille dans un fichier json, 
-            usage  :  Board.load_from_json( fd , name)
+    def load_from_json(fd, *names) :
+        """ charge des grille depuis un fichier json, 
+            usage  : boards =  Board.load_from_json( fd , names)
                     fd est un descripteur de fichier
-                    name est le nom de la donnée dans le fichier , par défaut 'grid'
+                    names est une liste de noms , par défaut 'grid'
+                    *** renvoie un tuple ***
+                    Pour charger une seule grille :
+                    board , = Board.load_from_json( fd , 'grid')
         """
-
+        if len(names) == 0 : names =('grid',)
         import json
 
-        data = json.load(fd)[name]
-        return Board(data)
+        data = json.load(fd)
+        boards = []
+        for name in names :
+             if name in data :
+                 boards.append(Board(data[name]))
+        return tuple(boards)
 
     def rotate_left(self) :
         nbcol , nblin = self.width , self.height
@@ -225,7 +232,7 @@ class Board :
         board.width = nc1 + nc2
         return board
 
-    @staticmethod
+   #@staticmethod
     def __sub__(board1, board2) :
         """ juxtaposition horizontale de deux grilles """
         # dimensions
@@ -236,7 +243,7 @@ class Board :
         assert( nc1 == nc2)
 
         # jonctions des grilles
-        grid3 = grid1 + grid2
+        grid3 = board1.grid + board2.grid
         
         # suture
         for i in range (nc1) :
