@@ -74,15 +74,15 @@ class BoardTest(unittest.TestCase) :
         """ test du chargement d'une grille depuis un fichier json """
         print ("testing loading from json files ")
         print( "load 'red1' from "+CLASSIC_GRIDS)
-        fd = open(CLASSIC_GRIDS,'r')
-        b1, = Board.load_from_json(fd,'red1')
-        fd.close()
+        
+        b1, = Board.load_from_json(CLASSIC_GRIDS,'red1')
+        
         print (str(b1))
 
         print ("load 'grid' from" + GAME1)
-        fd = open(GAME1,'r')
-        b2, = Board.load_from_json(fd)
-        fd.close()
+       
+        b2, = Board.load_from_json(GAME1)
+        
         print (str(b2))
 
     def test_rotate_left(self) :
@@ -157,35 +157,33 @@ class BoardTest(unittest.TestCase) :
 
     def test_complete(self) :
         """ teste la constitution d'un plateau de jeu classique """
-        print ("testing grid construction ")
-        fd = open(CLASSIC_GRIDS,'r')
+        print ("test: Construction d'une grille 16x16 à partir de 4 grilles 8x8")
         
-        b1,b2,b3,b4 = Board.load_from_json(fd,'red1','blue1','green1','yellow1')
-        fd.close()
+        b1,b2,b3,b4 = Board.load_from_json(CLASSIC_GRIDS,'red1','blue1','green1','yellow1')
         
         b = (b1 + b2.rotate_right()) - (b3.rotate_left() + b4.rotate_half())
 
         self.assertTrue(b._grid_conforms())
         print(str(b))
-
-        
-
-
-
-
-        
-
-
-
-
-
-
-
     
-
+    def test_save_as_json(self) :
+        """ teste la sauvegarde dans un fichier json """
+        print ("teste la sauvegarde dans un fichier json")
         
-  
+        from random import randint
+        filename="test"+str(randint(0,10000))+".json"
+          
+        b1,b2,b3,b4 = Board.load_from_json(CLASSIC_GRIDS,'red1','blue1','green1','yellow1')
+        
+        b = (b1 + b2.rotate_right()) - (b3.rotate_left() + b4.rotate_half())
+        b.save_as_json(filename)
+        print("donnees sauvegardées dans "+filename)
 
+        print ("teste la lecture du fichier sauvegardé")
+        board, = Board.load_from_json(filename)
+
+        self.assertEqual(str(b), str(board))
+        
 
 
 unittest.main()

@@ -7,6 +7,7 @@ Développeurs : AUBIN François DU CCIE, GIANI Théo L3
 
 """
 
+from rcolors import RColors
 
 # Enumération pour les directions
 from enum import IntFlag
@@ -147,8 +148,9 @@ class Board :
         return self.grid[i][j]
 
 
-    def write_to_file(self, fd) :
-        fd.write(str(self))
+    def save_as_json(self, filename) :
+        with open(filename,'w') as fd :
+            fd.write(f'{"{"}\n"grid" : {str(self)}\n{"}"}')
 
 
 
@@ -164,23 +166,24 @@ class Board :
         return Board(data)
 
     @staticmethod
-    def load_from_json(fd, *names) :
+    def load_from_json(filename, *names) :
         """ charge des grille depuis un fichier json, 
             usage  : boards =  Board.load_from_json( fd , names)
-                    fd est un descripteur de fichier
+                    filename est un nom de fichier
                     names est une liste de noms , par défaut 'grid'
                     *** renvoie un tuple ***
                     Pour charger une seule grille :
-                    board , = Board.load_from_json( fd , 'grid')
+                    board , = Board.load_from_json( filename , 'grid')
         """
         if len(names) == 0 : names =('grid',)
         import json
 
-        data = json.load(fd)
+        with open(filename,'r') as fd :
+            data = json.load(fd)
         boards = []
         for name in names :
-             if name in data :
-                 boards.append(Board(data[name]))
+            if name in data :
+                boards.append(Board(data[name]))
         return tuple(boards)
 
     def rotate_left(self) :
@@ -232,7 +235,7 @@ class Board :
         board.width = nc1 + nc2
         return board
 
-   #@staticmethod
+    
     def __sub__(board1, board2) :
         """ juxtaposition horizontale de deux grilles """
         # dimensions
@@ -259,31 +262,21 @@ class Board :
 
 
 
-
- 
-
-
-
-from enum import Enum
-class RColors(Enum) :
-   # BLACK = 0
-    RED = 1
-    GREEN = 2
-    BLUE = 3
-    YELLOW = 4
-
-
 """ Class Robot
     r = Robot (RColors.RED ,group , position = (0,0) )
+
+    __str__ : méthode de conversion en chaîne de caractères, format json
+            str(r) renvoie '"R" : [0,0]'
+            Rappel, les couleurs sont "R", "B", "Y", "G"
 
     Pour positionner un robot à une certaine position on utilise
     r.position = new_position
 
     pour déplacer un robot dans un jeu
 
-    r.move(direction , game) avec
+    r.move(direction , board) avec
             direction est une du type Direction : Direction.N,
-            game est une instance de la classe Game
+            board est une instance de la classe Board
 """
 
 class Robot :
@@ -295,11 +288,12 @@ class Robot :
         self.group.add_robot(self)
 
     def __str__(self) :
-        return "Robot"+str(self.color.name)+" at "+str(self.position)
 
-    def move (self, dir, game) :
-        robots = game.robots
-        board = game.board
+        return f'"{str(self.color)}" : {str(list(self.position))}'
+
+    def move (self, dir, board) :
+        robots = self.group
+        
 
         if dir == Direction.N :
             next_position = lambda pos : (pos[0]-1 , pos[1])
@@ -323,11 +317,24 @@ class Robot :
 
 
 """ classe qui gère un groupe de robots
+    Un groupe de robots est un dictionnaire  { color : robot ,... }
+    color est une instance de RColors
+    robot est une instance de Robot
     Robot_group() : crée un groupe vide de robots
-    add_robot(robot) : ajoute le robot au groupe
-    un robot est une couleur, par exemple RColors.RED
+    add_robot(robot) : ajoute le robot au groupe en prenant comme clé d'entrée robot.color
+        l'ajout d'un deuxième robot de même couleur provoque une AssertionError
+        l'ajout d'un robot ayant une position identique à un autre robot provoque AssertionError 
+    
+    la méthode 
+    cell_occupied(position :tuple(x,y)) : booleen 
+    renvoie True si un des robots du groupe occupe la position
 
-    cell_occupied(pos) : renvoie True si un des robots du groupe
+    la méthode __str__ renvoie une chaîne de caractères pour le groupe de robots.
+    robots : {
+        'R' : [x, y],
+        'B' : [x, y],
+    }
+
 """
 class Robot_group(dict) :
 
@@ -340,6 +347,18 @@ class Robot_group(dict) :
         for _, robot in self.items() :
             if robot.position == pos : return True
         return False
+    def __str__(self) :
+        string =  '"robots" : {'
+        num_robot = 0
+        for color in self :
+            if num_robot > 0 : string +=','
+            string = string+'\n\t'+str(self[color])
+            num_robot += 1
+        string+= "\n\t}"
+        return string
+
+
+
 """
 La classe Game a pour rôle la gestion des actions sur le plateau de jeu
 Les attributs sont
@@ -389,11 +408,12 @@ class Game :
 
     def __init__(self, board, robots, goal ):
         self.board = board
-    #    self.group = robots
+    
         self.robots = robots
         self.goal = goal
         self.states_list = []
         self.color_keys = [color for color in robots]
+
 
     def add_board(self, board):
         self.board = board
@@ -434,7 +454,7 @@ class Game :
         #print(color)    #pour le test/à enlever
         direction = self.direction_by_name[dir_name]
         robot = self.robots[color]
-        robot.move(direction, self)
+        robot.move(direction, self.board)
         self.states_list.append(self.get_state)
         return self.get_state()
 
