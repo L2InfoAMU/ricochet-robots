@@ -9,6 +9,9 @@ Développeurs : AUBIN François DU CCIE, GIANI Théo L3
 
 from rcolors import RColors
 
+GRID_PATH = './grids/'
+CLASSIC_GRIDS = GRID_PATH+"classic_grids.json"
+
 # Enumération pour les directions
 from enum import IntFlag
 class Direction(IntFlag) :
@@ -57,7 +60,7 @@ class Cell :
         if self.wall_at(Direction.S) : walls = walls |Direction.E
         self.walls = walls
         return self
-    
+
     def rotate_right(self) :
         walls = Direction(0)
         if self.wall_at(Direction.E) : walls = walls |Direction.S
@@ -66,7 +69,7 @@ class Cell :
         if self.wall_at(Direction.S) : walls = walls |Direction.W
         self.walls = walls
         return self
-    
+
     def rotate_half(self) :
         walls = Direction(0)
         if self.wall_at(Direction.E) : walls = walls |Direction.W
@@ -75,7 +78,7 @@ class Cell :
         if self.wall_at(Direction.S) : walls = walls |Direction.N
         self.walls = walls
         return self
-  
+
 
 
 
@@ -88,7 +91,10 @@ class Cell :
 
 """
 
+
 class Board :
+
+
 
     def __init__(self, data=[], check_conformity = False) :
         self.height = len(data)
@@ -151,13 +157,14 @@ class Board :
     def save_as_json(self, filename) :
         with open(filename,'w') as fd :
             fd.write(f'{"{"}\n"grid" : {str(self)}\n{"}"}')
+        fd.close()
 
 
 
     @staticmethod
-    def load_from_file(fd) :         
-        """ méthode ancienne à ne plus utiliser """   
-        
+    def load_from_file(fd) :
+        """ méthode ancienne à ne plus utiliser """
+
         data = []
         for line in fd :
             donnees = line.strip().split()
@@ -167,8 +174,8 @@ class Board :
 
     @staticmethod
     def load_from_json(filename, *names) :
-        """ charge des grille depuis un fichier json, 
-            usage  : boards =  Board.load_from_json( fd , names)
+        """ charge des grille depuis un fichier json,
+            usage  : boards =  Board.load_from_json( filename , names)
                     filename est un nom de fichier
                     names est une liste de noms , par défaut 'grid'
                     *** renvoie un tuple ***
@@ -184,6 +191,8 @@ class Board :
         for name in names :
             if name in data :
                 boards.append(Board(data[name]))
+
+        fd.close()
         return tuple(boards)
 
     def rotate_left(self) :
@@ -197,7 +206,7 @@ class Board :
     def rotate_right(self) :
         nbcol , nblin = self.width , self.height
         turned_grid = [[ self.grid[nblin-1-i][j].rotate_right() for i in range(nblin)] for j in range(nbcol)]
-        
+
         self.grid = turned_grid
         self.width , self.height = nblin , nbcol
         return self
@@ -222,20 +231,20 @@ class Board :
         grid3 = []
         for num_line in range (nl1) :
             grid3.append(self.grid[num_line] + board2.grid[num_line])
-        
+
         # suture
         for i in range (nl1) :
             if grid3[i][nc1-1].wall_at(EAST) or grid3[i][nc1].wall_at(WEST) :
                 grid3[i][nc1-1].add_wall(EAST)
                 grid3[i][nc1].add_wall(WEST)
-        
+
         board = Board()
         board.grid = grid3
         board.height = nl1
         board.width = nc1 + nc2
         return board
 
-    
+
     def __sub__(board1, board2) :
         """ juxtaposition horizontale de deux grilles """
         # dimensions
@@ -247,18 +256,30 @@ class Board :
 
         # jonctions des grilles
         grid3 = board1.grid + board2.grid
-        
+
         # suture
         for i in range (nc1) :
             if grid3[nl1-1][i].wall_at(SOUTH) or grid3[nl1][i].wall_at(NORTH) :
                 grid3[nl1-1][i].add_wall(SOUTH)
                 grid3[nl1][i].add_wall(NORTH)
-        
+
         board = Board()
         board.grid = grid3
         board.height = nl1 + nl2
-        board.width = nc1 
+        board.width = nc1
         return board
+
+    @staticmethod
+    def new_classic():
+        """génération d'une grille classique du jeu, par composition aléatoire de 4 morceaux de grille"""
+        from random import randint, shuffle
+
+        colors = ['red', 'blue', 'green', 'yellow']
+        shuffle(colors)
+        b1,b2,b3,b4 = Board.load_from_json(CLASSIC_GRIDS, colors[0] + str(randint(1,3)),colors[1] + str(randint(1,3)),
+                    colors[2] + str(randint(1,3)),colors[3] + str(randint(1,3)))
+
+        return (b1 + b2.rotate_right()) - (b3.rotate_left() + b4.rotate_half())
 
 
 
@@ -293,7 +314,7 @@ class Robot :
 
     def move (self, dir, board) :
         robots = self.group
-        
+
 
         if dir == Direction.N :
             next_position = lambda pos : (pos[0]-1 , pos[1])
@@ -323,10 +344,10 @@ class Robot :
     Robot_group() : crée un groupe vide de robots
     add_robot(robot) : ajoute le robot au groupe en prenant comme clé d'entrée robot.color
         l'ajout d'un deuxième robot de même couleur provoque une AssertionError
-        l'ajout d'un robot ayant une position identique à un autre robot provoque AssertionError 
-    
-    la méthode 
-    cell_occupied(position :tuple(x,y)) : booleen 
+        l'ajout d'un robot ayant une position identique à un autre robot provoque AssertionError
+
+    la méthode
+    cell_occupied(position :tuple(x,y)) : booleen
     renvoie True si un des robots du groupe occupe la position
 
     la méthode __str__ renvoie une chaîne de caractères pour le groupe de robots.
@@ -408,7 +429,7 @@ class Game :
 
     def __init__(self, board, robots, goal ):
         self.board = board
-    
+
         self.robots = robots
         self.goal = goal
         self.states_list = []
@@ -465,10 +486,10 @@ class Game :
 
     def undo(self):
         self.set_state(self.states_list.pop())
-    
+
     def save_2_json(self, fp) :
-        """ writing data to a text file, using json format 
-        {       
+        """ writing data to a text file, using json format
+        {
         "grid" : [ [int, ..., int],
                             ...
                     [int, ..., int]
@@ -476,7 +497,7 @@ class Game :
         "robots" :  {
             "R" : [x , y],
 
-            }               
+            }
         "Goal" : {
             "color" : "R",
             "position" : [x , y]
@@ -497,11 +518,11 @@ class Game :
             fp.write(" ]")
         fp.write("\n\t],")
         fp.write('\n"robots" : { ')
-        
+
         num_robot = 0
         for c, r in self.robots.items() :
             if num_robot > 0 : fp.write(",")
-            
+
             fp.write(f'\n"{Game.color_names[c]}" : [{r.position[0]} , {r.position[1]}] ')
             num_robot += 1
         fp.write("\n\t },")
@@ -519,7 +540,7 @@ class Game :
 
         board = None
         group = None
-        goal = None 
+        goal = None
 
         data = json.load(fp)
         if "grid" in data :
