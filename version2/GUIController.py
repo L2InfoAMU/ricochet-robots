@@ -7,7 +7,7 @@ Développeurs : AUBIN François DU CCIE, GIANI Théo L3
 """
 
 import sys
-from PySide2.QtWidgets import QApplication, QWidget, QMainWindow , QGridLayout, QLabel, QPushButton, QMainWindow, QAction, QToolBar, QVBoxLayout, QComboBox, QHBoxLayout, QCheckBox, QRadioButton, QDialog, QMessageBox
+from PySide2.QtWidgets import QApplication, QWidget, QMainWindow , QGridLayout, QLabel, QPushButton, QMainWindow, QAction, QToolBar, QVBoxLayout, QComboBox, QHBoxLayout, QCheckBox, QRadioButton, QDialog, QMessageBox, QDialogButtonBox
 from PySide2.QtGui import QKeySequence, QPainter, QColor, QBrush, QPaintEvent, QFont, QPen, QIcon, QImage, QPixmap
 from PySide2.QtCore import Qt, QPoint
 from robot import *
@@ -15,6 +15,7 @@ from random import *
 
 ICON_PATH = "./icons/"
 IMAGES_PATH = "./images/"
+GAMES_PATH = './games/'
 
 class MainWindow(QMainWindow):
     DIMENSION = 600
@@ -38,17 +39,12 @@ class MainWindow(QMainWindow):
         layout2 = QHBoxLayout()
 
         # Choix de la grille
-        grid_choice = QComboBox()
-        grid_choice.insertItems(0,("Grille 1 ","Grille 2","Grille 3" ,"Grille 4"))
-        grid_choice.setGeometry(0,0,180,40)
-        grid_choice.activated.connect(self.choix_grille)
-
+        self.choice_of_grid_menu()
 
         # choix du nombre de robots
-        nb_robots_choice = QComboBox()
-        nb_robots_choice.insertItems(0,("1 robot","2 robots","3 robots" ,"4 robots"))
-        nb_robots_choice.setGeometry(0,0,40,40)
-        nb_robots_choice.activated.connect(self.choix_nb_robots)
+
+        self.nb_robots_choice_menu()
+
 
         # CheckBox placement aléatoire
         widget3 = QCheckBox("Placement aléatoire des robots et de l'objectif")
@@ -57,8 +53,8 @@ class MainWindow(QMainWindow):
 
 
         # layout2 contient les 3 widgets horizontaux de choix de grille, robots et aléa
-        layout2.addWidget(grid_choice)
-        layout2.addWidget(nb_robots_choice)
+        layout2.addWidget(self.grid_choice)
+        layout2.addWidget(self.nb_robots_choice)
         layout2.addWidget(widget3)
         layout2.setContentsMargins(0,0,0,0)
         layout2.setSpacing(0)
@@ -90,6 +86,18 @@ class MainWindow(QMainWindow):
         play_action.triggered.connect(self.draw_grid)
         self.file_menu.addAction(play_action)
 
+
+        self.toolbar_menus()
+
+        #Le robot rouge est sélectionné par défaut
+        self.selected_robot = 'R'
+
+        self.choix_nb_robots(3)
+
+
+    def toolbar_menus(self):
+        """ Affiche la barre d'icônes permettant de diriger les robots et de les sélectionner
+        """
         # Toolbar
         toolbar = QToolBar("Game toolbar")
         self.addToolBar(toolbar)
@@ -158,25 +166,56 @@ class MainWindow(QMainWindow):
         button_Yellow.setShortcut(QKeySequence("Y"))
         button_Yellow.toggled.connect(self.onButtonYellowClick)
 
+        button_undo = QPushButton("&Undo")
+        button_undo.setIcon(QIcon(ICON_PATH + "undo.jpg"))
+        button_undo.setAutoExclusive(False)
+        button_undo.setCheckable(False)
+        button_undo.setShortcut(QKeySequence("U"))
+        button_undo.toggled.connect(self.onButtonUndoClick)
 
         toolbar.addWidget(button_Red)
         toolbar.addWidget(button_Green)
         toolbar.addWidget(button_Blue)
         toolbar.addWidget(button_Yellow)
+        toolbar.addWidget(button_undo)
 
 
-        #Le robot rouge est sélectionné par défaut
-        self.selected_robot = 'R'
+
+
+    def choice_of_grid_menu(self):
+        self.grid_choice = QComboBox()
+        self.grid_choice.insertItems(0,("Grille aléatoire ","Grille 1","Grille 2" ,"Grille 3"))
+        self.grid_choice.setGeometry(0,0,180,40)
+        self.grid_choice.activated.connect(self.choix_grille)
 
     def choix_grille(self,i) :
-        name_grid = './test' + str(i + 1) + '.txt'
-        fd = open(name_grid,'r')
-        A = Board.load_from_file(fd)
+        # pour ouvrir les vieux .txt
+        #name_grid = './test' + str(i + 1) + '.txt'
+        #fd = open(name_grid,'r')
+        # A = Board.load_from_json(fd)
+
+        # pour ouvrir les nouveaux .json
+
+
+        """name_grid = './test' + str(i + 1) + '.json'
+        A, = Board.load_from_json(name_grid)"""
+
+        #Pour ouvrir une grille aléatoire classique
+        A = Board.new_classic()
+
         self.game.add_board(A)
         self.number_moves = 0
         group = Robot_group()
         self.game = Game(self.game.board, group, self.game.goal)
         self.draw_grid()
+
+
+        # choix du nombre de robots
+    def nb_robots_choice_menu(self):
+        self.nb_robots_choice = QComboBox()
+        self.nb_robots_choice.insertItems(0,("1 robot","2 robots","3 robots" ,"4 robots"))
+        self.nb_robots_choice.setGeometry(0,0,40,40)
+        self.nb_robots_choice.activated.connect(self.choix_nb_robots)
 
     def choix_nb_robots(self,i) :
         group = Robot_group()
@@ -197,13 +236,16 @@ class MainWindow(QMainWindow):
                     y = randint(0, self.game.board.height - 1)
                 self.robots_pos[i] = (x,y)
                 self.robots_list[i] = Robot(self.game.robots, self.robots_colors[i], (x, y))
-            # self.game.add_robots(self.robots_list)  inutile????
 
             x = randint(0, self.game.board.width - 1)
             y = randint(0, self.game.board.height - 1)
             goal = Goal(RColors(randint(1, self.nb_robots )), (x, y))
             self.game.add_goal(goal)
+            self.initial_game_state = game.get_state()
             self.draw_robots_and_goal()
+
+        else:
+            pass
 
     def draw_grid(self):
         group = Robot_group()
@@ -283,26 +325,136 @@ class MainWindow(QMainWindow):
         if s:
             self.selected_robot = 'Y'
 
+    def onButtonUndoClick(self, s):
+        self.game.undo()
+        self.draw_robots_and_goal()
+        self.number_moves  -= 1
+
+
     def game_is_won(self):
+        """
         dlg = QMessageBox(self)
         dlg.setWindowTitle("Bravo!")
         dlg.setText("Vous avez gagné en " + str(self.number_moves) + " coups ! Voulez-vous rejouer ?")
+        #dlg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
         dlg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
         button = dlg.exec_()
         dlg.setIcon(QMessageBox.Question)
         if button == QMessageBox.Yes:
-            self.draw_grid()
+            self.number_moves = 0
+            self.choix_nb_robots(3)
         else:
-            exit()
+            exit()  """
+
+        """self.exit_windows = QDialog()
+        replay_button = QPushButton("Rejouer cette partie")
+        replay_button.clicked.connect(self.replay)
+        new_game_button = QPushButton("Un nouveau jeu")
+        new_game_button.clicked.connect(self.new_game)
+        exit_button = QPushButton("Quitter")
+        exit_button.clicked.connect(self.new_game)
+
+		#
+        #buttonBox = QDialogButtonBox()
+        buttonBox = QDialogButtonBox(Qt.Horizontal)
+        buttonBox.addButton(replay_button, QDialogButtonBox.ActionRole)
+        buttonBox.addButton(new_game_button, QDialogButtonBox.ActionRole)
+        buttonBox.addButton(exit_button, QDialogButtonBox.ActionRole)
+
+        #
+
+        end_msg = QLabel("Vous avez gagné en " + str(self.number_moves) + " coups ! Que voulez-vous faire ?")
+
+        mainLayout = QVBoxLayout()
+        mainLayout.addWidget(end_msg)
+        mainLayout.addWidget(buttonBox)
+        self.exit_windows.setLayout(mainLayout)
+        # define window		xLoc,yLoc,xDim,yDim
+        self.exit_windows.setGeometry(	250, 250, 0, 50)
+        self.exit_windows.setWindowTitle("Bravo !")
+        self.exit_windows.setWindowFlags(Qt.WindowStaysOnTopHint)
+        self.exit_windows.show()
+        self.exit_windows.exec_()
+
+    def replay(self):
+    	self.exit_windows.retStatus = 1
+    	self.exit_windows.close()
+    def new_game(self):
+    	self.exit_windows.retStatus = 2
+    	self.exit_windows.close()
+
+    def quitter(self):
+        exit()
+        self.exit_windows.retStatus = 3 """
 
 
+        self.exit_windows = Exit_window(self)
+        self.exit_windows.show()
+
+class Exit_window(QWidget):
+    #Fenêtre apparaissant lorsqu'on a gagné
+
+    def __init__(self, main_game):
+        super().__init__()
+        self.setWindowTitle("Bravo !")
+        self.setWindowFlags(Qt.WindowStaysOnTopHint)
+        self.end_msg = QLabel("Vous avez gagné en " + str(main_game.number_moves) + " coups ! Que voulez-vous faire ?")
+        mainLayout = QVBoxLayout()
+
+        replay_button = QPushButton("Rejouer cette partie")
+        replay_button.clicked.connect(self.replay(main_game))
+        new_game_button = QPushButton("Un nouveau jeu")
+        new_game_button.clicked.connect(self.new_game)
+        exit_button = QPushButton("Quitter")
+        exit_button.clicked.connect(self.exit_game)
+
+        buttonBox = QDialogButtonBox(Qt.Horizontal)
+        buttonBox.addButton(replay_button, QDialogButtonBox.ActionRole)
+        buttonBox.addButton(new_game_button, QDialogButtonBox.ActionRole)
+        buttonBox.addButton(exit_button, QDialogButtonBox.ActionRole)
+
+        mainLayout.addWidget(self.end_msg)
+        mainLayout.addWidget(buttonBox)
+        self.setLayout(mainLayout)
+        # define window		xLoc,yLoc,xDim,yDim
+        self.setGeometry(	250, 250, 0, 50)
+
+    def replay(self, main_game):
+        main_game.game.set_state(main_game.initial_game_state)
+        main_game.draw_grid()
+        self.close()
+
+    def new_game(self):
+    	self.close()
+
+    def exit_game(self):
+        exit()
 
 
 
 
 app = QApplication(sys.argv)
 group = Robot_group()
-game = Game(None, group, None)
+fp = open(GAMES_PATH + "game1.json",'r')
+game = Game.load_from_json(fp)
+fp.close()
+print(game.get_state())
+#game = Game(None, group, None)
 fen = MainWindow(game)
 fen.show()
 app.exec_()
+
+"""penser à afficher la liste des actions déjà faites
+
+charger un game par défaut depuis un json
+générer une grille aléatoire
+régler le problème des robots qui apparaissent au centre de la classic grid
+placer les robots (de manière aléatoire ou pas)
+jouer inclut déplacer un robot et annuler une action, recommencer la même partie
+
+dans le rapport, rajouter les recherches sur les réseaux de neurones, le qlearning( sur une grille avec un point de départ)
+
+bouton undo : fait mais ne fonctionne pas
+fenêtre finale : bouton replay ne fonctionne pas : il redessine avant qu'on ait cliqué et sans fermer.
+
+"""

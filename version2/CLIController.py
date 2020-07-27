@@ -14,7 +14,7 @@ from random import *
 rejouer = True
 while rejouer :
     number_grid = input("Sur quelle grille voulez-vous jouer ? (entrez un numéro entre 1 et 4)")
-    name_grid = './version2/test' + number_grid + '.txt'
+    name_grid = './test' + number_grid + '.txt'
     fd = open(name_grid,'r')
     A = Board.load_from_file(fd)
     group = Robot_group()

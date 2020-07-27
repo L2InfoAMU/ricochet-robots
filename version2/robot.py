@@ -486,6 +486,7 @@ class Game :
 
     def undo(self):
         self.set_state(self.states_list.pop())
+        return self.get_state()
 
     def save_2_json(self, fp) :
         """ writing data to a text file, using json format
