@@ -25,6 +25,7 @@ class MainWindow(QMainWindow):
     def __init__(self, game):
         super().__init__()
         self.game = game
+        print(self.game.get_state())
         self.setWindowTitle("Robot Ricochet")
         self.resize(self.DIMENSION, self.DIMENSION + 100)
         self.label = QLabel()
@@ -171,7 +172,7 @@ class MainWindow(QMainWindow):
         button_undo.setAutoExclusive(False)
         button_undo.setCheckable(False)
         button_undo.setShortcut(QKeySequence("U"))
-        button_undo.toggled.connect(self.onButtonUndoClick)
+        button_undo.clicked.connect(self.onButtonUndoClick)
 
         toolbar.addWidget(button_Red)
         toolbar.addWidget(button_Green)
@@ -204,9 +205,12 @@ class MainWindow(QMainWindow):
         A = Board.new_classic()
 
         self.game.add_board(A)
+        print(self.game.get_state())
         self.number_moves = 0
-        group = Robot_group()
-        self.game = Game(self.game.board, group, self.game.goal)
+        self.group = Robot_group()
+        print(self.game.get_state())
+        self.game = Game(self.game.board, self.group, self.game.goal)
+        print(self.game.get_state())
         self.draw_grid()
 
 
@@ -218,8 +222,9 @@ class MainWindow(QMainWindow):
         self.nb_robots_choice.activated.connect(self.choix_nb_robots)
 
     def choix_nb_robots(self,i) :
-        group = Robot_group()
-        self.game = Game(self.game.board, group, self.game.goal)
+        self.group = Robot_group()
+        self.game = Game(self.game.board, self.group, self.game.goal)
+        print(self.game.get_state())
 
         self.nb_robots = i + 1
 
@@ -240,15 +245,17 @@ class MainWindow(QMainWindow):
             x = randint(0, self.game.board.width - 1)
             y = randint(0, self.game.board.height - 1)
             goal = Goal(RColors(randint(1, self.nb_robots )), (x, y))
+            self.game = Game(self.game.board, self.group, self.game.goal)
             self.game.add_goal(goal)
-            self.initial_game_state = game.get_state()
+            self.initial_game_state = self.game.get_state()
+            print(self.game.get_state())
             self.draw_robots_and_goal()
 
         else:
             pass
 
     def draw_grid(self):
-        group = Robot_group()
+
         painter = QPainter(self.label.pixmap())
         names=["Empty","N","E","EN","S","NS","ES","ENS","W","NW","EW","ENW","SW","NSW","ESW","ENSW"]
         images = [QPixmap(IMAGES_PATH + name+".bmp", format="bmp")  for name in names]
@@ -280,29 +287,38 @@ class MainWindow(QMainWindow):
 
     def onButtonEastClick(self, s):
         self.game.do_action(self.selected_robot + 'E')
+        print(self.game.get_state())
+
         self.draw_robots_and_goal()
         self.number_moves  += 1
+        
         if self.game.is_won():
             self.game_is_won()
 
     def onButtonWestClick(self, s):
         self.game.do_action(self.selected_robot + 'W')
+        print(self.game.get_state())
         self.draw_robots_and_goal()
         self.number_moves  += 1
+        
         if self.game.is_won():
             self.game_is_won()
 
     def onButtonNorthClick(self, s):
         self.game.do_action(self.selected_robot + 'N')
+        print(self.game.get_state())
         self.draw_robots_and_goal()
         self.number_moves  += 1
+        
         if self.game.is_won():
             self.game_is_won()
 
     def onButtonSouthClick(self, s):
         self.game.do_action(self.selected_robot + 'S')
+        print(self.game.get_state())
         self.draw_robots_and_goal()
         self.number_moves  += 1
+        
         if self.game.is_won():
             self.game_is_won()
 
@@ -326,9 +342,13 @@ class MainWindow(QMainWindow):
             self.selected_robot = 'Y'
 
     def onButtonUndoClick(self, s):
-        self.game.undo()
-        self.draw_robots_and_goal()
-        self.number_moves  -= 1
+        
+        if self.number_moves != 0:
+            self.game.undo()
+            self.number_moves  -= 1
+            self.draw_robots_and_goal()
+        print("number_moves = " + str(self.number_moves))
+        print(self.game.get_state())
 
 
     def game_is_won(self):
@@ -402,11 +422,11 @@ class Exit_window(QWidget):
         mainLayout = QVBoxLayout()
 
         replay_button = QPushButton("Rejouer cette partie")
-        replay_button.clicked.connect(self.replay(main_game))
+        replay_button.triggered.connect(self.replay(main_game))
         new_game_button = QPushButton("Un nouveau jeu")
-        new_game_button.clicked.connect(self.new_game)
+        new_game_button.triggered.connect(self.new_game)
         exit_button = QPushButton("Quitter")
-        exit_button.clicked.connect(self.exit_game)
+        exit_button.triggered.connect(self.exit_game)
 
         buttonBox = QDialogButtonBox(Qt.Horizontal)
         buttonBox.addButton(replay_button, QDialogButtonBox.ActionRole)
@@ -420,12 +440,15 @@ class Exit_window(QWidget):
         self.setGeometry(	250, 250, 0, 50)
 
     def replay(self, main_game):
+        print(game.get_state())
         main_game.game.set_state(main_game.initial_game_state)
+        print(game.get_state())
         main_game.draw_grid()
         self.close()
 
-    def new_game(self):
-    	self.close()
+    def new_game(self, main_game):
+        main_game.choix_grille(1)
+        self.close()
 
     def exit_game(self):
         exit()
@@ -438,7 +461,6 @@ group = Robot_group()
 fp = open(GAMES_PATH + "game1.json",'r')
 game = Game.load_from_json(fp)
 fp.close()
-print(game.get_state())
 #game = Game(None, group, None)
 fen = MainWindow(game)
 fen.show()
@@ -446,15 +468,23 @@ app.exec_()
 
 """penser à afficher la liste des actions déjà faites
 
-charger un game par défaut depuis un json
-générer une grille aléatoire
+charger un game par défaut depuis un json : fait
+générer une grille aléatoire : fait
 régler le problème des robots qui apparaissent au centre de la classic grid
 placer les robots (de manière aléatoire ou pas)
 jouer inclut déplacer un robot et annuler une action, recommencer la même partie
 
 dans le rapport, rajouter les recherches sur les réseaux de neurones, le qlearning( sur une grille avec un point de départ)
 
-bouton undo : fait mais ne fonctionne pas
+bouton undo : fait mais ne fonctionne pas : le get_state() renvoie du vide : pas la bonne instance de game??
+corrigé : il faut créer le game avec un group plein, sinon quand on crée un nouveau robot,
+il ne met pas à jour game.color_keys.
+
+reste un problème : au 1er clic sur undo, il  supprime juste l'état courant mais ne revient pas en arrière.
+
+
+
+
 fenêtre finale : bouton replay ne fonctionne pas : il redessine avant qu'on ait cliqué et sans fermer.
 
 """

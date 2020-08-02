@@ -434,6 +434,8 @@ class Game :
         self.goal = goal
         self.states_list = []
         self.color_keys = [color for color in robots]
+        self.states_list.append(self.get_state())
+
 
 
     def add_board(self, board):
@@ -472,11 +474,10 @@ class Game :
     def do_action(self, action) :
         color_name, dir_name = action[0], action[1]
         color = self.color_by_name[color_name]
-        #print(color)    #pour le test/à enlever
         direction = self.direction_by_name[dir_name]
         robot = self.robots[color]
         robot.move(direction, self.board)
-        self.states_list.append(self.get_state)
+        self.states_list.append(self.get_state())
         return self.get_state()
 
     def do_actions(self, *actions) :
@@ -485,7 +486,8 @@ class Game :
         return state
 
     def undo(self):
-        self.set_state(self.states_list.pop())
+        self.states_list.pop()
+        self.set_state(self.states_list[-1])
         return self.get_state()
 
     def save_2_json(self, fp) :
