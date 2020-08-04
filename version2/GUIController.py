@@ -18,7 +18,7 @@ IMAGES_PATH = "./images/"
 GAMES_PATH = './games/'
 
 class MainWindow(QMainWindow):
-    DIMENSION = 600
+    DIMENSION = 560
     placement_aleatoire = True
     nb_robots = 0
 
@@ -291,7 +291,7 @@ class MainWindow(QMainWindow):
 
         self.draw_robots_and_goal()
         self.number_moves  += 1
-        
+
         if self.game.is_won():
             self.game_is_won()
 
@@ -300,7 +300,7 @@ class MainWindow(QMainWindow):
         print(self.game.get_state())
         self.draw_robots_and_goal()
         self.number_moves  += 1
-        
+
         if self.game.is_won():
             self.game_is_won()
 
@@ -309,7 +309,7 @@ class MainWindow(QMainWindow):
         print(self.game.get_state())
         self.draw_robots_and_goal()
         self.number_moves  += 1
-        
+
         if self.game.is_won():
             self.game_is_won()
 
@@ -318,7 +318,7 @@ class MainWindow(QMainWindow):
         print(self.game.get_state())
         self.draw_robots_and_goal()
         self.number_moves  += 1
-        
+
         if self.game.is_won():
             self.game_is_won()
 
@@ -342,7 +342,7 @@ class MainWindow(QMainWindow):
             self.selected_robot = 'Y'
 
     def onButtonUndoClick(self, s):
-        
+
         if self.number_moves != 0:
             self.game.undo()
             self.number_moves  -= 1
@@ -352,81 +352,39 @@ class MainWindow(QMainWindow):
 
 
     def game_is_won(self):
-        """
-        dlg = QMessageBox(self)
-        dlg.setWindowTitle("Bravo!")
-        dlg.setText("Vous avez gagné en " + str(self.number_moves) + " coups ! Voulez-vous rejouer ?")
-        #dlg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
-        dlg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
-        button = dlg.exec_()
-        dlg.setIcon(QMessageBox.Question)
-        if button == QMessageBox.Yes:
-            self.number_moves = 0
-            self.choix_nb_robots(3)
-        else:
-            exit()  """
+        self.exit_windows = Exit_window()
+        #self.exit_windows.show()
+        self.exit_windows.exec_()
 
-        """self.exit_windows = QDialog()
+        if self.exit_windows.retStatus == 1:     #replay : on remet l'état initial du jeu
+            print(self.game.get_state())
+            self.game.set_state(self.initial_game_state)
+            print(self.game.get_state())
+            self.draw_robots_and_goal()
+
+        elif self.exit_windows.retStatus == 2:   #new game : on choisit une grille aleatoire
+            self.choix_grille(1)
+            self.choix_nb_robots(3)
+            #self.draw_robots_and_goal()
+        elif self.exit_windows.retStatus == 3:  #exit : on quitte le jeu
+            exit()
+
+class Exit_window(QDialog):
+    #Fenêtre apparaissant lorsqu'on a gagné
+
+    def __init__(self):
+        super(Exit_window, self).__init__()
+        self.setWindowTitle("Bravo !")
+        self.setWindowFlags(Qt.WindowStaysOnTopHint)
+        self.end_msg = QLabel("Vous avez gagné en  coups ! Que voulez-vous faire ?")  #" + str(main_game.number_moves) + "
+        mainLayout = QVBoxLayout()
+
         replay_button = QPushButton("Rejouer cette partie")
         replay_button.clicked.connect(self.replay)
         new_game_button = QPushButton("Un nouveau jeu")
         new_game_button.clicked.connect(self.new_game)
         exit_button = QPushButton("Quitter")
-        exit_button.clicked.connect(self.new_game)
-
-		#
-        #buttonBox = QDialogButtonBox()
-        buttonBox = QDialogButtonBox(Qt.Horizontal)
-        buttonBox.addButton(replay_button, QDialogButtonBox.ActionRole)
-        buttonBox.addButton(new_game_button, QDialogButtonBox.ActionRole)
-        buttonBox.addButton(exit_button, QDialogButtonBox.ActionRole)
-
-        #
-
-        end_msg = QLabel("Vous avez gagné en " + str(self.number_moves) + " coups ! Que voulez-vous faire ?")
-
-        mainLayout = QVBoxLayout()
-        mainLayout.addWidget(end_msg)
-        mainLayout.addWidget(buttonBox)
-        self.exit_windows.setLayout(mainLayout)
-        # define window		xLoc,yLoc,xDim,yDim
-        self.exit_windows.setGeometry(	250, 250, 0, 50)
-        self.exit_windows.setWindowTitle("Bravo !")
-        self.exit_windows.setWindowFlags(Qt.WindowStaysOnTopHint)
-        self.exit_windows.show()
-        self.exit_windows.exec_()
-
-    def replay(self):
-    	self.exit_windows.retStatus = 1
-    	self.exit_windows.close()
-    def new_game(self):
-    	self.exit_windows.retStatus = 2
-    	self.exit_windows.close()
-
-    def quitter(self):
-        exit()
-        self.exit_windows.retStatus = 3 """
-
-
-        self.exit_windows = Exit_window(self)
-        self.exit_windows.show()
-
-class Exit_window(QWidget):
-    #Fenêtre apparaissant lorsqu'on a gagné
-
-    def __init__(self, main_game):
-        super().__init__()
-        self.setWindowTitle("Bravo !")
-        self.setWindowFlags(Qt.WindowStaysOnTopHint)
-        self.end_msg = QLabel("Vous avez gagné en " + str(main_game.number_moves) + " coups ! Que voulez-vous faire ?")
-        mainLayout = QVBoxLayout()
-
-        replay_button = QPushButton("Rejouer cette partie")
-        replay_button.triggered.connect(self.replay(main_game))
-        new_game_button = QPushButton("Un nouveau jeu")
-        new_game_button.triggered.connect(self.new_game)
-        exit_button = QPushButton("Quitter")
-        exit_button.triggered.connect(self.exit_game)
+        exit_button.clicked.connect(self.exit_game)
 
         buttonBox = QDialogButtonBox(Qt.Horizontal)
         buttonBox.addButton(replay_button, QDialogButtonBox.ActionRole)
@@ -439,19 +397,20 @@ class Exit_window(QWidget):
         # define window		xLoc,yLoc,xDim,yDim
         self.setGeometry(	250, 250, 0, 50)
 
-    def replay(self, main_game):
-        print(game.get_state())
-        main_game.game.set_state(main_game.initial_game_state)
-        print(game.get_state())
-        main_game.draw_grid()
+
+    def replay(self):
+        self.retStatus = 1
         self.close()
 
-    def new_game(self, main_game):
-        main_game.choix_grille(1)
+    def new_game(self):
+        self.retStatus = 2
+
         self.close()
 
     def exit_game(self):
-        exit()
+        self.retStatus = 3
+        self.close()
+
 
 
 
@@ -480,11 +439,8 @@ bouton undo : fait mais ne fonctionne pas : le get_state() renvoie du vide : pas
 corrigé : il faut créer le game avec un group plein, sinon quand on crée un nouveau robot,
 il ne met pas à jour game.color_keys.
 
-reste un problème : au 1er clic sur undo, il  supprime juste l'état courant mais ne revient pas en arrière.
+reste un problème : au 1er clic sur undo, il  supprime juste l'état courant mais ne revient pas en arrière. : RESOLU
 
-
-
-
-fenêtre finale : bouton replay ne fonctionne pas : il redessine avant qu'on ait cliqué et sans fermer.
+fenêtre finale : bouton replay ne fonctionne pas : il redessine avant qu'on ait cliqué et sans fermer : RESOLU
 
 """
