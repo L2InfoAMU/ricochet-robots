@@ -12,10 +12,12 @@ from PySide2.QtGui import QKeySequence, QPainter, QColor, QBrush, QPaintEvent, Q
 from PySide2.QtCore import Qt, QPoint
 from robot import *
 from random import *
+from solveur import solveur
 
 ICON_PATH = "./icons/"
 IMAGES_PATH = "./images/"
 GAMES_PATH = './games/'
+DEFAULT_GAME = "game1.json"
 
 class MainWindow(QMainWindow):
     DIMENSION = 560
@@ -25,14 +27,25 @@ class MainWindow(QMainWindow):
     def __init__(self, game):
         super().__init__()
         self.game = game
+        self.initial_game_state = self.game.get_state()
         print(self.game.get_state())
         self.setWindowTitle("Robot Ricochet")
-        self.resize(self.DIMENSION, self.DIMENSION + 100)
+        self.resize(self.DIMENSION + 150, self.DIMENSION + 100)
+
+        # label contient la grille de jeu
         self.label = QLabel()
         canvas = QPixmap(self.DIMENSION , self.DIMENSION)
         canvas.fill(Qt.white)
         self.label.setPixmap(canvas)
-        #self.setCentralWidget(self.label)
+
+        # layout0 contient, à gauche, les barres d'outils et la grille,
+        # et à droite, la liste des états et l'indice affiché par le solveur
+
+        layout0 = QHBoxLayout()
+        layout0.setContentsMargins(0,0,0,0)
+        layout0.setSpacing(0)
+
+
 
         layout = QVBoxLayout()
         layout.setContentsMargins(0,0,0,0)
@@ -65,9 +78,31 @@ class MainWindow(QMainWindow):
 
         layout.addWidget(widget2)
         layout.addWidget(self.label)
+
+        layout0.addLayout(layout)
+
+
+
+        # liste des mouvement effectués et indice :
+        layout3 = QVBoxLayout()
+        layout3.setContentsMargins(0,0,0,0)
+        layout3.setSpacing(0)
+
+        self.moves_label = QLabel()
+        self.print_moves_list()
+
+        self.tip_label = QLabel()
+
+
+        layout3.addWidget(self.moves_label)
+        layout3.addWidget(self.tip_label)
+
+
+        layout0.addLayout(layout3)
         widget = QWidget()
-        widget.setLayout(layout)
+        widget.setLayout(layout0)
         self.setCentralWidget(widget)
+
 
         # Menu
         self.menu = self.menuBar()
@@ -93,7 +128,8 @@ class MainWindow(QMainWindow):
         #Le robot rouge est sélectionné par défaut
         self.selected_robot = 'R'
 
-        self.choix_nb_robots(3)
+        #self.choix_nb_robots(3)
+        self.draw_robots_and_goal()
 
 
     def toolbar_menus(self):
@@ -167,6 +203,7 @@ class MainWindow(QMainWindow):
         button_Yellow.setShortcut(QKeySequence("Y"))
         button_Yellow.toggled.connect(self.onButtonYellowClick)
 
+        # Boutton d'annulation (revient en arrière d'un coup)
         button_undo = QPushButton("&Undo")
         button_undo.setIcon(QIcon(ICON_PATH + "undo.jpg"))
         button_undo.setAutoExclusive(False)
@@ -174,14 +211,33 @@ class MainWindow(QMainWindow):
         button_undo.setShortcut(QKeySequence("U"))
         button_undo.clicked.connect(self.onButtonUndoClick)
 
+        # Boutton d'indice : lance le solveur pour donner l'indice du prochain coup à effectuer
+        button_tip = QPushButton("&Tip")
+        button_tip.setIcon(QIcon(ICON_PATH + "icon_tip.png"))
+        button_tip.setAutoExclusive(False)
+        button_tip.setCheckable(False)
+        button_tip.setShortcut(QKeySequence("T"))
+        button_tip.clicked.connect(self.onButtonTipClick)
+
         toolbar.addWidget(button_Red)
         toolbar.addWidget(button_Green)
         toolbar.addWidget(button_Blue)
         toolbar.addWidget(button_Yellow)
         toolbar.addWidget(button_undo)
+        toolbar.addWidget(button_tip)
 
 
+    def print_moves_list(self):
+        self.moves_label.setText("Mouvements effectués : \n" + str(self.game.moves_list).replace(', ', '\n'))
+        self.moves_label.setAlignment(Qt.AlignCenter | Qt.AlignVCenter)
 
+    def print_tip(self):
+        self.tip_label.setText("Et si vous essayiez ce mouvement : \n" + str(self.tip) + " ?")
+        self.tip_label.setAlignment(Qt.AlignCenter | Qt.AlignVCenter)
+
+    def unprint_tip(self):
+        self.tip_label.setText(" ")
+        self.tip_label.setAlignment(Qt.AlignCenter | Qt.AlignVCenter)
 
     def choice_of_grid_menu(self):
         self.grid_choice = QComboBox()
@@ -252,7 +308,9 @@ class MainWindow(QMainWindow):
             self.draw_robots_and_goal()
 
         else:
-            pass
+            fp = open(GAMES_PATH + DEFAULT_GAME,'r')
+            self.game = Game.load_from_json(fp)
+            fp.close()
 
     def draw_grid(self):
 
@@ -276,7 +334,8 @@ class MainWindow(QMainWindow):
         goal_img_name = ICON_PATH + "/goal_"+ game.color_names[self.game.goal.color] +".png"
         painter.drawPixmap(QPoint(self.DIMENSION/ self.game.board.height * self.game.goal.position[1] , self.DIMENSION / self.game.board.width * self.game.goal.position[0]) , QPixmap(goal_img_name, format="png").scaled(self.DIMENSION / self.game.board.width * 0.9, self.DIMENSION/ self.game.board.height * 0.9))
 
-        images = [QPixmap(ICON_PATH + "robot_"+ game.color_names[color] +".png", format="png")  for color in self.robots_colors]
+        #images = [QPixmap(ICON_PATH + "robot_"+ game.color_names[color] +".png", format="png")  for color in self.robots_colors]
+        images = [QPixmap(ICON_PATH + "robot_"+ game.color_names[color] +".png", format="png")  for color in self.game.color_keys]
 
         for i, robot in enumerate(self.game.robots):
 
@@ -291,7 +350,8 @@ class MainWindow(QMainWindow):
 
         self.draw_robots_and_goal()
         self.number_moves  += 1
-
+        self.print_moves_list()
+        self.unprint_tip()
         if self.game.is_won():
             self.game_is_won()
 
@@ -300,7 +360,8 @@ class MainWindow(QMainWindow):
         print(self.game.get_state())
         self.draw_robots_and_goal()
         self.number_moves  += 1
-
+        self.print_moves_list()
+        self.unprint_tip()
         if self.game.is_won():
             self.game_is_won()
 
@@ -309,7 +370,8 @@ class MainWindow(QMainWindow):
         print(self.game.get_state())
         self.draw_robots_and_goal()
         self.number_moves  += 1
-
+        self.print_moves_list()
+        self.unprint_tip()
         if self.game.is_won():
             self.game_is_won()
 
@@ -318,7 +380,8 @@ class MainWindow(QMainWindow):
         print(self.game.get_state())
         self.draw_robots_and_goal()
         self.number_moves  += 1
-
+        self.print_moves_list()
+        self.unprint_tip()
         if self.game.is_won():
             self.game_is_won()
 
@@ -346,10 +409,23 @@ class MainWindow(QMainWindow):
         if self.number_moves != 0:
             self.game.undo()
             self.number_moves  -= 1
+            self.print_moves_list()
+            self.unprint_tip()
             self.draw_robots_and_goal()
         print("number_moves = " + str(self.number_moves))
         print(self.game.get_state())
 
+
+    def onButtonTipClick(self, s):
+        fp = open('tip_game.json', 'w')     #tip_game contient le jeu courant, pour l'utiliser par le solveur
+        self.game.save_2_json(fp)
+        fp.close()
+        fp = open('tip_game.json', 'r')
+        self.tip_game = Game.load_from_json(fp)
+        fp.close()
+        solution = solveur(self.tip_game).find_solution()
+        self.tip = solution[1][0]
+        self.print_tip()
 
     def game_is_won(self):
         self.exit_windows = Exit_window()
@@ -417,7 +493,7 @@ class Exit_window(QDialog):
 
 app = QApplication(sys.argv)
 group = Robot_group()
-fp = open(GAMES_PATH + "game1.json",'r')
+fp = open(GAMES_PATH + DEFAULT_GAME,'r')
 game = Game.load_from_json(fp)
 fp.close()
 #game = Game(None, group, None)
