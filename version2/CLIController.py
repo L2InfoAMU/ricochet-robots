@@ -58,16 +58,22 @@ while rejouer :
     print("C'est parti !")
     for i in range(nb_robots):
         print(robots_list[i])
+    initial_state = game.get_state()
+    print("etat initial :")
+    print(initial_state)
     print("le robot ", game.color_names[goal.color],
           " doit aller au point ", goal.position)
 
     number_moves = 0
 
     while (not game.is_won()):
-        action = input("Entrez un déplacement sous la forme couleur/direction, par exemple RN ou YE ou BW (ou tapez undo pour annuler le dernier coup):  ")
+        action = input("Entrez un déplacement sous la forme couleur/direction, par exemple RN ou YE ou BW (ou tapez undo pour annuler le dernier coup, ou rejouer pour remettre l'état initial):  ")
         if action == "undo":
             game.undo()
             number_moves -= 1
+        elif action =="rejouer":
+            game.set_state(initial_state)
+            numer_moves = 0
         else:
             game.do_action(action)
             number_moves += 1
