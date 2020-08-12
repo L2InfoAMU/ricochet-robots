@@ -185,8 +185,15 @@ class Board :
         return board
 
 
-    def __sub__(board1, board2) :
-        """ juxtaposition horizontale de deux grilles """
+    def __sub__(self, board2) :
+        """ 
+        juxtaposition horizontale de deux grilles 
+        usage :
+        board3 = board1 /board2
+
+        """
+
+        board1 = self
         # dimensions
         nl1, nc1 = board1.height, board1.width
         nl2, nc2 = board2.height, board2.width

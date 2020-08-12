@@ -15,6 +15,7 @@ from rcolors import RColors
 from robot import Robot, Robot_group
 from board import Board
 from game import Game
+from goal import Goal
 from random import *
 from solveur import solveur
 
@@ -49,8 +50,6 @@ class MainWindow(QMainWindow):
         layout0.setContentsMargins(0,0,0,0)
         layout0.setSpacing(0)
 
-
-
         layout = QVBoxLayout()
         layout.setContentsMargins(0,0,0,0)
         layout.setSpacing(0)
@@ -84,8 +83,6 @@ class MainWindow(QMainWindow):
         layout.addWidget(self.label)
 
         layout0.addLayout(layout)
-
-
 
         # liste des mouvement effectués et indice :
         layout3 = QVBoxLayout()
@@ -232,7 +229,7 @@ class MainWindow(QMainWindow):
 
 
     def print_moves_list(self):
-        self.moves_label.setText("Mouvements effectués : \n" + str(self.game.moves_list).replace(', ', '\n'))
+        self.moves_label.setText("Mouvements effectués : \n") # + str(self.game.moves_list).replace(', ', '\n'))
         self.moves_label.setAlignment(Qt.AlignCenter | Qt.AlignVCenter)
 
     def print_tip(self):
@@ -335,11 +332,11 @@ class MainWindow(QMainWindow):
 
         painter = QPainter(self.label.pixmap())
 
-        goal_img_name = ICON_PATH + "/goal_"+ game.color_names[self.game.goal.color] +".png"
+        goal_img_name = ICON_PATH + "/goal_"+ str(self.game.goal.color) +".png"
         painter.drawPixmap(QPoint(self.DIMENSION/ self.game.board.height * self.game.goal.position[1] , self.DIMENSION / self.game.board.width * self.game.goal.position[0]) , QPixmap(goal_img_name, format="png").scaled(self.DIMENSION / self.game.board.width * 0.9, self.DIMENSION/ self.game.board.height * 0.9))
 
         #images = [QPixmap(ICON_PATH + "robot_"+ game.color_names[color] +".png", format="png")  for color in self.robots_colors]
-        images = [QPixmap(ICON_PATH + "robot_"+ game.color_names[color] +".png", format="png")  for color in self.game.color_keys]
+        images = [QPixmap(ICON_PATH + "robot_"+ str(color)+".png", format="png")  for color in self.game.color_keys]
 
         for i, robot in enumerate(self.game.robots):
 
@@ -421,12 +418,11 @@ class MainWindow(QMainWindow):
 
 
     def onButtonTipClick(self, s):
-        fp = open('tip_game.json', 'w')     #tip_game contient le jeu courant, pour l'utiliser par le solveur
-        self.game.save_2_json(fp)
-        fp.close()
-        fp = open('tip_game.json', 'r')
-        self.tip_game = Game.load_from_json(fp)
-        fp.close()
+         #tip_game contient le jeu courant, pour l'utiliser par le solveur
+        self.game.save_to_json('tip_game.json')
+        
+        self.tip_game = Game.load_from_json('tip_game.json')
+        
         solution = solveur(self.tip_game).find_solution()
         self.tip = solution[1][0]
         self.print_tip()
@@ -492,14 +488,11 @@ class Exit_window(QDialog):
         self.close()
 
 
-
-
-
 app = QApplication(sys.argv)
 group = Robot_group()
-fp = open(GAMES_PATH + DEFAULT_GAME,'r')
-game = Game.load_from_json(fp)
-fp.close()
+
+game = Game.load_from_json(GAMES_PATH + DEFAULT_GAME)
+
 #game = Game(None, group, None)
 fen = MainWindow(game)
 fen.show()

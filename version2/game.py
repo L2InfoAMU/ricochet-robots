@@ -38,6 +38,7 @@ from rcolors import RColors
 from cell import Cell
 from board import Board
 from robot import Robot, Robot_group
+from goal import Goal
 
 class Game :
 
