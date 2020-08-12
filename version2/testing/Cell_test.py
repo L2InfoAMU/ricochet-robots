@@ -4,7 +4,9 @@ sys.path.insert(0, os.path.abspath('..'))
 
 # print(sys.path)
 
-from robot import Cell ,Direction
+ 
+from directions import Direction, NORTH, SOUTH, WEST, EAST
+from cell import Cell
 import unittest
 
 class CellTest(unittest.TestCase) :
@@ -17,6 +19,9 @@ class CellTest(unittest.TestCase) :
 
         full_cell = Cell(15)
         self.assertEqual( full_cell.walls, Direction(15) )
+
+        cell1 = Cell(NORTH+SOUTH)
+        self.assertEqual( cell1.walls, Direction(5) )
 
     def test_add_wall(self) :
         """ teste la méthode add_wall"""

@@ -4,7 +4,7 @@ import unittest
 import json
 sys.path.insert(0, os.path.abspath('..'))
 
-from robot import Board
+from board import Board
 
 GRID_PATH = '../grids/'
 CLASSIC_GRIDS = GRID_PATH+"classic_grids.json"
@@ -183,23 +183,4 @@ class BoardTest(unittest.TestCase) :
 
         self.assertEqual(str(b), str(board))
         
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 unittest.main()

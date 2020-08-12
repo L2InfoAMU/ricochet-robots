@@ -10,7 +10,11 @@ import sys
 from PySide2.QtWidgets import QApplication, QWidget, QMainWindow , QGridLayout, QLabel, QPushButton, QMainWindow, QAction, QToolBar, QVBoxLayout, QComboBox, QHBoxLayout, QCheckBox, QRadioButton, QDialog, QMessageBox, QDialogButtonBox
 from PySide2.QtGui import QKeySequence, QPainter, QColor, QBrush, QPaintEvent, QFont, QPen, QIcon, QImage, QPixmap
 from PySide2.QtCore import Qt, QPoint
-from robot import *
+from directions import Direction, NORTH, SOUTH, EAST, WEST
+from rcolors import RColors
+from robot import Robot, Robot_group
+from board import Board
+from game import Game
 from random import *
 from solveur import solveur
 

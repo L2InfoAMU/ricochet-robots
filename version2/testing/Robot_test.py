@@ -4,7 +4,9 @@ import unittest
 import json
 sys.path.insert(0, os.path.abspath('..'))
 
-from robot import Robot, Robot_group,Board,Direction
+from robot import Robot, Robot_group
+from board import Board
+from directions import Direction
 from rcolors import RColors
 
 GRID_PATH = '../grids/'
@@ -27,16 +29,13 @@ class RobotTest(unittest.TestCase) :
         # tentative d'ajout d'un robot de même couleur
         with  self.assertRaises(AssertionError ) :
             r4 = Robot(robots, RColors.GREEN, (2,2))
-        self.assertFalse(r4.color in robots)
+        
         # tentative d'ajout d'un robot a une position déjà occupée
         with  self.assertRaises(AssertionError ) :
-            r4 = Robot(robots, RColors.YELLOW, (2,1))
-        self.assertFalse(r4.color in robots)
+            r4 = Robot(robots, RColors.YELLOW, (2,1))      
 
         r4 = Robot(robots, RColors.YELLOW, (2,2))
         self.assertTrue(r4.color in robots)
-
-
 
     def test_str(self) :
         robots = Robot_group()
@@ -57,10 +56,10 @@ class RobotTest(unittest.TestCase) :
         """ test de la fonction cell_occupied """
 
         robots = Robot_group()
-        r1 = Robot(robots, RColors.RED, (0,0))
-        r2 = Robot(robots, RColors.BLUE, (1,1))
-        r3 = Robot(robots, RColors.GREEN, (2,1))
-        r4 = Robot(robots, RColors.YELLOW, (2,2))
+        Robot(robots, RColors.RED, (0,0))
+        Robot(robots, RColors.BLUE, (1,1))
+        Robot(robots, RColors.GREEN, (2,1))
+        Robot(robots, RColors.YELLOW, (2,2))
 
         for position in [(0,0) , (1,1), (2,1) , (2,2)] :
             self.assertTrue(robots.cell_occupied( position))
@@ -114,7 +113,7 @@ class RobotTest(unittest.TestCase) :
         r3.move(Direction.E,square3)
         self.assertEqual(r3.position, (2,2))
 
-    def test_move3(self):
+    def test_move3(self) :
         """ test de la fonction move avec plusieurs robots"""
 
         # test sur la grille classic16x16
