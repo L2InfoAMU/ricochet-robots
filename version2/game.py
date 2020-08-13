@@ -2,9 +2,9 @@
 Chef de projet : CANALS Martin L3
 Développeurs : AUBIN François DU CCIE, GIANI Théo L3
 
-fichier game.py 
+fichier game.py
 définition de la classe Game, ayant la responsabilité de piloter le jeu.
-Le jeu est composé d'un plateau, d'un groupe de robots et d'un objectif. 
+Le jeu est composé d'un plateau, d'un groupe de robots et d'un objectif.
 Les attributs sont
 board : un plateau de jeu
 robots : un groupe de robots, instance de la classe Robot_group
@@ -15,6 +15,7 @@ state_start : état initial du jeu, permettant de remettre le eju à son état i
 states_list : la liste de tous les états du jeu depuis le début,
             permettant de revenir en arrière
         Si le paramètre record est positionné à False, cette liste n'est pas maintenue
+moves_list : la liste des actions effectuées depuis le début du jeu
 Méthodes :
     get_state() :
         renvoie un tuple contenant les positions des robots.
@@ -43,7 +44,7 @@ from goal import Goal
 class Game :
 
     def __init__(self, board, robots, goal, record = True):
-        """ Constructeur 
+        """ Constructeur
         game = Game(board, robots, goal, record)
         Si record est positionné à True, le jeu conserve les différents états dans une pile
         ce qui permet de revenir à un état précédent.
@@ -52,17 +53,18 @@ class Game :
         self.robots = robots
         self.goal = goal
         self.record = record
-        
-        # table des entrées couleurs pour l'ordre des positions décrivant un état  
+
+        # table des entrées couleurs pour l'ordre des positions décrivant un état
         self.color_keys = [color for color in robots]
 
-        # état de départ 
+        # état de départ
         self.state_start = self.get_state()
-        # self.states_list = []
+        #self.states_list = []
+        #self.states_list.append(self.get_state())
         # Pile des états
 
         self.states_list = deque( [self.state_start], maxlen = 100)
-        
+        self.moves_list = []
 
     # utile ?
     def add_board(self, board):
@@ -70,13 +72,13 @@ class Game :
     # utile ?
     def add_goal(self, goal):
         self.goal = goal
-   
+
     def add_robots(self, robots):
         self.robots = robots
         self.color_keys = [color for color in robots]
 
     def get_state(self) :
-        """ 
+        """
         renvoie l'état du jeu sous forme d'un tuple dcontenant les positions
         des robots.
         L'ordre des robots dans ce tuple peut être obtenu par l'attribut color_keys
@@ -85,7 +87,7 @@ class Game :
         return tuple([self.robots[color].position for color in self.color_keys])
 
     def set_state(self, state) :
-        """ 
+        """
         Met le jeu dans l'état décrit par le tuple de positions state
         """
         for r_color, position in zip(self.color_keys, state) :
@@ -124,7 +126,7 @@ class Game :
         Demande au jeu d'effectuer l'action décrite par la chaîne de caractères action
         Exemple :
             game.do_action("YN") demande au jeu de déplacer le robot Y (yellow) vers le Nord
-        """ 
+        """
         color_name, dir_name = action[0], action[1]
         color = RColors.from_str(color_name)
         #print(color)    #pour le test/à enlever
@@ -132,7 +134,9 @@ class Game :
         robot = self.robots[color]
         robot.move(direction, self.board)
         if self.record :
-            self.states_list.append(self.get_state)
+            self.states_list.append(self.get_state())
+            self.moves_list.append(action)
+            print(self.states_list)
         return self.get_state()
 
     def do_actions(self, *actions) :
@@ -149,9 +153,12 @@ class Game :
         Demande au jeu de revenir à l'étât précedent
         Pour utiliser cette fonctionnalité il faut avoir créé le jeu avec record = True
         """
-        # on ne peut pas dépiler l'état initial 
+        # on ne peut pas dépiler l'état initial
         if len(self.states_list) > 1 :
-            self.set_state(self.states_list.pop())
+            self.states_list.pop()
+            self.moves_list.pop()
+            self.set_state(self.states_list[-1])
+            return self.get_state()
 
     # deprecated method, use save_to_json instead
     def save_2_json(self, fp) :
@@ -202,7 +209,7 @@ class Game :
         fp.write("\n}")
 
     def save_to_json(self, filename) :
-        """ 
+        """
         Ecrit les données de jeu dans un fichier texte, au format json.
         Le format est le suivant :
         {
@@ -233,7 +240,7 @@ class Game :
         """
         Charge et renvoie un jeu chargé depuis un fichier texte au format json
         """
-        
+
         import json
 
         board = None
@@ -241,7 +248,7 @@ class Game :
         goal = None
         with open(filename,'r') as fd :
             data = json.load(fd)
-       
+
         if "grid" in data :
             data_grid = data["grid"]
             board = Board(data_grid)

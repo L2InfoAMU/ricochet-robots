@@ -7,7 +7,7 @@ Développeurs : AUBIN François DU CCIE, GIANI Théo L3
 """
 
 import sys
-from PySide2.QtWidgets import QApplication, QWidget, QMainWindow , QGridLayout, QLabel, QPushButton, QMainWindow, QAction, QToolBar, QVBoxLayout, QComboBox, QHBoxLayout, QCheckBox, QRadioButton, QDialog, QMessageBox, QDialogButtonBox
+from PySide2.QtWidgets import QApplication, QWidget, QMainWindow , QGridLayout, QLabel, QPushButton, QMainWindow, QAction, QToolBar, QVBoxLayout, QComboBox, QHBoxLayout, QCheckBox, QRadioButton, QDialog, QMessageBox, QDialogButtonBox, QPlainTextEdit
 from PySide2.QtGui import QKeySequence, QPainter, QColor, QBrush, QPaintEvent, QFont, QPen, QIcon, QImage, QPixmap
 from PySide2.QtCore import Qt, QPoint
 from directions import Direction, NORTH, SOUTH, EAST, WEST
@@ -111,19 +111,22 @@ class MainWindow(QMainWindow):
         self.help_menu = self.menu.addMenu("Aide et instructions")    # A faire
         self.size_fenetre = self.geometry()
 
-        # Exit QAction
-        exit_action = QAction("Exit", self)
-        exit_action.setShortcut(QKeySequence.Quit)
-        exit_action.triggered.connect(self.close)
-        self.file_menu.addAction(exit_action)
-
         # Play QAction
-        play_action = QAction("Jouer !", self)
+        play_action = QAction("Réinitialiser !", self)
         self.number_moves = 0
         play_action.triggered.connect(self.draw_grid)
         self.file_menu.addAction(play_action)
 
+        # Exit QAction
+        exit_action = QAction("Quitter", self)
+        exit_action.setShortcut(QKeySequence.Quit)
+        exit_action.triggered.connect(self.close)
+        self.file_menu.addAction(exit_action)
 
+        # Help QAction
+        help_action = QAction("Aide", self)
+        help_action.triggered.connect(self.help)
+        self.help_menu.addAction(help_action)
         self.toolbar_menus()
 
         #Le robot rouge est sélectionné par défaut
@@ -132,6 +135,10 @@ class MainWindow(QMainWindow):
         #self.choix_nb_robots(3)
         self.draw_robots_and_goal()
 
+    def help(self):
+        self.help_windows = Help_window()
+        #self.exit_windows.show()
+        self.help_windows.exec_()
 
     def toolbar_menus(self):
         """ Affiche la barre d'icônes permettant de diriger les robots et de les sélectionner
@@ -229,7 +236,7 @@ class MainWindow(QMainWindow):
 
 
     def print_moves_list(self):
-        self.moves_label.setText("Mouvements effectués : \n") # + str(self.game.moves_list).replace(', ', '\n'))
+        self.moves_label.setText("Mouvements effectués : \n"  + str(self.game.moves_list).replace(', ', '\n'))
         self.moves_label.setAlignment(Qt.AlignCenter | Qt.AlignVCenter)
 
     def print_tip(self):
@@ -420,9 +427,9 @@ class MainWindow(QMainWindow):
     def onButtonTipClick(self, s):
          #tip_game contient le jeu courant, pour l'utiliser par le solveur
         self.game.save_to_json('tip_game.json')
-        
+
         self.tip_game = Game.load_from_json('tip_game.json')
-        
+
         solution = solveur(self.tip_game).find_solution()
         self.tip = solution[1][0]
         self.print_tip()
@@ -433,9 +440,7 @@ class MainWindow(QMainWindow):
         self.exit_windows.exec_()
 
         if self.exit_windows.retStatus == 1:     #replay : on remet l'état initial du jeu
-            print(self.game.get_state())
             self.game.set_state(self.initial_game_state)
-            print(self.game.get_state())
             self.draw_robots_and_goal()
 
         elif self.exit_windows.retStatus == 2:   #new game : on choisit une grille aleatoire
@@ -444,6 +449,27 @@ class MainWindow(QMainWindow):
             #self.draw_robots_and_goal()
         elif self.exit_windows.retStatus == 3:  #exit : on quitte le jeu
             exit()
+
+class Help_window(QDialog):
+    def __init__(self):
+        super(Help_window, self).__init__()
+        self.setWindowTitle("Aide")
+        self.setWindowFlags(Qt.WindowStaysOnTopHint)
+        help_msg = QPlainTextEdit()
+
+        text = "Ricochet Robots est un jeu de société créé par Alex Randolph en 1999"
+        text += "Le jeu est composé d'un plateau, de tuiles représentant chacune une des cases du plateau, et de pions appelés « robots »."
+        text += "La partie est décomposée en tours de jeu, un tour consistant à déplacer les robots sur un plateau afin d'en amener un sur l'une des cases du plateau."
+        text += "Les robots se déplacent en ligne droite et avancent toujours jusqu'au premier mur qu'ils rencontrent."
+        help_msg.appendHtml(text)
+        help_msg.setReadOnly(True)
+        help_msg.setUndoRedoEnabled(False)
+        text = "<h1>Titre 1</h1> <h2>Titre 2</h2> <h3>Titre 3</h3> <h4>Titre 4</h4> <h5>Titre 5</h5> <h6>Titre 6</h6>"
+        help_msg.appendHtml(text)
+        mainLayout = QVBoxLayout()
+        mainLayout.addWidget(help_msg)
+        self.setLayout(mainLayout)
+
 
 class Exit_window(QDialog):
     #Fenêtre apparaissant lorsqu'on a gagné
