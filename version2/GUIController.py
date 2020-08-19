@@ -253,7 +253,7 @@ class MainWindow(QMainWindow):
         toolbar.addWidget(button_tip)
         toolbar.addWidget(button_solution)
 
-    def open_grid(self) :
+    def open_grid(self):
         filename, filter = QFileDialog.getOpenFileName(self , 'selectionner un fichier contenant une grille','./grids','*.json')
         print(filename)
         board, = Board.load_from_json(filename)
@@ -263,8 +263,12 @@ class MainWindow(QMainWindow):
         self.game = Game(self.game.board, self.group, self.game.goal)
         self.draw_grid()
 
-    def save_grid(self) :
-        pass
+    def save_grid(self):
+
+        filename, _ = QFileDialog.getSaveFileName(self, "Save Grid As","","JSON (*.JSON *.json);;" "All files(*.*)", )
+        if filename:
+            self.game.board.save_as_json(filename)
+
 
     def print_moves_list(self):
         self.moves_label.setText("Mouvements effectués : \n"  + str(self.game.moves_list).replace(', ', '\n'))
