@@ -33,7 +33,6 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.game = game
         self.initial_game_state = self.game.get_state()
-        print(self.game.get_state())
         self.setWindowTitle("Robot Ricochet")
         self.resize(self.DIMENSION + 150, self.DIMENSION + 100)
 
@@ -84,7 +83,7 @@ class MainWindow(QMainWindow):
 
         layout0.addLayout(layout)
 
-        # liste des mouvement effectués et indice :
+        # liste des mouvement effectués, indice et solution:
         layout3 = QVBoxLayout()
         layout3.setContentsMargins(0,0,0,0)
         layout3.setSpacing(0)
@@ -94,9 +93,12 @@ class MainWindow(QMainWindow):
 
         self.tip_label = QLabel()
 
+        self.solution_label = QLabel()
+
 
         layout3.addWidget(self.moves_label)
         layout3.addWidget(self.tip_label)
+        layout3.addWidget(self.solution_label)
 
 
         layout0.addLayout(layout3)
@@ -227,12 +229,22 @@ class MainWindow(QMainWindow):
         button_tip.setShortcut(QKeySequence("T"))
         button_tip.clicked.connect(self.onButtonTipClick)
 
+        # Boutton Solution : lance le solveur pour afficher une liste d'actions à effectuer pour résoudre le jeu
+        button_solution = QPushButton("&Solution")
+        button_solution.setIcon(QIcon(ICON_PATH + "icon_solution.png"))
+        button_solution.setAutoExclusive(False)
+        button_solution.setCheckable(False)
+        button_solution.setShortcut(QKeySequence("S"))
+        button_solution.clicked.connect(self.onButtonSolutionClick)
+
+
         toolbar.addWidget(button_Red)
         toolbar.addWidget(button_Green)
         toolbar.addWidget(button_Blue)
         toolbar.addWidget(button_Yellow)
         toolbar.addWidget(button_undo)
         toolbar.addWidget(button_tip)
+        toolbar.addWidget(button_solution)
 
 
     def print_moves_list(self):
@@ -246,6 +258,7 @@ class MainWindow(QMainWindow):
     def unprint_tip(self):
         self.tip_label.setText(" ")
         self.tip_label.setAlignment(Qt.AlignCenter | Qt.AlignVCenter)
+        self.solution_label.setText(" ")
 
     def choice_of_grid_menu(self):
         self.grid_choice = QComboBox()
@@ -269,12 +282,9 @@ class MainWindow(QMainWindow):
         A = Board.new_classic()
 
         self.game.add_board(A)
-        print(self.game.get_state())
         self.number_moves = 0
         self.group = Robot_group()
-        print(self.game.get_state())
         self.game = Game(self.game.board, self.group, self.game.goal)
-        print(self.game.get_state())
         self.draw_grid()
 
 
@@ -288,7 +298,6 @@ class MainWindow(QMainWindow):
     def choix_nb_robots(self,i) :
         self.group = Robot_group()
         self.game = Game(self.game.board, self.group, self.game.goal)
-        print(self.game.get_state())
 
         self.nb_robots = i + 1
 
@@ -312,7 +321,6 @@ class MainWindow(QMainWindow):
             self.game = Game(self.game.board, self.group, self.game.goal)
             self.game.add_goal(goal)
             self.initial_game_state = self.game.get_state()
-            print(self.game.get_state())
             self.draw_robots_and_goal()
 
         else:
@@ -354,7 +362,6 @@ class MainWindow(QMainWindow):
 
     def onButtonEastClick(self, s):
         self.game.do_action(self.selected_robot + 'E')
-        print(self.game.get_state())
 
         self.draw_robots_and_goal()
         self.number_moves  += 1
@@ -365,7 +372,6 @@ class MainWindow(QMainWindow):
 
     def onButtonWestClick(self, s):
         self.game.do_action(self.selected_robot + 'W')
-        print(self.game.get_state())
         self.draw_robots_and_goal()
         self.number_moves  += 1
         self.print_moves_list()
@@ -375,7 +381,6 @@ class MainWindow(QMainWindow):
 
     def onButtonNorthClick(self, s):
         self.game.do_action(self.selected_robot + 'N')
-        print(self.game.get_state())
         self.draw_robots_and_goal()
         self.number_moves  += 1
         self.print_moves_list()
@@ -385,7 +390,6 @@ class MainWindow(QMainWindow):
 
     def onButtonSouthClick(self, s):
         self.game.do_action(self.selected_robot + 'S')
-        print(self.game.get_state())
         self.draw_robots_and_goal()
         self.number_moves  += 1
         self.print_moves_list()
@@ -420,19 +424,24 @@ class MainWindow(QMainWindow):
             self.print_moves_list()
             self.unprint_tip()
             self.draw_robots_and_goal()
-        print("number_moves = " + str(self.number_moves))
-        print(self.game.get_state())
 
+
+    def solve(self):
+        #tip_game contient le jeu courant, pour l'utiliser par le solveur
+
+        self.game.save_to_json('tip_game.json')
+        self.tip_game = Game.load_from_json('tip_game.json')
+        return(solveur(self.tip_game).find_solution())
 
     def onButtonTipClick(self, s):
-         #tip_game contient le jeu courant, pour l'utiliser par le solveur
-        self.game.save_to_json('tip_game.json')
 
-        self.tip_game = Game.load_from_json('tip_game.json')
-
-        solution = solveur(self.tip_game).find_solution()
-        self.tip = solution[1][0]
+        self.tip = self.solve()[1][0]
         self.print_tip()
+
+    def onButtonSolutionClick(self, s):
+        self.solution = self.solve()[1]
+        self.solution_label.setText("Pour gagner, vous auriez pu effectuer cette suite de mouvements : \n" + str(self.solution) + ".")
+        self.solution_label.setAlignment(Qt.AlignCenter | Qt.AlignVCenter)
 
     def game_is_won(self):
         self.exit_windows = Exit_window()
@@ -455,16 +464,28 @@ class Help_window(QDialog):
         super(Help_window, self).__init__()
         self.setWindowTitle("Aide")
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
+        self.resize(650, 400)
         help_msg = QPlainTextEdit()
 
-        text = "Ricochet Robots est un jeu de société créé par Alex Randolph en 1999"
-        text += "Le jeu est composé d'un plateau, de tuiles représentant chacune une des cases du plateau, et de pions appelés « robots »."
-        text += "La partie est décomposée en tours de jeu, un tour consistant à déplacer les robots sur un plateau afin d'en amener un sur l'une des cases du plateau."
-        text += "Les robots se déplacent en ligne droite et avancent toujours jusqu'au premier mur qu'ils rencontrent."
+        text = "<br /><h1>A propos du jeu</h1>"
+        text += "<p><a href='Ricochet Robots'></a>Ricochet Robots est un jeu de société créé par Alex Randolph en 1999</p>"
+        text += "<p>Le jeu est composé d'un plateau, de tuiles représentant chacune une des cases du plateau, et de pions appelés « robots »."
+        text += "La partie est décomposée en tours de jeu, un tour consistant à déplacer les robots sur un plateau afin d'en amener un sur l'une des cases du plateau.</p>"
+        text += "<p>Les robots se déplacent en ligne droite et avancent toujours jusqu'au premier mur qu'ils rencontrent.</p>"
+        text += "<br /><h1>Utilisation du jeu</h1>"
+        text += "<p>Pour débuter un nouveau jeu, vous pouvez : "
+        text += "<ul><li>jouer avec le plateau par défaut (très simple)</li>"
+        text += "<li>sélectionner un plateau existant ou générer un plateau aléatoire, réalisé comme dans le jeu physique :"
+        text += " on mélange 4 quarts de plateaux choisis au hasard</li></ul>"
+        text += "<br /><p>Pour sélectionner un robot, cliquez sur le bouton ou sur l'initiale de sa couleur (en anglais).</p>"
+        text += "<br /><p>pour déplacer un robot, utilisez les flèches du clavier ou les icônes de la fenêtre.</p>"
+        text += "<br /><p>Vous pouvez annuler la dernière action effectuée grâce au bouton Undo, ou obtenir un conseil grâce au bouton Tip.</p>"
+        text += "<br /><br /><br />"
+        text += "<p>Réalisé par Martin Canals, Théo Giani et François Aubin dans le cadre de l'UE projet Math-Info du DU CCIE</p>"
         help_msg.appendHtml(text)
         help_msg.setReadOnly(True)
         help_msg.setUndoRedoEnabled(False)
-        text = "<h1>Titre 1</h1> <h2>Titre 2</h2> <h3>Titre 3</h3> <h4>Titre 4</h4> <h5>Titre 5</h5> <h6>Titre 6</h6>"
+        text = ""
         help_msg.appendHtml(text)
         mainLayout = QVBoxLayout()
         mainLayout.addWidget(help_msg)
@@ -542,4 +563,5 @@ reste un problème : au 1er clic sur undo, il  supprime juste l'état courant ma
 
 fenêtre finale : bouton replay ne fonctionne pas : il redessine avant qu'on ait cliqué et sans fermer : RESOLU
 
+bouton solution ajouté.
 """

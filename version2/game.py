@@ -136,7 +136,6 @@ class Game :
         if self.record :
             self.states_list.append(self.get_state())
             self.moves_list.append(action)
-            print(self.states_list)
         return self.get_state()
 
     def do_actions(self, *actions) :
