@@ -7,7 +7,7 @@ Développeurs : AUBIN François DU CCIE, GIANI Théo L3
 """
 
 import sys
-from PySide2.QtWidgets import QApplication, QWidget, QMainWindow , QGridLayout, QLabel, QPushButton, QMainWindow, QAction, QToolBar, QVBoxLayout, QComboBox, QHBoxLayout, QCheckBox, QRadioButton, QDialog, QMessageBox, QDialogButtonBox, QPlainTextEdit
+from PySide2.QtWidgets import QApplication, QWidget, QMainWindow , QGridLayout, QLabel, QPushButton, QMainWindow, QAction, QToolBar, QVBoxLayout, QComboBox, QHBoxLayout, QCheckBox, QRadioButton, QDialog, QMessageBox, QDialogButtonBox, QPlainTextEdit, QFileDialog
 from PySide2.QtGui import QKeySequence, QPainter, QColor, QBrush, QPaintEvent, QFont, QPen, QIcon, QImage, QPixmap
 from PySide2.QtCore import Qt, QPoint
 from directions import Direction, NORTH, SOUTH, EAST, WEST
@@ -77,11 +77,9 @@ class MainWindow(QMainWindow):
         widget2 = QWidget()
         widget2.setLayout(layout2)
 
-
         layout.addWidget(widget2)
         layout.addWidget(self.label)
 
-        layout0.addLayout(layout)
 
         # liste des mouvement effectués, indice et solution:
         layout3 = QVBoxLayout()
@@ -90,17 +88,14 @@ class MainWindow(QMainWindow):
 
         self.moves_label = QLabel()
         self.print_moves_list()
-
         self.tip_label = QLabel()
-
         self.solution_label = QLabel()
-
 
         layout3.addWidget(self.moves_label)
         layout3.addWidget(self.tip_label)
         layout3.addWidget(self.solution_label)
 
-
+        layout0.addLayout(layout)
         layout0.addLayout(layout3)
         widget = QWidget()
         widget.setLayout(layout0)
@@ -118,6 +113,18 @@ class MainWindow(QMainWindow):
         self.number_moves = 0
         play_action.triggered.connect(self.draw_grid)
         self.file_menu.addAction(play_action)
+
+        # Open QAction
+        open_action = QAction("Ouvrir une grille", self)
+        open_action.setShortcut('Ctrl+O')
+        self.number_moves = 0
+        open_action.triggered.connect(self.open_grid)
+        self.file_menu.addAction(open_action)
+
+        # Save QAction
+        save_action = QAction("Enregistrer cette grille", self)
+        save_action.triggered.connect(self.save_grid)
+        self.file_menu.addAction(save_action)
 
         # Exit QAction
         exit_action = QAction("Quitter", self)
@@ -246,6 +253,18 @@ class MainWindow(QMainWindow):
         toolbar.addWidget(button_tip)
         toolbar.addWidget(button_solution)
 
+    def open_grid(self) :
+        filename, filter = QFileDialog.getOpenFileName(self , 'selectionner un fichier contenant une grille','./grids','*.json')
+        print(filename)
+        board, = Board.load_from_json(filename)
+        self.game.add_board(board)
+        self.number_moves = 0
+        self.group = Robot_group()
+        self.game = Game(self.game.board, self.group, self.game.goal)
+        self.draw_grid()
+
+    def save_grid(self) :
+        pass
 
     def print_moves_list(self):
         self.moves_label.setText("Mouvements effectués : \n"  + str(self.game.moves_list).replace(', ', '\n'))
