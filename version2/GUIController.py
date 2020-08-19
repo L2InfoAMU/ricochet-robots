@@ -23,6 +23,7 @@ ICON_PATH = "./icons/"
 IMAGES_PATH = "./images/"
 GAMES_PATH = './games/'
 DEFAULT_GAME = "game1.json"
+GRIDS_PATH = "./grids/"
 
 class MainWindow(QMainWindow):
     DIMENSION = 560
@@ -255,7 +256,6 @@ class MainWindow(QMainWindow):
 
     def open_grid(self):
         filename, filter = QFileDialog.getOpenFileName(self , 'selectionner un fichier contenant une grille','./grids','*.json')
-        print(filename)
         board, = Board.load_from_json(filename)
         self.game.add_board(board)
         self.number_moves = 0
@@ -285,24 +285,31 @@ class MainWindow(QMainWindow):
 
     def choice_of_grid_menu(self):
         self.grid_choice = QComboBox()
-        self.grid_choice.insertItems(0,("Grille aléatoire ","Grille 1","Grille 2" ,"Grille 3"))
+        self.grid_choice.insertItems(0,("Grille 6x6","Grille 8x8","Grille 10x10" ,"Grille 12x12" ,"Grille 14x14", "Grille 16x16","Grille aléatoire 16x16"))
         self.grid_choice.setGeometry(0,0,180,40)
         self.grid_choice.activated.connect(self.choix_grille)
 
     def choix_grille(self,i) :
         # pour ouvrir les vieux .txt
-        #name_grid = './test' + str(i + 1) + '.txt'
-        #fd = open(name_grid,'r')
+        # name_grid = './test' + str(i + 1) + '.txt'
+        # fd = open(name_grid,'r')
         # A = Board.load_from_json(fd)
 
-        # pour ouvrir les nouveaux .json
-
-
-        """name_grid = './test' + str(i + 1) + '.json'
-        A, = Board.load_from_json(name_grid)"""
-
-        #Pour ouvrir une grille aléatoire classique
-        A = Board.new_classic()
+        if i == 0:
+            A, = Board.load_from_json(GRIDS_PATH + 'grid 6x6.json')
+        elif i == 1:
+            A, = Board.load_from_json(GRIDS_PATH + 'grid 8x8.json')
+        elif i == 2:
+            A, = Board.load_from_json(GRIDS_PATH + 'grid 10x10.json')
+        elif i == 3:
+            A, = Board.load_from_json(GRIDS_PATH + 'grid 12x12.json')
+        elif i == 4:
+            A, = Board.load_from_json(GRIDS_PATH + 'grid 14x14.json')
+        elif i == 5:
+            A, = Board.load_from_json(GRIDS_PATH + 'grid 16x16.json')
+        else :
+            # Pour ouvrir une grille aléatoire classique
+            A = Board.new_classic()
 
         self.game.add_board(A)
         self.number_moves = 0
