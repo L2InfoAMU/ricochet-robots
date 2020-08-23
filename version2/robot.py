@@ -64,9 +64,6 @@ class Robot :
             else :
                 self.position = target
 
-
-
-
 """ classe qui gère un groupe de robots
     Un groupe de robots est un dictionnaire  { color : robot ,... }
     color est une instance de RColors
