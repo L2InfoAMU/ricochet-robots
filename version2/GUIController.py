@@ -7,7 +7,7 @@ Développeurs : AUBIN François DU CCIE, GIANI Théo L3
 """
 
 import sys
-from PySide2.QtWidgets import QApplication, QWidget, QMainWindow , QGridLayout, QLabel, QPushButton, QMainWindow, QAction, QToolBar, QVBoxLayout, QComboBox, QHBoxLayout, QCheckBox, QRadioButton, QDialog, QMessageBox, QDialogButtonBox, QPlainTextEdit
+from PySide2.QtWidgets import QApplication, QWidget, QMainWindow , QGridLayout, QLabel, QPushButton, QMainWindow, QAction, QToolBar, QVBoxLayout, QComboBox, QHBoxLayout, QCheckBox, QRadioButton, QDialog, QMessageBox, QDialogButtonBox, QPlainTextEdit, QFileDialog
 from PySide2.QtGui import QKeySequence, QPainter, QColor, QBrush, QPaintEvent, QFont, QPen, QIcon, QImage, QPixmap
 from PySide2.QtCore import Qt, QPoint
 from directions import Direction, NORTH, SOUTH, EAST, WEST
@@ -23,6 +23,7 @@ ICON_PATH = "./icons/"
 IMAGES_PATH = "./images/"
 GAMES_PATH = './games/'
 DEFAULT_GAME = "game1.json"
+GRIDS_PATH = "./grids/"
 
 class MainWindow(QMainWindow):
     DIMENSION = 560
@@ -33,7 +34,6 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.game = game
         self.initial_game_state = self.game.get_state()
-        print(self.game.get_state())
         self.setWindowTitle("Robot Ricochet")
         self.resize(self.DIMENSION + 150, self.DIMENSION + 100)
 
@@ -78,27 +78,25 @@ class MainWindow(QMainWindow):
         widget2 = QWidget()
         widget2.setLayout(layout2)
 
-
         layout.addWidget(widget2)
         layout.addWidget(self.label)
 
-        layout0.addLayout(layout)
 
-        # liste des mouvement effectués et indice :
+        # liste des mouvement effectués, indice et solution:
         layout3 = QVBoxLayout()
         layout3.setContentsMargins(0,0,0,0)
         layout3.setSpacing(0)
 
         self.moves_label = QLabel()
         self.print_moves_list()
-
         self.tip_label = QLabel()
-
+        self.solution_label = QLabel()
 
         layout3.addWidget(self.moves_label)
         layout3.addWidget(self.tip_label)
+        layout3.addWidget(self.solution_label)
 
-
+        layout0.addLayout(layout)
         layout0.addLayout(layout3)
         widget = QWidget()
         widget.setLayout(layout0)
@@ -116,6 +114,18 @@ class MainWindow(QMainWindow):
         self.number_moves = 0
         play_action.triggered.connect(self.draw_grid)
         self.file_menu.addAction(play_action)
+
+        # Open QAction
+        open_action = QAction("Ouvrir une grille", self)
+        open_action.setShortcut('Ctrl+O')
+        self.number_moves = 0
+        open_action.triggered.connect(self.open_grid)
+        self.file_menu.addAction(open_action)
+
+        # Save QAction
+        save_action = QAction("Enregistrer cette grille", self)
+        save_action.triggered.connect(self.save_grid)
+        self.file_menu.addAction(save_action)
 
         # Exit QAction
         exit_action = QAction("Quitter", self)
@@ -227,12 +237,37 @@ class MainWindow(QMainWindow):
         button_tip.setShortcut(QKeySequence("T"))
         button_tip.clicked.connect(self.onButtonTipClick)
 
+        # Boutton Solution : lance le solveur pour afficher une liste d'actions à effectuer pour résoudre le jeu
+        button_solution = QPushButton("&Solution")
+        button_solution.setIcon(QIcon(ICON_PATH + "icon_solution.png"))
+        button_solution.setAutoExclusive(False)
+        button_solution.setCheckable(False)
+        button_solution.setShortcut(QKeySequence("S"))
+        button_solution.clicked.connect(self.onButtonSolutionClick)
+
+
         toolbar.addWidget(button_Red)
         toolbar.addWidget(button_Green)
         toolbar.addWidget(button_Blue)
         toolbar.addWidget(button_Yellow)
         toolbar.addWidget(button_undo)
         toolbar.addWidget(button_tip)
+        toolbar.addWidget(button_solution)
+
+    def open_grid(self):
+        filename, filter = QFileDialog.getOpenFileName(self , 'selectionner un fichier contenant une grille','./grids','*.json')
+        board, = Board.load_from_json(filename)
+        self.game.add_board(board)
+        self.number_moves = 0
+        self.group = Robot_group()
+        self.game = Game(self.game.board, self.group, self.game.goal)
+        self.draw_grid()
+
+    def save_grid(self):
+
+        filename, _ = QFileDialog.getSaveFileName(self, "Save Grid As","","JSON (*.JSON *.json);;" "All files(*.*)", )
+        if filename:
+            self.game.board.save_as_json(filename)
 
 
     def print_moves_list(self):
@@ -246,35 +281,40 @@ class MainWindow(QMainWindow):
     def unprint_tip(self):
         self.tip_label.setText(" ")
         self.tip_label.setAlignment(Qt.AlignCenter | Qt.AlignVCenter)
+        self.solution_label.setText(" ")
 
     def choice_of_grid_menu(self):
         self.grid_choice = QComboBox()
-        self.grid_choice.insertItems(0,("Grille aléatoire ","Grille 1","Grille 2" ,"Grille 3"))
+        self.grid_choice.insertItems(0,("Grille 6x6","Grille 8x8","Grille 10x10" ,"Grille 12x12" ,"Grille 14x14", "Grille 16x16","Grille aléatoire 16x16"))
         self.grid_choice.setGeometry(0,0,180,40)
         self.grid_choice.activated.connect(self.choix_grille)
 
     def choix_grille(self,i) :
         # pour ouvrir les vieux .txt
-        #name_grid = './test' + str(i + 1) + '.txt'
-        #fd = open(name_grid,'r')
+        # name_grid = './test' + str(i + 1) + '.txt'
+        # fd = open(name_grid,'r')
         # A = Board.load_from_json(fd)
 
-        # pour ouvrir les nouveaux .json
-
-
-        """name_grid = './test' + str(i + 1) + '.json'
-        A, = Board.load_from_json(name_grid)"""
-
-        #Pour ouvrir une grille aléatoire classique
-        A = Board.new_classic()
+        if i == 0:
+            A, = Board.load_from_json(GRIDS_PATH + 'grid 6x6.json')
+        elif i == 1:
+            A, = Board.load_from_json(GRIDS_PATH + 'grid 8x8.json')
+        elif i == 2:
+            A, = Board.load_from_json(GRIDS_PATH + 'grid 10x10.json')
+        elif i == 3:
+            A, = Board.load_from_json(GRIDS_PATH + 'grid 12x12.json')
+        elif i == 4:
+            A, = Board.load_from_json(GRIDS_PATH + 'grid 14x14.json')
+        elif i == 5:
+            A, = Board.load_from_json(GRIDS_PATH + 'grid 16x16.json')
+        else :
+            # Pour ouvrir une grille aléatoire classique
+            A = Board.new_classic()
 
         self.game.add_board(A)
-        print(self.game.get_state())
         self.number_moves = 0
         self.group = Robot_group()
-        print(self.game.get_state())
         self.game = Game(self.game.board, self.group, self.game.goal)
-        print(self.game.get_state())
         self.draw_grid()
 
 
@@ -288,7 +328,6 @@ class MainWindow(QMainWindow):
     def choix_nb_robots(self,i) :
         self.group = Robot_group()
         self.game = Game(self.game.board, self.group, self.game.goal)
-        print(self.game.get_state())
 
         self.nb_robots = i + 1
 
@@ -312,7 +351,6 @@ class MainWindow(QMainWindow):
             self.game = Game(self.game.board, self.group, self.game.goal)
             self.game.add_goal(goal)
             self.initial_game_state = self.game.get_state()
-            print(self.game.get_state())
             self.draw_robots_and_goal()
 
         else:
@@ -354,7 +392,6 @@ class MainWindow(QMainWindow):
 
     def onButtonEastClick(self, s):
         self.game.do_action(self.selected_robot + 'E')
-        print(self.game.get_state())
 
         self.draw_robots_and_goal()
         self.number_moves  += 1
@@ -365,7 +402,6 @@ class MainWindow(QMainWindow):
 
     def onButtonWestClick(self, s):
         self.game.do_action(self.selected_robot + 'W')
-        print(self.game.get_state())
         self.draw_robots_and_goal()
         self.number_moves  += 1
         self.print_moves_list()
@@ -375,7 +411,6 @@ class MainWindow(QMainWindow):
 
     def onButtonNorthClick(self, s):
         self.game.do_action(self.selected_robot + 'N')
-        print(self.game.get_state())
         self.draw_robots_and_goal()
         self.number_moves  += 1
         self.print_moves_list()
@@ -385,7 +420,6 @@ class MainWindow(QMainWindow):
 
     def onButtonSouthClick(self, s):
         self.game.do_action(self.selected_robot + 'S')
-        print(self.game.get_state())
         self.draw_robots_and_goal()
         self.number_moves  += 1
         self.print_moves_list()
@@ -420,19 +454,24 @@ class MainWindow(QMainWindow):
             self.print_moves_list()
             self.unprint_tip()
             self.draw_robots_and_goal()
-        print("number_moves = " + str(self.number_moves))
-        print(self.game.get_state())
 
+
+    def solve(self):
+        #tip_game contient le jeu courant, pour l'utiliser par le solveur
+
+        self.game.save_to_json('tip_game.json')
+        self.tip_game = Game.load_from_json('tip_game.json')
+        return(solveur(self.tip_game).find_solution())
 
     def onButtonTipClick(self, s):
-         #tip_game contient le jeu courant, pour l'utiliser par le solveur
-        self.game.save_to_json('tip_game.json')
 
-        self.tip_game = Game.load_from_json('tip_game.json')
-
-        solution = solveur(self.tip_game).find_solution()
-        self.tip = solution[1][0]
+        self.tip = self.solve()[1][0]
         self.print_tip()
+
+    def onButtonSolutionClick(self, s):
+        self.solution = self.solve()[1]
+        self.solution_label.setText("Pour gagner, vous auriez pu effectuer cette suite de mouvements : \n" + str(self.solution) + ".")
+        self.solution_label.setAlignment(Qt.AlignCenter | Qt.AlignVCenter)
 
     def game_is_won(self):
         self.exit_windows = Exit_window()
@@ -455,16 +494,28 @@ class Help_window(QDialog):
         super(Help_window, self).__init__()
         self.setWindowTitle("Aide")
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
+        self.resize(650, 400)
         help_msg = QPlainTextEdit()
 
-        text = "Ricochet Robots est un jeu de société créé par Alex Randolph en 1999"
-        text += "Le jeu est composé d'un plateau, de tuiles représentant chacune une des cases du plateau, et de pions appelés « robots »."
-        text += "La partie est décomposée en tours de jeu, un tour consistant à déplacer les robots sur un plateau afin d'en amener un sur l'une des cases du plateau."
-        text += "Les robots se déplacent en ligne droite et avancent toujours jusqu'au premier mur qu'ils rencontrent."
+        text = "<br /><h1>A propos du jeu</h1>"
+        text += "<p><a href='Ricochet Robots'></a>Ricochet Robots est un jeu de société créé par Alex Randolph en 1999</p>"
+        text += "<p>Le jeu est composé d'un plateau, de tuiles représentant chacune une des cases du plateau, et de pions appelés « robots »."
+        text += "La partie est décomposée en tours de jeu, un tour consistant à déplacer les robots sur un plateau afin d'en amener un sur l'une des cases du plateau.</p>"
+        text += "<p>Les robots se déplacent en ligne droite et avancent toujours jusqu'au premier mur qu'ils rencontrent.</p>"
+        text += "<br /><h1>Utilisation du jeu</h1>"
+        text += "<p>Pour débuter un nouveau jeu, vous pouvez : "
+        text += "<ul><li>jouer avec le plateau par défaut (très simple)</li>"
+        text += "<li>sélectionner un plateau existant ou générer un plateau aléatoire, réalisé comme dans le jeu physique :"
+        text += " on mélange 4 quarts de plateaux choisis au hasard</li></ul>"
+        text += "<br /><p>Pour sélectionner un robot, cliquez sur le bouton ou sur l'initiale de sa couleur (en anglais).</p>"
+        text += "<br /><p>pour déplacer un robot, utilisez les flèches du clavier ou les icônes de la fenêtre.</p>"
+        text += "<br /><p>Vous pouvez annuler la dernière action effectuée grâce au bouton Undo, ou obtenir un conseil grâce au bouton Tip.</p>"
+        text += "<br /><br /><br />"
+        text += "<p>Réalisé par Martin Canals, Théo Giani et François Aubin dans le cadre de l'UE projet Math-Info du DU CCIE</p>"
         help_msg.appendHtml(text)
         help_msg.setReadOnly(True)
         help_msg.setUndoRedoEnabled(False)
-        text = "<h1>Titre 1</h1> <h2>Titre 2</h2> <h3>Titre 3</h3> <h4>Titre 4</h4> <h5>Titre 5</h5> <h6>Titre 6</h6>"
+        text = ""
         help_msg.appendHtml(text)
         mainLayout = QVBoxLayout()
         mainLayout.addWidget(help_msg)
@@ -542,4 +593,5 @@ reste un problème : au 1er clic sur undo, il  supprime juste l'état courant ma
 
 fenêtre finale : bouton replay ne fonctionne pas : il redessine avant qu'on ait cliqué et sans fermer : RESOLU
 
+bouton solution ajouté.
 """
