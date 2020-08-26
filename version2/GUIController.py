@@ -7,8 +7,8 @@ Développeurs : AUBIN François DU CCIE, GIANI Théo L3
 """
 
 import sys
-from PySide2.QtWidgets import QApplication, QWidget, QMainWindow , QGridLayout, QLabel, QPushButton, QMainWindow, QAction, QToolBar, QVBoxLayout, QComboBox, QHBoxLayout, QCheckBox, QRadioButton, QDialog, QMessageBox, QDialogButtonBox, QPlainTextEdit, QFileDialog
-from PySide2.QtGui import QKeySequence, QPainter, QColor, QBrush, QPaintEvent, QFont, QPen, QIcon, QImage, QPixmap
+from PySide2.QtWidgets import QApplication, QWidget, QMainWindow , QLabel, QPushButton, QMainWindow, QAction, QToolBar, QVBoxLayout, QComboBox, QHBoxLayout, QCheckBox, QDialog, QDialogButtonBox, QPlainTextEdit, QFileDialog
+from PySide2.QtGui import QKeySequence, QPainter, QColor, QIcon, QPixmap
 from PySide2.QtCore import Qt, QPoint
 from directions import Direction, NORTH, SOUTH, EAST, WEST
 from rcolors import RColors
@@ -72,7 +72,7 @@ class MainWindow(QMainWindow):
         # layout2 contient les 3 widgets horizontaux de choix de grille, robots et aléa
         layout2.addWidget(self.grid_choice)
         layout2.addWidget(self.nb_robots_choice)
-        layout2.addWidget(widget3)
+        #layout2.addWidget(widget3)
         layout2.setContentsMargins(0,0,0,0)
         layout2.setSpacing(0)
         widget2 = QWidget()
@@ -380,7 +380,6 @@ class MainWindow(QMainWindow):
         goal_img_name = ICON_PATH + "/goal_"+ str(self.game.goal.color) +".png"
         painter.drawPixmap(QPoint(self.DIMENSION/ self.game.board.height * self.game.goal.position[1] , self.DIMENSION / self.game.board.width * self.game.goal.position[0]) , QPixmap(goal_img_name, format="png").scaled(self.DIMENSION / self.game.board.width * 0.9, self.DIMENSION/ self.game.board.height * 0.9))
 
-        #images = [QPixmap(ICON_PATH + "robot_"+ game.color_names[color] +".png", format="png")  for color in self.robots_colors]
         images = [QPixmap(ICON_PATH + "robot_"+ str(color)+".png", format="png")  for color in self.game.color_keys]
 
         for i, robot in enumerate(self.game.robots):
@@ -475,17 +474,19 @@ class MainWindow(QMainWindow):
 
     def game_is_won(self):
         self.exit_windows = Exit_window()
-        #self.exit_windows.show()
+
         self.exit_windows.exec_()
 
         if self.exit_windows.retStatus == 1:     #replay : on remet l'état initial du jeu
             self.game.set_state(self.initial_game_state)
+            self.print_moves_list()
             self.draw_robots_and_goal()
 
         elif self.exit_windows.retStatus == 2:   #new game : on choisit une grille aleatoire
             self.choix_grille(1)
             self.choix_nb_robots(3)
-            #self.draw_robots_and_goal()
+            self.print_moves_list()
+
         elif self.exit_windows.retStatus == 3:  #exit : on quitte le jeu
             exit()
 
@@ -574,24 +575,3 @@ game = Game.load_from_json(GAMES_PATH + DEFAULT_GAME)
 fen = MainWindow(game)
 fen.show()
 app.exec_()
-
-"""penser à afficher la liste des actions déjà faites
-
-charger un game par défaut depuis un json : fait
-générer une grille aléatoire : fait
-régler le problème des robots qui apparaissent au centre de la classic grid
-placer les robots (de manière aléatoire ou pas)
-jouer inclut déplacer un robot et annuler une action, recommencer la même partie
-
-dans le rapport, rajouter les recherches sur les réseaux de neurones, le qlearning( sur une grille avec un point de départ)
-
-bouton undo : fait mais ne fonctionne pas : le get_state() renvoie du vide : pas la bonne instance de game??
-corrigé : il faut créer le game avec un group plein, sinon quand on crée un nouveau robot,
-il ne met pas à jour game.color_keys.
-
-reste un problème : au 1er clic sur undo, il  supprime juste l'état courant mais ne revient pas en arrière. : RESOLU
-
-fenêtre finale : bouton replay ne fonctionne pas : il redessine avant qu'on ait cliqué et sans fermer : RESOLU
-
-bouton solution ajouté.
-"""
