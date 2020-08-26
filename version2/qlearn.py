@@ -32,6 +32,10 @@ class Qlearner :
             Sino la récompense est 0
             """
 
+            Si l'action ne fait pas changer d'état la récompense est -1
+            Si l'action fait aboutir à un état
             state = self.int_to_state(state_index)
+
+
 
 
