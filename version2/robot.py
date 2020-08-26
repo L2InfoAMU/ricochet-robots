@@ -39,6 +39,9 @@ class Robot :
         self.group.add_robot(self)
 
     def __str__(self) :
+        """ renvoie une représentation du robot sous forme de chaîne de caractères
+            "R" : [x,y]
+        """
 
         return f'"{str(self.color)}" : {str(list(self.position))}'
 
