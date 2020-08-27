@@ -162,10 +162,15 @@ class MainWindow(QMainWindow):
         open_game_action.triggered.connect(self.open_game)
         self.file_menu.addAction(open_game_action)
 
-        # Save QAction
-        save_action = QAction("Enregistrer cette grille", self)
-        save_action.triggered.connect(self.save_grid)
-        self.file_menu.addAction(save_action)
+        # Save_grid QAction
+        save_grid_action = QAction("Enregistrer cette grille", self)
+        save_grid_action.triggered.connect(self.save_grid)
+        self.file_menu.addAction(save_grid_action)
+
+        # Save_game QAction
+        save_game_action = QAction("Enregistrer ce jeu", self)
+        save_game_action.triggered.connect(self.save_game)
+        self.file_menu.addAction(save_game_action)
 
         # Exit QAction
         exit_action = QAction("Quitter", self)
@@ -302,6 +307,7 @@ class MainWindow(QMainWindow):
         self.number_moves = 0
         self.group = Robot_group()
         self.game = Game(self.game.board, self.group, self.game.goal)
+        self.unprint_moves_list()
         self.draw_grid()
 
     def open_game(self):
@@ -310,6 +316,7 @@ class MainWindow(QMainWindow):
         filename, filter = QFileDialog.getOpenFileName(self , 'selectionner un fichier contenant un jeu','./games','*.json')
         self.game = Game.load_from_json(filename)
         self.number_moves = 0
+        self.unprint_moves_list()
         self.draw_robots_and_goal()
 
     def save_grid(self):
@@ -319,11 +326,23 @@ class MainWindow(QMainWindow):
         if filename:
             self.game.board.save_as_json(filename)
 
+    def save_game(self):
+        """ Ouvre une boîte de dialogue permettant d'enregistrer le jeu actuel sur le disque dur"""
+
+        filename, _ = QFileDialog.getSaveFileName(self, "Save game As","","JSON (*.JSON *.json);;" "All files(*.*)", )
+        if filename:
+            self.game.save_to_json(filename)
+
 
     def print_moves_list(self):
         """ Affichage de la liste des mouvements effectués dans le label "moves_label" """
 
         self.moves_label.setText("Mouvements effectués : \n"  + str(self.game.moves_list).replace(', ', '\n'))
+        self.moves_label.setAlignment(Qt.AlignCenter | Qt.AlignVCenter)
+
+    def unprint_moves_list(self):
+        """ réinitialisation du label "moves_label" pour cacher la liste des mouvements effectués. """
+        self.moves_label.setText(" ")
         self.moves_label.setAlignment(Qt.AlignCenter | Qt.AlignVCenter)
 
     def print_tip(self):
