@@ -4,6 +4,7 @@
 Chef de projet : CANALS Martin L3
 Développeurs : AUBIN François DU CCIE, GIANI Théo L3
 
+Ce contrôleur en ligne de commande permet de jouer à Ricochet Robot sans voir la grille de jeu. Il permet de tester le moteur interne du jeu.
 """
 
 

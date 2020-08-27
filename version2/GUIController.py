@@ -4,6 +4,8 @@
 Chef de projet : CANALS Martin L3
 Développeurs : AUBIN François DU CCIE, GIANI Théo L3
 
+Ce contrôleur graphique permet de jouer à ricochet robot de manière complète, par appel au moteur interne du jeu.
+
 """
 
 import sys
@@ -31,6 +33,40 @@ class MainWindow(QMainWindow):
     nb_robots = 0
 
     def __init__(self, game):
+        """
+        La fenêtre principale est initialisée avec l'organisation suivante :
+
+        +--------------------------------------------------------------------------+
+        |              self.menu = self.menuBar()                                  |
+        |                                                                          |
+        +--------------------------------------------------------------------------+
+        |       toolbar = QToolBar()  (déplacement/sélection des robots,           |
+        |                     boutons annuler, indice et solution)                 |
+        +------------------------layout0 = QHBoxLayout()---------------------------+
+        |    layout2 = QHBoxLayout()                  +      moves_label           |
+        | l                    +                      |                            |
+        | a  grid_choice       |  nb_robots_choice    |     (affichage des         |
+        +-y--------------------+----------------------+  L                         |
+        | o                                           |  a  mouvements effectués)  |
+        | u                                           |  y                         |
+        | t                                           +--o-------------------------+
+        | =          label = QLabel()                 |  u                         |
+        | Q                                           |  t     tip_label           |
+        | V          contient la grille de jeu        |  3                         |
+        | B                                           |      (Affichage de l'indice|
+        | o                                           |  =                         |
+        | x                                           |      si demandé)           |
+        | L                                           |  Q                         |
+        | a                                           +--V+------------------------+
+        | y                                           |  B     solution_label      |
+        | o                                           |  o                         |
+        | u                                           |  x   (Affichage de la      |
+        | t                                           |                            |
+        |                                             |      solution si demandée) |
+        +---------------------------------------------+----------------------------+
+
+        """
+
         super().__init__()
         self.game = game
         self.initial_game_state = self.game.get_state()
@@ -59,9 +95,7 @@ class MainWindow(QMainWindow):
         self.choice_of_grid_menu()
 
         # choix du nombre de robots
-
         self.nb_robots_choice_menu()
-
 
         # CheckBox placement aléatoire
         widget3 = QCheckBox("Placement aléatoire des robots et de l'objectif")
@@ -142,17 +176,16 @@ class MainWindow(QMainWindow):
         #Le robot rouge est sélectionné par défaut
         self.selected_robot = 'R'
 
-        #self.choix_nb_robots(3)
         self.draw_robots_and_goal()
 
     def help(self):
+        """ Ouvre une fenêtre d'aide"""
         self.help_windows = Help_window()
-        #self.exit_windows.show()
         self.help_windows.exec_()
 
     def toolbar_menus(self):
-        """ Affiche la barre d'icônes permettant de diriger les robots et de les sélectionner
-        """
+        """ Affiche la barre d'icônes permettant de diriger les robots et de les sélectionner"""
+
         # Toolbar
         toolbar = QToolBar("Game toolbar")
         self.addToolBar(toolbar)
@@ -255,6 +288,8 @@ class MainWindow(QMainWindow):
         toolbar.addWidget(button_solution)
 
     def open_grid(self):
+        """ Ouvre une boîte de dialogue permettant de charger une grille existante sur le disque dur"""
+
         filename, filter = QFileDialog.getOpenFileName(self , 'selectionner un fichier contenant une grille','./grids','*.json')
         board, = Board.load_from_json(filename)
         self.game.add_board(board)
@@ -264,6 +299,7 @@ class MainWindow(QMainWindow):
         self.draw_grid()
 
     def save_grid(self):
+        """ Ouvre une boîte de dialogue permettant d'enregistrer la grille affichée sur le disque dur"""
 
         filename, _ = QFileDialog.getSaveFileName(self, "Save Grid As","","JSON (*.JSON *.json);;" "All files(*.*)", )
         if filename:
@@ -271,25 +307,35 @@ class MainWindow(QMainWindow):
 
 
     def print_moves_list(self):
+        """ Affichage de la liste des mouvements effectués dans le label "moves_label" """
+
         self.moves_label.setText("Mouvements effectués : \n"  + str(self.game.moves_list).replace(', ', '\n'))
         self.moves_label.setAlignment(Qt.AlignCenter | Qt.AlignVCenter)
 
     def print_tip(self):
+        """ Affichage du conseil généré par le solveur  dans le label "tip_label" """
+
         self.tip_label.setText("Et si vous essayiez ce mouvement : \n" + str(self.tip) + " ?")
         self.tip_label.setAlignment(Qt.AlignCenter | Qt.AlignVCenter)
 
     def unprint_tip(self):
+        """ réinitialisation du label "tip_label" pour cacher le conseil généré par le solveur. """
         self.tip_label.setText(" ")
         self.tip_label.setAlignment(Qt.AlignCenter | Qt.AlignVCenter)
         self.solution_label.setText(" ")
 
     def choice_of_grid_menu(self):
+
         self.grid_choice = QComboBox()
         self.grid_choice.insertItems(0,("Grille 6x6","Grille 8x8","Grille 10x10" ,"Grille 12x12" ,"Grille 14x14", "Grille 16x16","Grille aléatoire 16x16"))
         self.grid_choice.setGeometry(0,0,180,40)
         self.grid_choice.activated.connect(self.choix_grille)
 
     def choix_grille(self,i) :
+        """
+        Lors du choix d'une nouvelle grille, le jeu est réinitialisé et redessiné, les robots et l'objectif sont masqués.
+        """
+
         # pour ouvrir les vieux .txt
         # name_grid = './test' + str(i + 1) + '.txt'
         # fd = open(name_grid,'r')
@@ -326,6 +372,10 @@ class MainWindow(QMainWindow):
         self.nb_robots_choice.activated.connect(self.choix_nb_robots)
 
     def choix_nb_robots(self,i) :
+        """
+        Les robots et l'objectif sont placés aléatoirement. L'extension
+        """
+
         self.group = Robot_group()
         self.game = Game(self.game.board, self.group, self.game.goal)
 
@@ -359,7 +409,9 @@ class MainWindow(QMainWindow):
             fp.close()
 
     def draw_grid(self):
-
+        """
+        Dessine la grille de jeu en juxtaposant les images contenant chaque case. Chaque image est redimensionnée et ajustée à la taille de la grille.
+        """
         painter = QPainter(self.label.pixmap())
         names=["Empty","N","E","EN","S","NS","ES","ENS","W","NW","EW","ENW","SW","NSW","ESW","ENSW"]
         images = [QPixmap(IMAGES_PATH + name+".bmp", format="bmp")  for name in names]
@@ -426,7 +478,8 @@ class MainWindow(QMainWindow):
         if self.game.is_won():
             self.game_is_won()
 
-    def placer_aleatoirement(self):   # inverse la sélection de la checkBox
+    def placer_aleatoirement(self):
+        """ inverse la sélection de la checkBox """
         self.placement_aleatoire = not(self.placement_aleatoire)
 
     def onButtonRedClick(self, s):
@@ -446,7 +499,7 @@ class MainWindow(QMainWindow):
             self.selected_robot = 'Y'
 
     def onButtonUndoClick(self, s):
-
+        """ Annule le dernier coup effectué """
         if self.number_moves != 0:
             self.game.undo()
             self.number_moves  -= 1
@@ -456,14 +509,15 @@ class MainWindow(QMainWindow):
 
 
     def solve(self):
-        #tip_game contient le jeu courant, pour l'utiliser par le solveur
+        """tip_game contient une copie du jeu courant, pour l'utiliser par le solveur"""
 
         self.game.save_to_json('tip_game.json')
         self.tip_game = Game.load_from_json('tip_game.json')
         return(solveur(self.tip_game).find_solution())
 
     def onButtonTipClick(self, s):
-
+    """ La solution renvoyée par le solveur est de la forme (True/False, liste d'actions à effectuer).
+        On récupère ici la première action."""
         self.tip = self.solve()[1][0]
         self.print_tip()
 
@@ -473,7 +527,12 @@ class MainWindow(QMainWindow):
         self.solution_label.setAlignment(Qt.AlignCenter | Qt.AlignVCenter)
 
     def game_is_won(self):
-        self.exit_windows = Exit_window()
+        """ Fonction lancée quand l'objectif est atteint. On génère une fonction exit_windows dont le code de retour 1, 2 ou 3 valide le choix :
+        1 : replay : on remet l'état initial du jeu
+        2 : new game : on choisit une grille aleatoire
+        3 : exit : on quitte le jeu.
+        """
+        self.exit_windows = Exit_window(self.number_moves)
 
         self.exit_windows.exec_()
 
@@ -524,13 +583,17 @@ class Help_window(QDialog):
 
 
 class Exit_window(QDialog):
-    #Fenêtre apparaissant lorsqu'on a gagné
+    """ Fenêtre apparaissant lorsqu'on a gagné. On génère une fonction exit_windows dont le code de retour 1, 2 ou 3 valide le choix :
+    1 : replay : on remet l'état initial du jeu
+    2 : new game : on choisit une grille aleatoire
+    3 : exit : on quitte le jeu.
+    """
 
-    def __init__(self):
+    def __init__(self, number_moves):
         super(Exit_window, self).__init__()
         self.setWindowTitle("Bravo !")
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
-        self.end_msg = QLabel("Vous avez gagné en  coups ! Que voulez-vous faire ?")  #" + str(main_game.number_moves) + "
+        self.end_msg = QLabel("Vous avez gagné en " + str(number_moves) + " coups ! Que voulez-vous faire ?")
         mainLayout = QVBoxLayout()
 
         replay_button = QPushButton("Rejouer cette partie")
@@ -548,7 +611,6 @@ class Exit_window(QDialog):
         mainLayout.addWidget(self.end_msg)
         mainLayout.addWidget(buttonBox)
         self.setLayout(mainLayout)
-        # define window		xLoc,yLoc,xDim,yDim
         self.setGeometry(	250, 250, 0, 50)
 
 
@@ -566,12 +628,10 @@ class Exit_window(QDialog):
         self.close()
 
 
+
 app = QApplication(sys.argv)
 group = Robot_group()
-
 game = Game.load_from_json(GAMES_PATH + DEFAULT_GAME)
-
-#game = Game(None, group, None)
 fen = MainWindow(game)
 fen.show()
 app.exec_()
