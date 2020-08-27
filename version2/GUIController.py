@@ -149,12 +149,18 @@ class MainWindow(QMainWindow):
         play_action.triggered.connect(self.draw_grid)
         self.file_menu.addAction(play_action)
 
-        # Open QAction
-        open_action = QAction("Ouvrir une grille", self)
-        open_action.setShortcut('Ctrl+O')
+        # Open_grid QAction
+        open_grid_action = QAction("Ouvrir une grille", self)
+        open_grid_action.setShortcut('Ctrl+O')
         self.number_moves = 0
-        open_action.triggered.connect(self.open_grid)
-        self.file_menu.addAction(open_action)
+        open_grid_action.triggered.connect(self.open_grid)
+        self.file_menu.addAction(open_grid_action)
+
+        # Open_game QAction
+        open_game_action = QAction("Ouvrir un jeu", self)
+        self.number_moves = 0
+        open_game_action.triggered.connect(self.open_game)
+        self.file_menu.addAction(open_game_action)
 
         # Save QAction
         save_action = QAction("Enregistrer cette grille", self)
@@ -297,6 +303,14 @@ class MainWindow(QMainWindow):
         self.group = Robot_group()
         self.game = Game(self.game.board, self.group, self.game.goal)
         self.draw_grid()
+
+    def open_game(self):
+        """ Ouvre une boîte de dialogue permettant de charger un jeu existant sur le disque dur"""
+
+        filename, filter = QFileDialog.getOpenFileName(self , 'selectionner un fichier contenant un jeu','./games','*.json')
+        self.game = Game.load_from_json(filename)
+        self.number_moves = 0
+        self.draw_robots_and_goal()
 
     def save_grid(self):
         """ Ouvre une boîte de dialogue permettant d'enregistrer la grille affichée sur le disque dur"""
@@ -516,7 +530,7 @@ class MainWindow(QMainWindow):
         return(solveur(self.tip_game).find_solution())
 
     def onButtonTipClick(self, s):
-    """ La solution renvoyée par le solveur est de la forme (True/False, liste d'actions à effectuer).
+        """ La solution renvoyée par le solveur est de la forme (True/False, liste d'actions à effectuer).
         On récupère ici la première action."""
         self.tip = self.solve()[1][0]
         self.print_tip()
