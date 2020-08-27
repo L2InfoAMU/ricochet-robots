@@ -70,6 +70,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.game = game
         self.initial_game_state = self.game.get_state()
+        self.number_moves = 0
         self.setWindowTitle("Robot Ricochet")
         self.resize(self.DIMENSION + 150, self.DIMENSION + 100)
 
@@ -145,20 +146,17 @@ class MainWindow(QMainWindow):
 
         # Play QAction
         play_action = QAction("Réinitialiser !", self)
-        self.number_moves = 0
-        play_action.triggered.connect(self.draw_grid)
+        play_action.triggered.connect(self.replay)
         self.file_menu.addAction(play_action)
 
         # Open_grid QAction
         open_grid_action = QAction("Ouvrir une grille", self)
         open_grid_action.setShortcut('Ctrl+O')
-        self.number_moves = 0
         open_grid_action.triggered.connect(self.open_grid)
         self.file_menu.addAction(open_grid_action)
 
         # Open_game QAction
         open_game_action = QAction("Ouvrir un jeu", self)
-        self.number_moves = 0
         open_game_action.triggered.connect(self.open_game)
         self.file_menu.addAction(open_game_action)
 
@@ -187,6 +185,14 @@ class MainWindow(QMainWindow):
         #Le robot rouge est sélectionné par défaut
         self.selected_robot = 'R'
 
+        self.draw_robots_and_goal()
+
+    def replay(self):
+        """ on remet l'état initial du jeu """
+        self.game.set_state(self.initial_game_state)
+        self.game.moves_list = []
+        self.unprint_moves_list()
+        self.number_moves = 0
         self.draw_robots_and_goal()
 
     def help(self):
@@ -570,14 +576,12 @@ class MainWindow(QMainWindow):
         self.exit_windows.exec_()
 
         if self.exit_windows.retStatus == 1:     #replay : on remet l'état initial du jeu
-            self.game.set_state(self.initial_game_state)
-            self.print_moves_list()
-            self.draw_robots_and_goal()
+            self.replay()
 
         elif self.exit_windows.retStatus == 2:   #new game : on choisit une grille aleatoire
             self.choix_grille(1)
             self.choix_nb_robots(3)
-            self.print_moves_list()
+            self.unprint_moves_list()
 
         elif self.exit_windows.retStatus == 3:  #exit : on quitte le jeu
             exit()
