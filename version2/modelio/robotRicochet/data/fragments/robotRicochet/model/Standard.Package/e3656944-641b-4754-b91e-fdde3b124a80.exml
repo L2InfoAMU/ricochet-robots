@@ -334,6 +334,9 @@
         <COMPID name="Board" mc="Standard.Class" uid="199eb221-04dd-4166-b467-63548fc5173b"/>
         <COMPID name="Robot_group" mc="Standard.Class" uid="53f468b6-14a0-43dc-9fd9-1442759db370"/>
         <COMPID name="dictionnary" mc="Standard.Class" uid="7a6a529f-8782-42c3-9d76-f4795e061495"/>
+        <COMPID name="Game" mc="Standard.Class" uid="245c995b-e1e5-47e9-87ce-6ee7d4249cd7"/>
+        <COMPID name="Goal" mc="Standard.Class" uid="fbd52c96-4f36-4566-8909-ea763972e483"/>
+        <COMPID name="State" mc="Standard.DataType" uid="3fd2cbc9-1862-431f-ab7a-d0a1e0fbf277"/>
       </COMP>
       <COMP relation="Product">
         <COMPID name="robotricochet Use Case diagram" mc="Standard.UseCaseDiagram" uid="1d1153a0-41b1-4548-a518-1077e990b131"/>

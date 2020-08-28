@@ -6,7 +6,7 @@
     <ATTRIBUTES>
       <ATT name="IsActive">false</ATT>
       <ATT name="IsMain">false</ATT>
-      <ATT name="IsElementary">false</ATT>
+      <ATT name="IsElementary">true</ATT>
       <ATT name="IsAbstract">false</ATT>
       <ATT name="IsLeaf">false</ATT>
       <ATT name="IsRoot">false</ATT>
@@ -17,7 +17,7 @@
     <DEPENDENCIES>
       <COMP relation="OwnedOperation">
         <OBJECT>
-          <ID name="init" mc="Standard.Operation" uid="b3aedef5-380c-4dee-9841-3928e7e17d75"/>
+          <ID name="Robot" mc="Standard.Operation" uid="b3aedef5-380c-4dee-9841-3928e7e17d75"/>
           <ATTRIBUTES>
             <ATT name="Concurrency">false</ATT>
             <ATT name="Final">false</ATT>
@@ -25,7 +25,7 @@
             <ATT name="Visibility">Public</ATT>
             <ATT name="IsClass">false</ATT>
             <ATT name="IsAbstract">false</ATT>
-            <ATT name="Name"><![CDATA[init]]></ATT>
+            <ATT name="Name"><![CDATA[Robot]]></ATT>
             <ATT name="status">1970354901745664</ATT>
           </ATTRIBUTES>
           <DEPENDENCIES>
@@ -249,7 +249,7 @@
           </DEPENDENCIES>
         </OBJECT>
         <OBJECT>
-          <ID name="id" mc="Standard.Attribute" uid="31669061-f052-444e-9490-6bd0c944c100"/>
+          <ID name="color" mc="Standard.Attribute" uid="31669061-f052-444e-9490-6bd0c944c100"/>
           <ATTRIBUTES>
             <ATT name="TypeConstraint"></ATT>
             <ATT name="Value"></ATT>
@@ -263,12 +263,14 @@
             <ATT name="Visibility">Public</ATT>
             <ATT name="IsClass">false</ATT>
             <ATT name="IsAbstract">false</ATT>
-            <ATT name="Name"><![CDATA[id]]></ATT>
+            <ATT name="Name"><![CDATA[color]]></ATT>
             <ATT name="status">1970354901745664</ATT>
           </ATTRIBUTES>
           <DEPENDENCIES>
             <LINK relation="Type">
-              <FOREIGNID name="integer" mc="Standard.DataType" uid="00000004-0000-0009-0000-000000000000"/>
+              <REFOBJ>
+                <ID name="RColors" mc="Standard.Enumeration" uid="0334f49a-ab6d-46f4-8258-eaa493e9bd0a"/>
+              </REFOBJ>
             </LINK>
             <COMP relation="ConstraintDefinition">
               <OBJECT>
@@ -322,6 +324,48 @@
           <DEPENDENCIES>
             <LINK relation="Type">
               <FOREIGNID name="string" mc="Standard.DataType" uid="00000004-0000-000d-0000-000000000000"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+      </COMP>
+      <COMP relation="DependsOnDependency">
+        <OBJECT>
+          <ID name="" mc="Standard.Usage" uid="a7fc0124-7a5d-4ee2-bc52-b82e7ff214e1"/>
+          <ATTRIBUTES>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="DependsOn">
+              <REFOBJ>
+                <ID name="Direction" mc="Standard.Enumeration" uid="b5f898d4-e785-499a-a08d-9066ae07bee8"/>
+              </REFOBJ>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="Standard.Usage" uid="8d95b7eb-f4d3-4337-9edf-a0c01bc519f0"/>
+          <ATTRIBUTES>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="DependsOn">
+              <ID name="position" mc="Standard.DataType" uid="0fedf823-55f5-45be-806a-0e5860ef8df3"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="Standard.Usage" uid="89394c36-97ab-4a41-9477-4155bd5ac32f"/>
+          <ATTRIBUTES>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="DependsOn">
+              <REFOBJ>
+                <ID name="RColors" mc="Standard.Enumeration" uid="0334f49a-ab6d-46f4-8258-eaa493e9bd0a"/>
+              </REFOBJ>
             </LINK>
           </DEPENDENCIES>
         </OBJECT>

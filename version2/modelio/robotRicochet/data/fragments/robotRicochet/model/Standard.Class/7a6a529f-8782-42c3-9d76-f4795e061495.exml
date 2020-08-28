@@ -6,7 +6,7 @@
     <ATTRIBUTES>
       <ATT name="IsActive">false</ATT>
       <ATT name="IsMain">false</ATT>
-      <ATT name="IsElementary">false</ATT>
+      <ATT name="IsElementary">true</ATT>
       <ATT name="IsAbstract">false</ATT>
       <ATT name="IsLeaf">false</ATT>
       <ATT name="IsRoot">false</ATT>
