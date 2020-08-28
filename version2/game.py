@@ -92,6 +92,7 @@ class Game :
         """
         for r_color, position in zip(self.color_keys, state) :
             self.robots[r_color].position = position
+        self.moves_list = []
 
     def state_is_won(self, state) :
         """
