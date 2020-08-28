@@ -26,6 +26,9 @@ class solveur :
 
     @staticmethod
     def action_sequence_from_pred(pred, final_state, initial_state) :
+        """ cette fonction reconstruit la sequence d'action menant de l'etat initial à l'etat final
+        en utilisant le tableau des predecesseurs
+        """
         action_sequence = deque()
 
         state = final_state
@@ -35,6 +38,9 @@ class solveur :
         return list(action_sequence)
 
     def find_solution(self) :
+        """
+        cette méthode détermine une solution utilisant un minimum d'actions
+        """
         actions = self.game.actions_list()
         queue = deque()
         empty_queue = deque()

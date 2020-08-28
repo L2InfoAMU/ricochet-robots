@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="robotRicochet" version="4">
+  <OBJECT>
+    <ID name="robotRicochet" mc="Infrastructure.DiagramSet" uid="66a223d2-4005-4f36-afed-1829faf7c61b"/>
+    <PID name="robotRicochet" mc="Standard.Project" uid="2e13e93e-3af3-4339-9d94-67740042f5ec"/>
+    <ATTRIBUTES>
+      <ATT name="Name"><![CDATA[robotRicochet]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES></DEPENDENCIES>
+  </OBJECT>
+</EXT>
