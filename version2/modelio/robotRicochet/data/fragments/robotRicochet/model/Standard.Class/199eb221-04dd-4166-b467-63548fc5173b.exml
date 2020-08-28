@@ -200,8 +200,8 @@
                 <ID name="position" mc="Standard.Parameter" uid="3e0f93c0-0bf8-4523-9010-6a133d02acc0"/>
                 <ATTRIBUTES>
                   <ATT name="ParameterPassing">In</ATT>
-                  <ATT name="MultiplicityMin"><![CDATA[2]]></ATT>
-                  <ATT name="MultiplicityMax"><![CDATA[2]]></ATT>
+                  <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
+                  <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
                   <ATT name="TypeConstraint"></ATT>
                   <ATT name="DefaultValue"></ATT>
                   <ATT name="IsOrdered">false</ATT>
@@ -214,7 +214,7 @@
                 </ATTRIBUTES>
                 <DEPENDENCIES>
                   <LINK relation="Type">
-                    <FOREIGNID name="integer" mc="Standard.DataType" uid="00000004-0000-0009-0000-000000000000"/>
+                    <ID name="position" mc="Standard.DataType" uid="0fedf823-55f5-45be-806a-0e5860ef8df3"/>
                   </LINK>
                 </DEPENDENCIES>
               </OBJECT>

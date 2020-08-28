@@ -332,6 +332,8 @@
         </OBJECT>
         <COMPID name="Cell" mc="Standard.Class" uid="a621bdd3-39e7-40a9-b6a2-447fb8abd7bd"/>
         <COMPID name="Board" mc="Standard.Class" uid="199eb221-04dd-4166-b467-63548fc5173b"/>
+        <COMPID name="Robot_group" mc="Standard.Class" uid="53f468b6-14a0-43dc-9fd9-1442759db370"/>
+        <COMPID name="dictionnary" mc="Standard.Class" uid="7a6a529f-8782-42c3-9d76-f4795e061495"/>
       </COMP>
       <COMP relation="Product">
         <COMPID name="robotricochet Use Case diagram" mc="Standard.UseCaseDiagram" uid="1d1153a0-41b1-4548-a518-1077e990b131"/>
