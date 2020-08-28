@@ -321,6 +321,7 @@ class MainWindow(QMainWindow):
 
         filename, filter = QFileDialog.getOpenFileName(self , 'selectionner un fichier contenant un jeu','./games','*.json')
         self.game = Game.load_from_json(filename)
+        self.initial_game_state = self.game.get_state()
         self.number_moves = 0
         self.unprint_moves_list()
         self.draw_robots_and_goal()
