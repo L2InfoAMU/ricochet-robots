@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
-<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Lecture" version="4">
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="écriture du jeu au format JSON" version="4">
   <OBJECT>
-    <ID name="Lecture" mc="Standard.UseCase" uid="a86847d4-f428-4ecf-8955-845fa3c31f38"/>
+    <ID name="écriture du jeu au format JSON" mc="Standard.UseCase" uid="a86847d4-f428-4ecf-8955-845fa3c31f38"/>
     <PID name="robotricochet" mc="Standard.Package" uid="e3656944-641b-4754-b91e-fdde3b124a80"/>
     <ATTRIBUTES>
       <ATT name="IsElementary">false</ATT>
@@ -9,7 +9,7 @@
       <ATT name="IsLeaf">false</ATT>
       <ATT name="IsRoot">false</ATT>
       <ATT name="Visibility">Public</ATT>
-      <ATT name="Name"><![CDATA[Lecture]]></ATT>
+      <ATT name="Name"><![CDATA[écriture du jeu au format JSON]]></ATT>
       <ATT name="status">1970354901745664</ATT>
     </ATTRIBUTES>
     <DEPENDENCIES>

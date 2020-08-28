@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
-<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Charger un jeu depuis un fichier" version="4">
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Sélectionner une direction" version="4">
   <OBJECT>
-    <ID name="Charger un jeu depuis un fichier" mc="Standard.UseCase" uid="2a5646d5-2839-4e7f-be66-662e91c77916"/>
+    <ID name="Sélectionner une direction" mc="Standard.UseCase" uid="0c2a5cae-bcb1-41d5-b24f-7378eb5a9387"/>
     <PID name="robotricochet" mc="Standard.Package" uid="e3656944-641b-4754-b91e-fdde3b124a80"/>
     <ATTRIBUTES>
       <ATT name="IsElementary">false</ATT>
@@ -9,30 +9,13 @@
       <ATT name="IsLeaf">false</ATT>
       <ATT name="IsRoot">false</ATT>
       <ATT name="Visibility">Public</ATT>
-      <ATT name="Name"><![CDATA[Charger un jeu depuis un fichier]]></ATT>
+      <ATT name="Name"><![CDATA[Sélectionner une direction]]></ATT>
       <ATT name="status">1970354901745664</ATT>
     </ATTRIBUTES>
     <DEPENDENCIES>
-      <COMP relation="Used">
-        <OBJECT>
-          <ID name="UseCaseDependency" mc="Standard.UseCaseDependency" uid="4e9b0879-8e46-4f07-8aa7-89666f52db5f"/>
-          <ATTRIBUTES>
-            <ATT name="Name"><![CDATA[UseCaseDependency]]></ATT>
-            <ATT name="status">1970354901745664</ATT>
-          </ATTRIBUTES>
-          <DEPENDENCIES>
-            <LINK relation="Target">
-              <ID name="Lire un jeu au format JSON" mc="Standard.UseCase" uid="44609431-263b-425a-9358-f820f604a6ae"/>
-            </LINK>
-            <LINK relation="Extension">
-              <FOREIGNID name="include" mc="Infrastructure.Stereotype" uid="00000000-0000-9c49-0000-000000000000"/>
-            </LINK>
-          </DEPENDENCIES>
-        </OBJECT>
-      </COMP>
       <COMP relation="Descriptor">
         <OBJECT>
-          <ID name="" mc="Infrastructure.Note" uid="58edff9c-e3a5-43c4-a228-46c9785082d5"/>
+          <ID name="" mc="Infrastructure.Note" uid="72086f5e-5fe1-4992-b4f8-aa3d32909bde"/>
           <ATTRIBUTES>
             <ATT name="Content"><![CDATA[...]]></ATT>
             <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
@@ -46,7 +29,7 @@
           </DEPENDENCIES>
         </OBJECT>
         <OBJECT>
-          <ID name="" mc="Infrastructure.Note" uid="4a9d4a78-06e6-4d61-91e0-02f1604ca2f8"/>
+          <ID name="" mc="Infrastructure.Note" uid="39edf16c-22f8-4d93-bf22-3d42d80592f6"/>
           <ATTRIBUTES>
             <ATT name="Content"><![CDATA[...]]></ATT>
             <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
@@ -60,7 +43,7 @@
           </DEPENDENCIES>
         </OBJECT>
         <OBJECT>
-          <ID name="" mc="Infrastructure.Note" uid="8a34cc84-4da2-4f63-b466-46a1c4e9f680"/>
+          <ID name="" mc="Infrastructure.Note" uid="9fd37869-da99-42e4-b950-591d4692ddc5"/>
           <ATTRIBUTES>
             <ATT name="Content"><![CDATA[...]]></ATT>
             <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
@@ -74,7 +57,7 @@
           </DEPENDENCIES>
         </OBJECT>
         <OBJECT>
-          <ID name="" mc="Infrastructure.Note" uid="2a89dcb1-b9ae-4d77-b709-19263922db78"/>
+          <ID name="" mc="Infrastructure.Note" uid="cd32a653-30d1-4783-9920-d161bf3e0e79"/>
           <ATTRIBUTES>
             <ATT name="Content"><![CDATA[...]]></ATT>
             <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
@@ -88,7 +71,7 @@
           </DEPENDENCIES>
         </OBJECT>
         <OBJECT>
-          <ID name="" mc="Infrastructure.Note" uid="c3312da6-5e07-410c-95b3-ff2c34ae72ba"/>
+          <ID name="" mc="Infrastructure.Note" uid="56e2b6eb-5ee2-4eee-a476-c1a4f91c54e3"/>
           <ATTRIBUTES>
             <ATT name="Content"><![CDATA[...]]></ATT>
             <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
@@ -98,21 +81,6 @@
           <DEPENDENCIES>
             <LINK relation="Model">
               <FOREIGNID name="postcondition" mc="Infrastructure.NoteType" uid="00bc0b8c-0000-2517-0000-000000000000"/>
-            </LINK>
-          </DEPENDENCIES>
-        </OBJECT>
-        <OBJECT>
-          <ID name="" mc="Infrastructure.Note" uid="3237bb26-7e3c-40bb-9ec7-b9781cf8e94b"/>
-          <ATTRIBUTES>
-            <ATT name="Content"><![CDATA[<p>Le joueur sélectionne un fichier de type json contenant la description d'un jeu </p>
-]]></ATT>
-            <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
-            <ATT name="Name"></ATT>
-            <ATT name="status">1970354901745664</ATT>
-          </ATTRIBUTES>
-          <DEPENDENCIES>
-            <LINK relation="Model">
-              <FOREIGNID name="description" mc="Infrastructure.NoteType" uid="00000000-0000-3e81-0000-000000000000"/>
             </LINK>
           </DEPENDENCIES>
         </OBJECT>

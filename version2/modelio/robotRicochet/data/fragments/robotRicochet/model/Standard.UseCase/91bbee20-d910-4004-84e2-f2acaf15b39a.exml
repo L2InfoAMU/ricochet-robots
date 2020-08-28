@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
-<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="partie non standard" version="4">
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Charger une grille depuis un fichier" version="4">
   <OBJECT>
-    <ID name="partie non standard" mc="Standard.UseCase" uid="91bbee20-d910-4004-84e2-f2acaf15b39a"/>
+    <ID name="Charger une grille depuis un fichier" mc="Standard.UseCase" uid="91bbee20-d910-4004-84e2-f2acaf15b39a"/>
     <PID name="robotricochet" mc="Standard.Package" uid="e3656944-641b-4754-b91e-fdde3b124a80"/>
     <ATTRIBUTES>
       <ATT name="IsElementary">false</ATT>
@@ -9,7 +9,7 @@
       <ATT name="IsLeaf">false</ATT>
       <ATT name="IsRoot">false</ATT>
       <ATT name="Visibility">Public</ATT>
-      <ATT name="Name"><![CDATA[partie non standard]]></ATT>
+      <ATT name="Name"><![CDATA[Charger une grille depuis un fichier]]></ATT>
       <ATT name="status">1970354901745664</ATT>
     </ATTRIBUTES>
     <DEPENDENCIES>

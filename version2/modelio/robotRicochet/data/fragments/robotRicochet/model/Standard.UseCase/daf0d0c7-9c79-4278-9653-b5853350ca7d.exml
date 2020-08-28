@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
-<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="partie enregistrée" version="4">
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="enregistrer un jeu" version="4">
   <OBJECT>
-    <ID name="partie enregistrée" mc="Standard.UseCase" uid="daf0d0c7-9c79-4278-9653-b5853350ca7d"/>
+    <ID name="enregistrer un jeu" mc="Standard.UseCase" uid="daf0d0c7-9c79-4278-9653-b5853350ca7d"/>
     <PID name="robotricochet" mc="Standard.Package" uid="e3656944-641b-4754-b91e-fdde3b124a80"/>
     <ATTRIBUTES>
       <ATT name="IsElementary">false</ATT>
@@ -9,7 +9,7 @@
       <ATT name="IsLeaf">false</ATT>
       <ATT name="IsRoot">false</ATT>
       <ATT name="Visibility">Public</ATT>
-      <ATT name="Name"><![CDATA[partie enregistrée]]></ATT>
+      <ATT name="Name"><![CDATA[enregistrer un jeu]]></ATT>
       <ATT name="status">1970354901745664</ATT>
     </ATTRIBUTES>
     <DEPENDENCIES>
@@ -22,7 +22,7 @@
           </ATTRIBUTES>
           <DEPENDENCIES>
             <LINK relation="Target">
-              <ID name="Lecture" mc="Standard.UseCase" uid="a86847d4-f428-4ecf-8955-845fa3c31f38"/>
+              <ID name="écriture du jeu au format JSON" mc="Standard.UseCase" uid="a86847d4-f428-4ecf-8955-845fa3c31f38"/>
             </LINK>
             <LINK relation="Extension">
               <FOREIGNID name="include" mc="Infrastructure.Stereotype" uid="00000000-0000-9c49-0000-000000000000"/>
@@ -104,7 +104,7 @@
         <OBJECT>
           <ID name="" mc="Infrastructure.Note" uid="be895beb-f83e-45fb-93cb-81e9b70ddaf6"/>
           <ATTRIBUTES>
-            <ATT name="Content"><![CDATA[<p>Le joueur reprend une partie enregistr&eacute;e</p><p>&nbsp;</p>
+            <ATT name="Content"><![CDATA[
 ]]></ATT>
             <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
             <ATT name="Name"></ATT>

@@ -15,11 +15,11 @@
     <DEPENDENCIES>
       <COMP relation="OwnedElement">
         <COMPID name="Joueur" mc="Standard.Actor" uid="19ace6ae-6262-4595-baf2-0772052cbd5b"/>
-        <COMPID name="Débuter une partie standard" mc="Standard.UseCase" uid="2a5646d5-2839-4e7f-be66-662e91c77916"/>
-        <COMPID name="partie enregistrée" mc="Standard.UseCase" uid="daf0d0c7-9c79-4278-9653-b5853350ca7d"/>
+        <COMPID name="Charger un jeu depuis un fichier" mc="Standard.UseCase" uid="2a5646d5-2839-4e7f-be66-662e91c77916"/>
+        <COMPID name="enregistrer un jeu" mc="Standard.UseCase" uid="daf0d0c7-9c79-4278-9653-b5853350ca7d"/>
         <COMPID name="plateau aléatoire" mc="Standard.UseCase" uid="ca6e6fff-dcef-4c97-a9bd-5b4012470431"/>
-        <COMPID name="Lecture" mc="Standard.UseCase" uid="a86847d4-f428-4ecf-8955-845fa3c31f38"/>
-        <COMPID name="partie non standard" mc="Standard.UseCase" uid="91bbee20-d910-4004-84e2-f2acaf15b39a"/>
+        <COMPID name="écriture du jeu au format JSON" mc="Standard.UseCase" uid="a86847d4-f428-4ecf-8955-845fa3c31f38"/>
+        <COMPID name="Charger une grille depuis un fichier" mc="Standard.UseCase" uid="91bbee20-d910-4004-84e2-f2acaf15b39a"/>
         <COMPID name="Robot" mc="Standard.Class" uid="8574ee77-5819-4f7b-9d23-3956734fe616"/>
         <COMPID name="position" mc="Standard.DataType" uid="0fedf823-55f5-45be-806a-0e5860ef8df3"/>
         <OBJECT>
@@ -337,6 +337,13 @@
         <COMPID name="Game" mc="Standard.Class" uid="245c995b-e1e5-47e9-87ce-6ee7d4249cd7"/>
         <COMPID name="Goal" mc="Standard.Class" uid="fbd52c96-4f36-4566-8909-ea763972e483"/>
         <COMPID name="State" mc="Standard.DataType" uid="3fd2cbc9-1862-431f-ab7a-d0a1e0fbf277"/>
+        <COMPID name="Lire un jeu au format JSON" mc="Standard.UseCase" uid="44609431-263b-425a-9358-f820f604a6ae"/>
+        <COMPID name="Déplacer un robot" mc="Standard.UseCase" uid="fbee9731-026a-4ee7-8baa-3366bd3238d5"/>
+        <COMPID name="Sélectionner un robot" mc="Standard.UseCase" uid="5ee1bb29-7899-4cd1-a54d-211c1480afa3"/>
+        <COMPID name="Sélectionner une direction" mc="Standard.UseCase" uid="0c2a5cae-bcb1-41d5-b24f-7378eb5a9387"/>
+        <COMPID name="Demander une grille classique 16x16 aléatoire" mc="Standard.UseCase" uid="7479e389-269d-487f-a282-df288edea286"/>
+        <COMPID name="Annuler une action" mc="Standard.UseCase" uid="0e1cd9a6-274c-4e1b-a768-87eb94e14182"/>
+        <COMPID name="Solveur" mc="Standard.Actor" uid="7baa20e8-650c-4d5a-9aa6-62373e252f82"/>
       </COMP>
       <COMP relation="Product">
         <COMPID name="robotricochet Use Case diagram" mc="Standard.UseCaseDiagram" uid="1d1153a0-41b1-4548-a518-1077e990b131"/>
