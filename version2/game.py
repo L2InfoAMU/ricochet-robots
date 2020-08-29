@@ -92,7 +92,7 @@ class Game :
         """
         for r_color, position in zip(self.color_keys, state) :
             self.robots[r_color].position = position
-        
+
 
     def state_is_won(self, state) :
         """
@@ -150,7 +150,7 @@ class Game :
 
     def undo(self):
         """
-        Demande au jeu de revenir à l'étât précedent
+        Demande au jeu de revenir à l'état précedent
         Pour utiliser cette fonctionnalité il faut avoir créé le jeu avec record = True
         """
         # on ne peut pas dépiler l'état initial
