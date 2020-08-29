@@ -20,6 +20,7 @@ from game import Game
 from goal import Goal
 from random import *
 from solveur import solveur
+from collections import deque
 
 ICON_PATH = "./icons/"
 IMAGES_PATH = "./images/"
@@ -191,6 +192,7 @@ class MainWindow(QMainWindow):
         """ on remet l'état initial du jeu """
         self.game.set_state(self.initial_game_state)
         self.game.moves_list = []
+        self.game.states_list = deque( [self.game.state_start], maxlen = 100)
         self.unprint_moves_list()
         self.number_moves = 0
         self.draw_robots_and_goal()
@@ -421,19 +423,19 @@ class MainWindow(QMainWindow):
 
         self.nb_robots = i + 1
 
-        self.robots_pos = [0] * self.nb_robots
-        self.robots_list = [0] * self.nb_robots
-        self.robots_colors = [i for i in RColors]
+        robots_pos = [0] * self.nb_robots
+        robots_list = [0] * self.nb_robots
+        robots_colors = [i for i in RColors]
         if self.placement_aleatoire:
 
             for i in range(self.nb_robots):
                 x = randint(0, self.game.board.width - 1)
                 y = randint(0, self.game.board.height - 1)
-                while ((x, y) in self.robots_pos):
+                while ((x, y) in robots_pos):
                     x = randint(0, self.game.board.width - 1)
                     y = randint(0, self.game.board.height - 1)
-                self.robots_pos[i] = (x,y)
-                self.robots_list[i] = Robot(self.game.robots, self.robots_colors[i], (x, y))
+                robots_pos[i] = (x,y)
+                robots_list[i] = Robot(self.game.robots, robots_colors[i], (x, y))
 
             x = randint(0, self.game.board.width - 1)
             y = randint(0, self.game.board.height - 1)
