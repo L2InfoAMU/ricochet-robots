@@ -66,10 +66,10 @@ class Game :
         self.states_list = deque( [self.state_start], maxlen = 100)
         self.moves_list = []
 
-    # utile ?
+
     def add_board(self, board):
         self.board = board
-    # utile ?
+
     def add_goal(self, goal):
         self.goal = goal
 
@@ -92,7 +92,7 @@ class Game :
         """
         for r_color, position in zip(self.color_keys, state) :
             self.robots[r_color].position = position
-        self.moves_list = []
+        
 
     def state_is_won(self, state) :
         """
