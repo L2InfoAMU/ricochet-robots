@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
-<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="plateau aléatoire" version="4">
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Demander un conseil" version="4">
   <OBJECT>
-    <ID name="plateau aléatoire" mc="Standard.UseCase" uid="ca6e6fff-dcef-4c97-a9bd-5b4012470431"/>
+    <ID name="Demander un conseil" mc="Standard.UseCase" uid="0a561226-d5a9-4489-9507-986fa843894c"/>
     <PID name="robotricochet" mc="Standard.Package" uid="e3656944-641b-4754-b91e-fdde3b124a80"/>
     <ATTRIBUTES>
       <ATT name="IsElementary">false</ATT>
@@ -9,13 +9,13 @@
       <ATT name="IsLeaf">false</ATT>
       <ATT name="IsRoot">false</ATT>
       <ATT name="Visibility">Public</ATT>
-      <ATT name="Name"><![CDATA[plateau aléatoire]]></ATT>
+      <ATT name="Name"><![CDATA[Demander un conseil]]></ATT>
       <ATT name="status">1970354901745664</ATT>
     </ATTRIBUTES>
     <DEPENDENCIES>
       <COMP relation="Descriptor">
         <OBJECT>
-          <ID name="" mc="Infrastructure.Note" uid="15b4227c-a44c-4048-9c9d-86422ee7411f"/>
+          <ID name="" mc="Infrastructure.Note" uid="d9da5ee7-3d94-4bdd-abc3-4f68517fd3e2"/>
           <ATTRIBUTES>
             <ATT name="Content"><![CDATA[...]]></ATT>
             <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
@@ -29,7 +29,7 @@
           </DEPENDENCIES>
         </OBJECT>
         <OBJECT>
-          <ID name="" mc="Infrastructure.Note" uid="edb3a87e-480a-4473-985e-9760101b7421"/>
+          <ID name="" mc="Infrastructure.Note" uid="f25a418b-6f75-4a23-9068-7b96501dcd69"/>
           <ATTRIBUTES>
             <ATT name="Content"><![CDATA[...]]></ATT>
             <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
@@ -43,7 +43,7 @@
           </DEPENDENCIES>
         </OBJECT>
         <OBJECT>
-          <ID name="" mc="Infrastructure.Note" uid="f5254873-123d-4e98-991d-f6dc5017abd0"/>
+          <ID name="" mc="Infrastructure.Note" uid="c18d8396-7b14-417b-b2d9-7cabb431d6fa"/>
           <ATTRIBUTES>
             <ATT name="Content"><![CDATA[...]]></ATT>
             <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
@@ -57,7 +57,7 @@
           </DEPENDENCIES>
         </OBJECT>
         <OBJECT>
-          <ID name="" mc="Infrastructure.Note" uid="66fa1363-4b31-48e3-becc-338ce8d9801d"/>
+          <ID name="" mc="Infrastructure.Note" uid="b84d0ea1-9325-421b-b98a-fe1d3711646c"/>
           <ATTRIBUTES>
             <ATT name="Content"><![CDATA[...]]></ATT>
             <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
@@ -71,7 +71,7 @@
           </DEPENDENCIES>
         </OBJECT>
         <OBJECT>
-          <ID name="" mc="Infrastructure.Note" uid="710bb50d-585a-4b3c-95cc-2f8a361cd9b4"/>
+          <ID name="" mc="Infrastructure.Note" uid="0783e9d0-d247-4fa6-b2fb-1f37c5af0799"/>
           <ATTRIBUTES>
             <ATT name="Content"><![CDATA[...]]></ATT>
             <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
@@ -81,21 +81,6 @@
           <DEPENDENCIES>
             <LINK relation="Model">
               <FOREIGNID name="postcondition" mc="Infrastructure.NoteType" uid="00bc0b8c-0000-2517-0000-000000000000"/>
-            </LINK>
-          </DEPENDENCIES>
-        </OBJECT>
-        <OBJECT>
-          <ID name="" mc="Infrastructure.Note" uid="58c8061b-73ab-4a64-af0e-0e8e0aaae1b9"/>
-          <ATTRIBUTES>
-            <ATT name="Content"><![CDATA[<p>Le programme agence les mor</p>
-]]></ATT>
-            <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
-            <ATT name="Name"></ATT>
-            <ATT name="status">1970354901745664</ATT>
-          </ATTRIBUTES>
-          <DEPENDENCIES>
-            <LINK relation="Model">
-              <FOREIGNID name="description" mc="Infrastructure.NoteType" uid="00000000-0000-3e81-0000-000000000000"/>
             </LINK>
           </DEPENDENCIES>
         </OBJECT>

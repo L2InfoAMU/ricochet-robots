@@ -126,4 +126,5 @@ class RobotTest(unittest.TestCase) :
         r3 = Robot(robots, RColors.GREEN, (7,0))
         r4 = Robot(robots, RColors.YELLOW, (7,7))
 
-unittest.main()
+if __name__=="__main__":       
+    unittest.main()

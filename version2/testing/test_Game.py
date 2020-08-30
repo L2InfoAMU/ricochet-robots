@@ -149,4 +149,5 @@ class GameTest(unittest.TestCase) :
         expected = ( (0,3),(11,10),(0,2),(15,15))
         self.assertEqual(expected, state)
 
-unittest.main()
+if __name__=="__main__":       
+    unittest.main()

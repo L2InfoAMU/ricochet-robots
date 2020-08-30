@@ -68,7 +68,7 @@ class BoardTest(unittest.TestCase) :
         """ test de la représentation sous forme de chaine de caractères"""
         b1 = Board(self.square3, check_conformity = False)
 
-        self.assertEqual(str(b1), '[\n[9, 1, 3],\n[8, 0, 2],\n[12, 4, 6]]')
+        self.assertEqual(str(b1), '"grid" : [\n[9, 1, 3],\n[8, 0, 2],\n[12, 4, 6]]')
 
     def test_load_from_json(self) :
         """ test du chargement d'une grille depuis un fichier json """
@@ -182,5 +182,6 @@ class BoardTest(unittest.TestCase) :
         board, = Board.load_from_json(filename)
 
         self.assertEqual(str(b), str(board))
-        
-unittest.main()
+
+if __name__=="__main__":       
+    unittest.main()

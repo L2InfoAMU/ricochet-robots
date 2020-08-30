@@ -25,4 +25,5 @@ class RColorsTest(unittest.TestCase) :
         self.assertEqual(yellow,RColors.from_str('Y'))
         self.assertEqual(blue,RColors.from_str('B'))
              
-unittest.main()
+if __name__=="__main__":       
+    unittest.main()

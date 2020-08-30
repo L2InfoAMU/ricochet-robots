@@ -83,13 +83,10 @@ class StateEncoderTest( unittest.TestCase) :
         expected_state = ( (0,0),(0,1))
         self.assertEqual( expected_state, decoder(index))
         self.assertEqual (encoder(expected_state), index)
- 
 
+if __name__=="__main__":       
+    unittest.main()
 
-
-    
-
-unittest.main()
         
        
 

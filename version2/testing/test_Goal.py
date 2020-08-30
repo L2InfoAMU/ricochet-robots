@@ -16,4 +16,5 @@ class GameTest(unittest.TestCase) :
         print (goal1)
         print (goal2)
 
-unittest.main()
+if __name__=="__main__":       
+    unittest.main()
