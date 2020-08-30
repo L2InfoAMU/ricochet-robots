@@ -1,0 +1,92 @@
+\hypertarget{classcell_1_1Cell}{}\section{Référence de la classe cell.\+Cell}
+\label{classcell_1_1Cell}\index{cell.\+Cell@{cell.\+Cell}}
+\subsection*{Fonctions membres publiques}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classcell_1_1Cell_aa73d66bb2f737b9845e221a0f6974f2a}{\+\_\+\+\_\+init\+\_\+\+\_\+} (self, walls=0)
+\item 
+def \hyperlink{classcell_1_1Cell_a8f5a44a2e36ebbcf8c0978cb7dc888f1}{\+\_\+\+\_\+str\+\_\+\+\_\+} (self)
+\item 
+\mbox{\Hypertarget{classcell_1_1Cell_a35036440271aede1f6bc682bd1124dbc}\label{classcell_1_1Cell_a35036440271aede1f6bc682bd1124dbc}} 
+def {\bfseries wall\+\_\+at}
+\item 
+def \hyperlink{classcell_1_1Cell_a73e53012b8b7e114778e08e38c2524a6}{add\+\_\+wall} (self, direction)
+\item 
+def \hyperlink{classcell_1_1Cell_afe4fd9eff1237decc36d388600897f75}{rotate\+\_\+left} (self)
+\item 
+def \hyperlink{classcell_1_1Cell_a46fe2e7a6559049679f9e93e13abea79}{rotate\+\_\+right} (self)
+\item 
+def \hyperlink{classcell_1_1Cell_a85bf248bab5f2fb81ab4498ec025e138}{rotate\+\_\+half} (self)
+\end{DoxyCompactItemize}
+\subsection*{Attributs publics}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classcell_1_1Cell_a20ad036dab954ec1035d26794a23a71d}\label{classcell_1_1Cell_a20ad036dab954ec1035d26794a23a71d}} 
+{\bfseries walls}
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des constructeurs et destructeur}
+\mbox{\Hypertarget{classcell_1_1Cell_aa73d66bb2f737b9845e221a0f6974f2a}\label{classcell_1_1Cell_aa73d66bb2f737b9845e221a0f6974f2a}} 
+\index{cell\+::\+Cell@{cell\+::\+Cell}!\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}!cell\+::\+Cell@{cell\+::\+Cell}}
+\subsubsection{\texorpdfstring{\+\_\+\+\_\+init\+\_\+\+\_\+()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily def cell.\+Cell.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{walls = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}constructeur 
+cell = Cell(int|Direction) 
+a = Cell() : construit une case sans murs
+a = Cell(NORTH + EAST) construit une case avec des murs au nord et à l'est
+a = Cell(2) construit une case avec un mur à l'EST
+\end{DoxyVerb}
+ 
+
+\subsection{Documentation des fonctions membres}
+\mbox{\Hypertarget{classcell_1_1Cell_a8f5a44a2e36ebbcf8c0978cb7dc888f1}\label{classcell_1_1Cell_a8f5a44a2e36ebbcf8c0978cb7dc888f1}} 
+\index{cell\+::\+Cell@{cell\+::\+Cell}!\+\_\+\+\_\+str\+\_\+\+\_\+@{\+\_\+\+\_\+str\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+str\+\_\+\+\_\+@{\+\_\+\+\_\+str\+\_\+\+\_\+}!cell\+::\+Cell@{cell\+::\+Cell}}
+\subsubsection{\texorpdfstring{\+\_\+\+\_\+str\+\_\+\+\_\+()}{\_\_str\_\_()}}
+{\footnotesize\ttfamily def cell.\+Cell.\+\_\+\+\_\+str\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}renvoie une représentation sous forme de chaîne de caractères de la case
+\end{DoxyVerb}
+ \mbox{\Hypertarget{classcell_1_1Cell_a73e53012b8b7e114778e08e38c2524a6}\label{classcell_1_1Cell_a73e53012b8b7e114778e08e38c2524a6}} 
+\index{cell\+::\+Cell@{cell\+::\+Cell}!add\+\_\+wall@{add\+\_\+wall}}
+\index{add\+\_\+wall@{add\+\_\+wall}!cell\+::\+Cell@{cell\+::\+Cell}}
+\subsubsection{\texorpdfstring{add\+\_\+wall()}{add\_wall()}}
+{\footnotesize\ttfamily def cell.\+Cell.\+add\+\_\+wall (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{direction }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}permet d'ajouter un mur à la cellule dans la direction donnée
+\end{DoxyVerb}
+ \mbox{\Hypertarget{classcell_1_1Cell_a85bf248bab5f2fb81ab4498ec025e138}\label{classcell_1_1Cell_a85bf248bab5f2fb81ab4498ec025e138}} 
+\index{cell\+::\+Cell@{cell\+::\+Cell}!rotate\+\_\+half@{rotate\+\_\+half}}
+\index{rotate\+\_\+half@{rotate\+\_\+half}!cell\+::\+Cell@{cell\+::\+Cell}}
+\subsubsection{\texorpdfstring{rotate\+\_\+half()}{rotate\_half()}}
+{\footnotesize\ttfamily def cell.\+Cell.\+rotate\+\_\+half (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}effectue une rotation des murs de la cellule d'un quart de tour vers la gauche.
+L'objet est modifiée en place et  la méthode renvoie la référence de la cellule
+\end{DoxyVerb}
+ \mbox{\Hypertarget{classcell_1_1Cell_afe4fd9eff1237decc36d388600897f75}\label{classcell_1_1Cell_afe4fd9eff1237decc36d388600897f75}} 
+\index{cell\+::\+Cell@{cell\+::\+Cell}!rotate\+\_\+left@{rotate\+\_\+left}}
+\index{rotate\+\_\+left@{rotate\+\_\+left}!cell\+::\+Cell@{cell\+::\+Cell}}
+\subsubsection{\texorpdfstring{rotate\+\_\+left()}{rotate\_left()}}
+{\footnotesize\ttfamily def cell.\+Cell.\+rotate\+\_\+left (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}effectue une rotation des murs de la cellule d'un quart de tour vers la gauche.
+L'objet est modifiée en place et  la méthode renvoie la référence de la cellule
+\end{DoxyVerb}
+ \mbox{\Hypertarget{classcell_1_1Cell_a46fe2e7a6559049679f9e93e13abea79}\label{classcell_1_1Cell_a46fe2e7a6559049679f9e93e13abea79}} 
+\index{cell\+::\+Cell@{cell\+::\+Cell}!rotate\+\_\+right@{rotate\+\_\+right}}
+\index{rotate\+\_\+right@{rotate\+\_\+right}!cell\+::\+Cell@{cell\+::\+Cell}}
+\subsubsection{\texorpdfstring{rotate\+\_\+right()}{rotate\_right()}}
+{\footnotesize\ttfamily def cell.\+Cell.\+rotate\+\_\+right (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}effectue une rotation des murs de la cellule d'un quart de tour vers la droite.
+L'objet est modifiée en place et  la méthode renvoie la référence de la cellule
+\end{DoxyVerb}
+ 
+
+La documentation de cette classe a été générée à partir du fichier suivant \+:\begin{DoxyCompactItemize}
+\item 
+cell.\+py\end{DoxyCompactItemize}

@@ -1,0 +1,38 @@
+\hypertarget{namespacestateencoder}{}\section{Référence de l\textquotesingle{}espace de nommage stateencoder}
+\label{namespacestateencoder}\index{stateencoder@{stateencoder}}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classstateencoder_1_1StateEncoder}{State\+Encoder}
+\end{DoxyCompactItemize}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{namespacestateencoder_a32de4422a9997ae1fcc66b21a8333549}\label{namespacestateencoder_a32de4422a9997ae1fcc66b21a8333549}} 
+def {\bfseries arrangement} (n, p)
+\end{DoxyCompactItemize}
+
+
+\subsection{Description détaillée}
+\begin{DoxyVerb}Projet Maths Info pour le DU CCIE et la L3 Maths-Info
+Chef de projet : CANALS Martin L3
+Développeurs : AUBIN François DU CCIE, GIANI Théo L3
+
+Fichier stateencoder.py
+La classe StateEncoder 
+- détermine le nombre d'états du jeu
+- propose un encodage des états en un entier naturel
+- propose le décodage correspondant
+
+Le codage est basé sur le nombre de cases de la grille
+size = height * width
+Le codage d'un état est le suivant :
+Les positions (x1,y1), (x2,y2), (x3,y3)... des robots 
+sont converties en entiers naturels
+n1 = x1 * width + y1 , n2 = x2 *width + y2 ...
+
+L'index est calculé par
+
+index = n1 * (size-1)! + 
+\end{DoxyVerb}
+ 

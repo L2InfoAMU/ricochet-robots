@@ -1,0 +1,141 @@
+\hypertarget{classboard_1_1Board}{}\section{Référence de la classe board.\+Board}
+\label{classboard_1_1Board}\index{board.\+Board@{board.\+Board}}
+\subsection*{Fonctions membres publiques}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classboard_1_1Board_a85c5ad518a95fb8f9bdee5969cd28c7a}{\+\_\+\+\_\+init\+\_\+\+\_\+} (self, data=\mbox{[}$\,$\mbox{]}, check\+\_\+conformity=False)
+\item 
+def \hyperlink{classboard_1_1Board_a250139b957b679637dcdd946e752f8c3}{\+\_\+\+\_\+str\+\_\+\+\_\+} (self)
+\item 
+def \hyperlink{classboard_1_1Board_a8cf058b5192a359f7312cd7c3fe11035}{cell\+\_\+at} (self, position)
+\item 
+def \hyperlink{classboard_1_1Board_aa8ced227328068a4365e0709d3563067}{save\+\_\+as\+\_\+json} (self, filename)
+\item 
+\mbox{\Hypertarget{classboard_1_1Board_a6971cd0ffcd3a08be6c7fd5e7f6e25e5}\label{classboard_1_1Board_a6971cd0ffcd3a08be6c7fd5e7f6e25e5}} 
+def {\bfseries rotate\+\_\+left} (self)
+\item 
+\mbox{\Hypertarget{classboard_1_1Board_a9f02a746cb77d96c423d24546a426a06}\label{classboard_1_1Board_a9f02a746cb77d96c423d24546a426a06}} 
+def {\bfseries rotate\+\_\+right} (self)
+\item 
+\mbox{\Hypertarget{classboard_1_1Board_abdefe196a82774f5b55ac54582fc9356}\label{classboard_1_1Board_abdefe196a82774f5b55ac54582fc9356}} 
+def {\bfseries rotate\+\_\+half} (self)
+\item 
+def \hyperlink{classboard_1_1Board_abd162106bb4e4227679ed4ae5176f487}{\+\_\+\+\_\+add\+\_\+\+\_\+} (self, board2)
+\item 
+def \hyperlink{classboard_1_1Board_ab70bf2990045428534f01b124a50c013}{\+\_\+\+\_\+sub\+\_\+\+\_\+} (self, board2)
+\end{DoxyCompactItemize}
+\subsection*{Fonctions membres publiques statiques}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classboard_1_1Board_a9091b4a3885f23c5177caa1b39f8abcd}{load\+\_\+from\+\_\+file} (fd)
+\item 
+def \hyperlink{classboard_1_1Board_a6c8cc235162403c41d7a6b1ee9bb4fd7}{load\+\_\+from\+\_\+json} (filename, names)
+\item 
+def \hyperlink{classboard_1_1Board_a91650ef03892e24f144d1adeb0e5addc}{new\+\_\+classic} ()
+\end{DoxyCompactItemize}
+\subsection*{Attributs publics}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classboard_1_1Board_ae1fef3be4abb2c765b81cad7042e6df9}\label{classboard_1_1Board_ae1fef3be4abb2c765b81cad7042e6df9}} 
+{\bfseries height}
+\item 
+\mbox{\Hypertarget{classboard_1_1Board_a96e3212b056035d81c4081b01be6eada}\label{classboard_1_1Board_a96e3212b056035d81c4081b01be6eada}} 
+{\bfseries width}
+\item 
+\mbox{\Hypertarget{classboard_1_1Board_ae57d2e7fd76a7700f92fcaa838e19dba}\label{classboard_1_1Board_ae57d2e7fd76a7700f92fcaa838e19dba}} 
+{\bfseries grid}
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des constructeurs et destructeur}
+\mbox{\Hypertarget{classboard_1_1Board_a85c5ad518a95fb8f9bdee5969cd28c7a}\label{classboard_1_1Board_a85c5ad518a95fb8f9bdee5969cd28c7a}} 
+\index{board\+::\+Board@{board\+::\+Board}!\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}!board\+::\+Board@{board\+::\+Board}}
+\subsubsection{\texorpdfstring{\+\_\+\+\_\+init\+\_\+\+\_\+()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily def board.\+Board.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{data = {\ttfamily \mbox{[}\mbox{]}},  }\item[{}]{check\+\_\+conformity = {\ttfamily False} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Constructeur de la classe Board
+    board = Board( data,check_conformity )
+    data est une liste de listes d'entiers pour la construction des cellules.
+    check_conformity est un booléen, False par défaut.
+    si check_conformity = True, une vérification de la conformité de la grille est effectuée
+\end{DoxyVerb}
+ 
+
+\subsection{Documentation des fonctions membres}
+\mbox{\Hypertarget{classboard_1_1Board_abd162106bb4e4227679ed4ae5176f487}\label{classboard_1_1Board_abd162106bb4e4227679ed4ae5176f487}} 
+\index{board\+::\+Board@{board\+::\+Board}!\+\_\+\+\_\+add\+\_\+\+\_\+@{\+\_\+\+\_\+add\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+add\+\_\+\+\_\+@{\+\_\+\+\_\+add\+\_\+\+\_\+}!board\+::\+Board@{board\+::\+Board}}
+\subsubsection{\texorpdfstring{\+\_\+\+\_\+add\+\_\+\+\_\+()}{\_\_add\_\_()}}
+{\footnotesize\ttfamily def board.\+Board.\+\_\+\+\_\+add\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{board2 }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}juxtaposition horizontale de deux grilles \end{DoxyVerb}
+ \mbox{\Hypertarget{classboard_1_1Board_a250139b957b679637dcdd946e752f8c3}\label{classboard_1_1Board_a250139b957b679637dcdd946e752f8c3}} 
+\index{board\+::\+Board@{board\+::\+Board}!\+\_\+\+\_\+str\+\_\+\+\_\+@{\+\_\+\+\_\+str\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+str\+\_\+\+\_\+@{\+\_\+\+\_\+str\+\_\+\+\_\+}!board\+::\+Board@{board\+::\+Board}}
+\subsubsection{\texorpdfstring{\+\_\+\+\_\+str\+\_\+\+\_\+()}{\_\_str\_\_()}}
+{\footnotesize\ttfamily def board.\+Board.\+\_\+\+\_\+str\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}renvoie une représentation de la grille sous forme de chaîne de caractères :
+' "grid" : [ [int,..., int], ...]
+\end{DoxyVerb}
+ \mbox{\Hypertarget{classboard_1_1Board_ab70bf2990045428534f01b124a50c013}\label{classboard_1_1Board_ab70bf2990045428534f01b124a50c013}} 
+\index{board\+::\+Board@{board\+::\+Board}!\+\_\+\+\_\+sub\+\_\+\+\_\+@{\+\_\+\+\_\+sub\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+sub\+\_\+\+\_\+@{\+\_\+\+\_\+sub\+\_\+\+\_\+}!board\+::\+Board@{board\+::\+Board}}
+\subsubsection{\texorpdfstring{\+\_\+\+\_\+sub\+\_\+\+\_\+()}{\_\_sub\_\_()}}
+{\footnotesize\ttfamily def board.\+Board.\+\_\+\+\_\+sub\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{board2 }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}juxtaposition horizontale de deux grilles 
+usage :
+board3 = board1 /board2\end{DoxyVerb}
+ \mbox{\Hypertarget{classboard_1_1Board_a8cf058b5192a359f7312cd7c3fe11035}\label{classboard_1_1Board_a8cf058b5192a359f7312cd7c3fe11035}} 
+\index{board\+::\+Board@{board\+::\+Board}!cell\+\_\+at@{cell\+\_\+at}}
+\index{cell\+\_\+at@{cell\+\_\+at}!board\+::\+Board@{board\+::\+Board}}
+\subsubsection{\texorpdfstring{cell\+\_\+at()}{cell\_at()}}
+{\footnotesize\ttfamily def board.\+Board.\+cell\+\_\+at (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{position }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}renvoie la référence de la cellule à la position donnée :
+ exemple : cell = board.cell_at((0, 0))
+\end{DoxyVerb}
+ \mbox{\Hypertarget{classboard_1_1Board_a9091b4a3885f23c5177caa1b39f8abcd}\label{classboard_1_1Board_a9091b4a3885f23c5177caa1b39f8abcd}} 
+\index{board\+::\+Board@{board\+::\+Board}!load\+\_\+from\+\_\+file@{load\+\_\+from\+\_\+file}}
+\index{load\+\_\+from\+\_\+file@{load\+\_\+from\+\_\+file}!board\+::\+Board@{board\+::\+Board}}
+\subsubsection{\texorpdfstring{load\+\_\+from\+\_\+file()}{load\_from\_file()}}
+{\footnotesize\ttfamily def board.\+Board.\+load\+\_\+from\+\_\+file (\begin{DoxyParamCaption}\item[{}]{fd }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\begin{DoxyVerb}méthode ancienne à ne plus utiliser \end{DoxyVerb}
+ \mbox{\Hypertarget{classboard_1_1Board_a6c8cc235162403c41d7a6b1ee9bb4fd7}\label{classboard_1_1Board_a6c8cc235162403c41d7a6b1ee9bb4fd7}} 
+\index{board\+::\+Board@{board\+::\+Board}!load\+\_\+from\+\_\+json@{load\+\_\+from\+\_\+json}}
+\index{load\+\_\+from\+\_\+json@{load\+\_\+from\+\_\+json}!board\+::\+Board@{board\+::\+Board}}
+\subsubsection{\texorpdfstring{load\+\_\+from\+\_\+json()}{load\_from\_json()}}
+{\footnotesize\ttfamily def board.\+Board.\+load\+\_\+from\+\_\+json (\begin{DoxyParamCaption}\item[{}]{filename,  }\item[{}]{names }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\begin{DoxyVerb}charge des grille depuis un fichier json,
+    usage  : boards =  Board.load_from_json( filename , names)
+    filename est un nom de fichier
+    names est une liste de noms , par défaut 'grid'
+    *** renvoie un tuple ***
+    Pour charger une seule grille :
+    board , = Board.load_from_json( filename , 'grid')
+\end{DoxyVerb}
+ \mbox{\Hypertarget{classboard_1_1Board_a91650ef03892e24f144d1adeb0e5addc}\label{classboard_1_1Board_a91650ef03892e24f144d1adeb0e5addc}} 
+\index{board\+::\+Board@{board\+::\+Board}!new\+\_\+classic@{new\+\_\+classic}}
+\index{new\+\_\+classic@{new\+\_\+classic}!board\+::\+Board@{board\+::\+Board}}
+\subsubsection{\texorpdfstring{new\+\_\+classic()}{new\_classic()}}
+{\footnotesize\ttfamily def board.\+Board.\+new\+\_\+classic (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\begin{DoxyVerb}génération d'une grille classique du jeu, par composition aléatoire de 4 morceaux de grille\end{DoxyVerb}
+ \mbox{\Hypertarget{classboard_1_1Board_aa8ced227328068a4365e0709d3563067}\label{classboard_1_1Board_aa8ced227328068a4365e0709d3563067}} 
+\index{board\+::\+Board@{board\+::\+Board}!save\+\_\+as\+\_\+json@{save\+\_\+as\+\_\+json}}
+\index{save\+\_\+as\+\_\+json@{save\+\_\+as\+\_\+json}!board\+::\+Board@{board\+::\+Board}}
+\subsubsection{\texorpdfstring{save\+\_\+as\+\_\+json()}{save\_as\_json()}}
+{\footnotesize\ttfamily def board.\+Board.\+save\+\_\+as\+\_\+json (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{filename }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}permet de sauvegarder la grille au format json dans le fichier
+dont le nom est passé en paramètre
+\end{DoxyVerb}
+ 
+
+La documentation de cette classe a été générée à partir du fichier suivant \+:\begin{DoxyCompactItemize}
+\item 
+board.\+py\end{DoxyCompactItemize}

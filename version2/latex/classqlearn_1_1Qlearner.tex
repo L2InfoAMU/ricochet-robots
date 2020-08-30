@@ -1,0 +1,57 @@
+\hypertarget{classqlearn_1_1Qlearner}{}\section{Référence de la classe qlearn.\+Qlearner}
+\label{classqlearn_1_1Qlearner}\index{qlearn.\+Qlearner@{qlearn.\+Qlearner}}
+\subsection*{Fonctions membres publiques}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classqlearn_1_1Qlearner_a2358d27a7a8833adaf69138ceda4d7aa}\label{classqlearn_1_1Qlearner_a2358d27a7a8833adaf69138ceda4d7aa}} 
+def {\bfseries \+\_\+\+\_\+init\+\_\+\+\_\+} (self, game)
+\item 
+def \hyperlink{classqlearn_1_1Qlearner_aa5d2c9fb82ed55754cab3f485551ba22}{reward} (self, state, action)
+\item 
+\mbox{\Hypertarget{classqlearn_1_1Qlearner_afaa65137b88d1c13b8969036c0a9983f}\label{classqlearn_1_1Qlearner_afaa65137b88d1c13b8969036c0a9983f}} 
+def {\bfseries learn} (self, nb\+\_\+iter, mu=0.\+9)
+\end{DoxyCompactItemize}
+\subsection*{Attributs publics}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classqlearn_1_1Qlearner_a69b12b006548c4ea15e63f5e22af8708}\label{classqlearn_1_1Qlearner_a69b12b006548c4ea15e63f5e22af8708}} 
+{\bfseries game}
+\item 
+\mbox{\Hypertarget{classqlearn_1_1Qlearner_a27bf7d240f5a715866a7dc249dd0bacb}\label{classqlearn_1_1Qlearner_a27bf7d240f5a715866a7dc249dd0bacb}} 
+{\bfseries actions}
+\item 
+\mbox{\Hypertarget{classqlearn_1_1Qlearner_a2eba21289650ffb2d6fd99ecfac97e63}\label{classqlearn_1_1Qlearner_a2eba21289650ffb2d6fd99ecfac97e63}} 
+{\bfseries encoder}
+\item 
+\mbox{\Hypertarget{classqlearn_1_1Qlearner_a8bbd7e43cb52617447d6ddb6b67aed79}\label{classqlearn_1_1Qlearner_a8bbd7e43cb52617447d6ddb6b67aed79}} 
+{\bfseries state\+\_\+number}
+\item 
+\mbox{\Hypertarget{classqlearn_1_1Qlearner_ad83c3b921b20c82bd5e6aa3ac550b4a5}\label{classqlearn_1_1Qlearner_ad83c3b921b20c82bd5e6aa3ac550b4a5}} 
+{\bfseries int\+\_\+to\+\_\+state}
+\item 
+\mbox{\Hypertarget{classqlearn_1_1Qlearner_a590de5eb34ceb094ad2ce575064a46c1}\label{classqlearn_1_1Qlearner_a590de5eb34ceb094ad2ce575064a46c1}} 
+{\bfseries action\+\_\+number}
+\item 
+\mbox{\Hypertarget{classqlearn_1_1Qlearner_a85cd72fc90598ce1036f3bfbf1e19cc8}\label{classqlearn_1_1Qlearner_a85cd72fc90598ce1036f3bfbf1e19cc8}} 
+{\bfseries qtable}
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions membres}
+\mbox{\Hypertarget{classqlearn_1_1Qlearner_aa5d2c9fb82ed55754cab3f485551ba22}\label{classqlearn_1_1Qlearner_aa5d2c9fb82ed55754cab3f485551ba22}} 
+\index{qlearn\+::\+Qlearner@{qlearn\+::\+Qlearner}!reward@{reward}}
+\index{reward@{reward}!qlearn\+::\+Qlearner@{qlearn\+::\+Qlearner}}
+\subsubsection{\texorpdfstring{reward()}{reward()}}
+{\footnotesize\ttfamily def qlearn.\+Qlearner.\+reward (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{state,  }\item[{}]{action }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}    récompense liée à une action
+    Si l'action ne fait pas changer d'état la récompense est -1
+    Si l'action fait aboutir à un état final la récompense est 1
+    Sinon la récompense est 0
+    Après l'appel de cette fonction le jeu est dans le nouvel etat 
+\end{DoxyVerb}
+ 
+
+La documentation de cette classe a été générée à partir du fichier suivant \+:\begin{DoxyCompactItemize}
+\item 
+qlearn.\+py\end{DoxyCompactItemize}
