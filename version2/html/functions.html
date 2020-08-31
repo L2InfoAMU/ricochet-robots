@@ -68,11 +68,18 @@ $(function() {
 : <a class="el" href="classboard_1_1Board.html#a85c5ad518a95fb8f9bdee5969cd28c7a">board.Board</a>
 , <a class="el" href="classcell_1_1Cell.html#aa73d66bb2f737b9845e221a0f6974f2a">cell.Cell</a>
 , <a class="el" href="classgame_1_1Game.html#af5743a4c7beabed4dd5dea74a39bbb99">game.Game</a>
-, <a class="el" href="classGUIController_1_1MainWindow.html#a69da336cfb18e8a8fac9b337e970586b">GUIController.MainWindow</a>
+, <a class="el" href="classgoal_1_1Goal.html#ab9a39523eac5144fe1102e23e94acd5b">goal.Goal</a>
+, <a class="el" href="classgrid__visualiseur_1_1MainWindow.html#aa58b1a902fbbe5e3ceda337c7ef87658">grid_visualiseur.MainWindow</a>
+, <a class="el" href="classmain_1_1MainWindow.html#a1a032331db3e5bbe3267696548ae95df">main.MainWindow</a>
+, <a class="el" href="classqlearn_1_1Qlearner.html#a2358d27a7a8833adaf69138ceda4d7aa">qlearn.Qlearner</a>
+, <a class="el" href="classrobot_1_1Robot.html#a79a4241cf6242acb65cd51b1c67dd263">robot.Robot</a>
+, <a class="el" href="classsolveur_1_1solveur.html#aaac83179919b07e763025ea73d4ccce3">solveur.solveur</a>
 </li>
 <li>__str__()
 : <a class="el" href="classboard_1_1Board.html#a250139b957b679637dcdd946e752f8c3">board.Board</a>
 , <a class="el" href="classcell_1_1Cell.html#a8f5a44a2e36ebbcf8c0978cb7dc888f1">cell.Cell</a>
+, <a class="el" href="classgoal_1_1Goal.html#af125fb03f7d4358fbf776a30da242df1">goal.Goal</a>
+, <a class="el" href="classrcolors_1_1RColors.html#ab8014c6c1a797ab32c7aa78633efb708">rcolors.RColors</a>
 , <a class="el" href="classrobot_1_1Robot.html#a10d00e1924a0fce095fe0bdf888f1415">robot.Robot</a>
 </li>
 <li>__sub__()
@@ -88,6 +95,15 @@ $(function() {
 <li>actions_list()
 : <a class="el" href="classgame_1_1Game.html#a485f03c6330c2bb3284638de65b6cae0">game.Game</a>
 </li>
+<li>add_board()
+: <a class="el" href="classgame_1_1Game.html#a2ccf23306726654420eec1a50f67d1cb">game.Game</a>
+</li>
+<li>add_goal()
+: <a class="el" href="classgame_1_1Game.html#a7465d51560b2d485db6ed53907cf1397">game.Game</a>
+</li>
+<li>add_robots()
+: <a class="el" href="classgame_1_1Game.html#a7e642c0246cea6fa82e92247fa4c3b93">game.Game</a>
+</li>
 <li>add_wall()
 : <a class="el" href="classcell_1_1Cell.html#a73e53012b8b7e114778e08e38c2524a6">cell.Cell</a>
 </li>
@@ -99,10 +115,13 @@ $(function() {
 : <a class="el" href="classboard_1_1Board.html#a8cf058b5192a359f7312cd7c3fe11035">board.Board</a>
 </li>
 <li>choix_grille()
-: <a class="el" href="classGUIController_1_1MainWindow.html#acccf4f385ead7d587dfa5d201899ee2a">GUIController.MainWindow</a>
+: <a class="el" href="classmain_1_1MainWindow.html#a58e160cf36543e63aa78558a54e9fea1">main.MainWindow</a>
 </li>
 <li>choix_nb_robots()
-: <a class="el" href="classGUIController_1_1MainWindow.html#a8b3807923fb74d52f7ae9e2ca31021e5">GUIController.MainWindow</a>
+: <a class="el" href="classmain_1_1MainWindow.html#a50159f6962a6bd8c7195fe9161b7e009">main.MainWindow</a>
+</li>
+<li>create_menu()
+: <a class="el" href="classgrid__visualiseur_1_1MainWindow.html#a4c84e902c352f90578745c1d5112e373">grid_visualiseur.MainWindow</a>
 </li>
 </ul>
 
@@ -114,8 +133,11 @@ $(function() {
 <li>do_actions()
 : <a class="el" href="classgame_1_1Game.html#a62f9d3a23be4b342ee35e56cdaf073a3">game.Game</a>
 </li>
+<li>draw_Board()
+: <a class="el" href="classgrid__visualiseur_1_1MainWindow.html#a4915c6cc9059cb6949bc8d1e997e1af1">grid_visualiseur.MainWindow</a>
+</li>
 <li>draw_grid()
-: <a class="el" href="classGUIController_1_1MainWindow.html#a0161daf1fd6d9c8de52379dbfa3ea17a">GUIController.MainWindow</a>
+: <a class="el" href="classmain_1_1MainWindow.html#a53f8ac0e3d2019681c8eff18c541f412">main.MainWindow</a>
 </li>
 </ul>
 
@@ -124,12 +146,15 @@ $(function() {
 <li>find_solution()
 : <a class="el" href="classsolveur_1_1solveur.html#aae96bc7e6e7b11a51d4a55564414ba92">solveur.solveur</a>
 </li>
+<li>from_str()
+: <a class="el" href="classrcolors_1_1RColors.html#a05522a9a34974e215921dc130cba1ded">rcolors.RColors</a>
+</li>
 </ul>
 
 
 <h3><a id="index_g"></a>- g -</h3><ul>
 <li>game_is_won()
-: <a class="el" href="classGUIController_1_1MainWindow.html#af7ba8782708a3a573f5ecd12f7762e81">GUIController.MainWindow</a>
+: <a class="el" href="classmain_1_1MainWindow.html#aa3f0bb9335d7040e1b09e1bd4c9352b8">main.MainWindow</a>
 </li>
 <li>get_state()
 : <a class="el" href="classgame_1_1Game.html#aaa2b3e9d8578764bc3eda7ab5841ecbb">game.Game</a>
@@ -139,7 +164,7 @@ $(function() {
 
 <h3><a id="index_h"></a>- h -</h3><ul>
 <li>help()
-: <a class="el" href="classGUIController_1_1MainWindow.html#a3533d40daad91929865344350ea5ecb2">GUIController.MainWindow</a>
+: <a class="el" href="classmain_1_1MainWindow.html#afd6674a5ffab5505719cf020fd430ce0">main.MainWindow</a>
 </li>
 </ul>
 
@@ -152,12 +177,22 @@ $(function() {
 
 
 <h3><a id="index_l"></a>- l -</h3><ul>
+<li>learn()
+: <a class="el" href="classqlearn_1_1Qlearner.html#a21001f2c11418262b3b0cfc58fb91f72">qlearn.Qlearner</a>
+</li>
 <li>load_from_file()
 : <a class="el" href="classboard_1_1Board.html#a9091b4a3885f23c5177caa1b39f8abcd">board.Board</a>
 </li>
 <li>load_from_json()
 : <a class="el" href="classboard_1_1Board.html#a6c8cc235162403c41d7a6b1ee9bb4fd7">board.Board</a>
 , <a class="el" href="classgame_1_1Game.html#a60b7efdaf394c7f10a249eb7c539afe3">game.Game</a>
+</li>
+</ul>
+
+
+<h3><a id="index_m"></a>- m -</h3><ul>
+<li>move()
+: <a class="el" href="classrobot_1_1Robot.html#a0227c4a66b9a23adb02a9ddf441be825">robot.Robot</a>
 </li>
 </ul>
 
@@ -171,36 +206,37 @@ $(function() {
 
 <h3><a id="index_o"></a>- o -</h3><ul>
 <li>onButtonTipClick()
-: <a class="el" href="classGUIController_1_1MainWindow.html#a73d640271043cd4917efd0780679b96d">GUIController.MainWindow</a>
+: <a class="el" href="classmain_1_1MainWindow.html#a26dc40b9b5d9e0327b0f593850746448">main.MainWindow</a>
 </li>
 <li>onButtonUndoClick()
-: <a class="el" href="classGUIController_1_1MainWindow.html#a68b891f21fd322728889657173560a64">GUIController.MainWindow</a>
+: <a class="el" href="classmain_1_1MainWindow.html#a2acd695c824c327fa90308bc2ee511f3">main.MainWindow</a>
 </li>
 <li>open_game()
-: <a class="el" href="classGUIController_1_1MainWindow.html#a0c52a408d518ea18f37a47caff1bc655">GUIController.MainWindow</a>
+: <a class="el" href="classmain_1_1MainWindow.html#a841e6a28b64e63e03be4fd0073a38ce4">main.MainWindow</a>
 </li>
 <li>open_grid()
-: <a class="el" href="classGUIController_1_1MainWindow.html#a56fcc62051b5bba985227d7d2e53dd16">GUIController.MainWindow</a>
+: <a class="el" href="classgrid__visualiseur_1_1MainWindow.html#a6d4f89a1640755a326a358026815ca66">grid_visualiseur.MainWindow</a>
+, <a class="el" href="classmain_1_1MainWindow.html#a960159ca187e8bb3a2a53a6ba312331c">main.MainWindow</a>
 </li>
 </ul>
 
 
 <h3><a id="index_p"></a>- p -</h3><ul>
 <li>placer_aleatoirement()
-: <a class="el" href="classGUIController_1_1MainWindow.html#a81c0d1b00634346ff032805641cc0aac">GUIController.MainWindow</a>
+: <a class="el" href="classmain_1_1MainWindow.html#a61ccbf8b887753b6db3ff19e65e4bc9b">main.MainWindow</a>
 </li>
 <li>print_moves_list()
-: <a class="el" href="classGUIController_1_1MainWindow.html#a6e850a914b0681184beb236d63d4597f">GUIController.MainWindow</a>
+: <a class="el" href="classmain_1_1MainWindow.html#ad908d5e23984194a3d4dd878489931c4">main.MainWindow</a>
 </li>
 <li>print_tip()
-: <a class="el" href="classGUIController_1_1MainWindow.html#a9801fb2a06f3308baaaf617b91245d0d">GUIController.MainWindow</a>
+: <a class="el" href="classmain_1_1MainWindow.html#aa7696020f657685831fd5aa212c28e34">main.MainWindow</a>
 </li>
 </ul>
 
 
 <h3><a id="index_r"></a>- r -</h3><ul>
 <li>replay()
-: <a class="el" href="classGUIController_1_1MainWindow.html#a60a31538c9b32fc3b1c9aff8bb659e11">GUIController.MainWindow</a>
+: <a class="el" href="classmain_1_1MainWindow.html#ad778ae6b83bc497287aa2f86907a4615">main.MainWindow</a>
 </li>
 <li>reward()
 : <a class="el" href="classqlearn_1_1Qlearner.html#aa5d2c9fb82ed55754cab3f485551ba22">qlearn.Qlearner</a>
@@ -225,10 +261,10 @@ $(function() {
 : <a class="el" href="classboard_1_1Board.html#aa8ced227328068a4365e0709d3563067">board.Board</a>
 </li>
 <li>save_game()
-: <a class="el" href="classGUIController_1_1MainWindow.html#af6b4f741a83067f0fc0e93bbdfef7782">GUIController.MainWindow</a>
+: <a class="el" href="classmain_1_1MainWindow.html#a208742a5aac99355ae19aee19e9f6419">main.MainWindow</a>
 </li>
 <li>save_grid()
-: <a class="el" href="classGUIController_1_1MainWindow.html#a2fc4a4cfac14aadcfb0a4d7287b6988c">GUIController.MainWindow</a>
+: <a class="el" href="classmain_1_1MainWindow.html#a558ce5d5b1925ec43d49e7acdf5af822">main.MainWindow</a>
 </li>
 <li>save_to_json()
 : <a class="el" href="classgame_1_1Game.html#a7c525e5a47b01fb5bed17fe1438c13f5">game.Game</a>
@@ -237,7 +273,7 @@ $(function() {
 : <a class="el" href="classgame_1_1Game.html#a7e87798fb7f81b80c11fcaec17860577">game.Game</a>
 </li>
 <li>solve()
-: <a class="el" href="classGUIController_1_1MainWindow.html#a393caaf3fa3cd4840a2ac525bf0df9ab">GUIController.MainWindow</a>
+: <a class="el" href="classmain_1_1MainWindow.html#a5d1cca4f479efac16adbe9c980368bb3">main.MainWindow</a>
 </li>
 <li>state_is_won()
 : <a class="el" href="classgame_1_1Game.html#a9ae72edd1264e1effe875ec1af8051f9">game.Game</a>
@@ -247,7 +283,7 @@ $(function() {
 
 <h3><a id="index_t"></a>- t -</h3><ul>
 <li>toolbar_menus()
-: <a class="el" href="classGUIController_1_1MainWindow.html#a483d135e809887f19c4aa90eed85f05e">GUIController.MainWindow</a>
+: <a class="el" href="classmain_1_1MainWindow.html#a521027a76aa1c1a13e897137ad43c7d9">main.MainWindow</a>
 </li>
 </ul>
 
@@ -257,10 +293,10 @@ $(function() {
 : <a class="el" href="classgame_1_1Game.html#a4d05280a8e739b214f50168a7f60c782">game.Game</a>
 </li>
 <li>unprint_moves_list()
-: <a class="el" href="classGUIController_1_1MainWindow.html#a4de267c46dbd5902cbade13eabe50f24">GUIController.MainWindow</a>
+: <a class="el" href="classmain_1_1MainWindow.html#a8c46b65de1e73cd947c826d02d31af4c">main.MainWindow</a>
 </li>
 <li>unprint_tip()
-: <a class="el" href="classGUIController_1_1MainWindow.html#a60df967a8de9a0897e327d65518d8fc6">GUIController.MainWindow</a>
+: <a class="el" href="classmain_1_1MainWindow.html#a5ef7f82048e9f0fc50b1f0e1662c9e79">main.MainWindow</a>
 </li>
 </ul>
 </div><!-- contents -->

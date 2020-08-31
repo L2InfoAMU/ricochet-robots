@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['placer_5faleatoirement',['placer_aleatoirement',['../classGUIController_1_1MainWindow.html#a81c0d1b00634346ff032805641cc0aac',1,'GUIController::MainWindow']]],
-  ['print_5fmoves_5flist',['print_moves_list',['../classGUIController_1_1MainWindow.html#a6e850a914b0681184beb236d63d4597f',1,'GUIController::MainWindow']]],
-  ['print_5ftip',['print_tip',['../classGUIController_1_1MainWindow.html#a9801fb2a06f3308baaaf617b91245d0d',1,'GUIController::MainWindow']]]
+  ['placer_5faleatoirement',['placer_aleatoirement',['../classmain_1_1MainWindow.html#a61ccbf8b887753b6db3ff19e65e4bc9b',1,'main::MainWindow']]],
+  ['print_5fmoves_5flist',['print_moves_list',['../classmain_1_1MainWindow.html#ad908d5e23984194a3d4dd878489931c4',1,'main::MainWindow']]],
+  ['print_5ftip',['print_tip',['../classmain_1_1MainWindow.html#aa7696020f657685831fd5aa212c28e34',1,'main::MainWindow']]]
 ];

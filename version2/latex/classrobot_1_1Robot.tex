@@ -3,13 +3,11 @@
 \subsection*{Fonctions membres publiques}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classrobot_1_1Robot_a79a4241cf6242acb65cd51b1c67dd263}\label{classrobot_1_1Robot_a79a4241cf6242acb65cd51b1c67dd263}} 
-def {\bfseries \+\_\+\+\_\+init\+\_\+\+\_\+} (self, group, color, position)
+def \hyperlink{classrobot_1_1Robot_a79a4241cf6242acb65cd51b1c67dd263}{\+\_\+\+\_\+init\+\_\+\+\_\+} (self, group, color, position)
 \item 
 def \hyperlink{classrobot_1_1Robot_a10d00e1924a0fce095fe0bdf888f1415}{\+\_\+\+\_\+str\+\_\+\+\_\+} (self)
 \item 
-\mbox{\Hypertarget{classrobot_1_1Robot_a0227c4a66b9a23adb02a9ddf441be825}\label{classrobot_1_1Robot_a0227c4a66b9a23adb02a9ddf441be825}} 
-def {\bfseries move} (self, dir, board)
+def \hyperlink{classrobot_1_1Robot_a0227c4a66b9a23adb02a9ddf441be825}{move} (self, dir, board)
 \end{DoxyCompactItemize}
 \subsection*{Attributs publics}
 \begin{DoxyCompactItemize}
@@ -25,6 +23,19 @@ def {\bfseries move} (self, dir, board)
 \end{DoxyCompactItemize}
 
 
+\subsection{Documentation des constructeurs et destructeur}
+\mbox{\Hypertarget{classrobot_1_1Robot_a79a4241cf6242acb65cd51b1c67dd263}\label{classrobot_1_1Robot_a79a4241cf6242acb65cd51b1c67dd263}} 
+\index{robot\+::\+Robot@{robot\+::\+Robot}!\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}!robot\+::\+Robot@{robot\+::\+Robot}}
+\subsubsection{\texorpdfstring{\+\_\+\+\_\+init\+\_\+\+\_\+()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily def robot.\+Robot.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{group,  }\item[{}]{color,  }\item[{}]{position }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}crée un robot de couleur color, élément de RColors
+La position initiale est donnée par le couple position (x,y)
+Le robot est ajouté au groupe de robots group
+\end{DoxyVerb}
+ 
+
 \subsection{Documentation des fonctions membres}
 \mbox{\Hypertarget{classrobot_1_1Robot_a10d00e1924a0fce095fe0bdf888f1415}\label{classrobot_1_1Robot_a10d00e1924a0fce095fe0bdf888f1415}} 
 \index{robot\+::\+Robot@{robot\+::\+Robot}!\+\_\+\+\_\+str\+\_\+\+\_\+@{\+\_\+\+\_\+str\+\_\+\+\_\+}}
@@ -34,6 +45,16 @@ def {\bfseries move} (self, dir, board)
 
 \begin{DoxyVerb}renvoie une représentation du robot sous forme de chaîne de caractères
     "R" : [x,y]
+\end{DoxyVerb}
+ \mbox{\Hypertarget{classrobot_1_1Robot_a0227c4a66b9a23adb02a9ddf441be825}\label{classrobot_1_1Robot_a0227c4a66b9a23adb02a9ddf441be825}} 
+\index{robot\+::\+Robot@{robot\+::\+Robot}!move@{move}}
+\index{move@{move}!robot\+::\+Robot@{robot\+::\+Robot}}
+\subsubsection{\texorpdfstring{move()}{move()}}
+{\footnotesize\ttfamily def robot.\+Robot.\+move (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{dir,  }\item[{}]{board }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}déplace le robot 
+- dans la direction donnée par dir, 
+- sur le plateau de jeu donné par board
 \end{DoxyVerb}
  
 

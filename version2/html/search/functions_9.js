@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['new_5fclassic',['new_classic',['../classboard_1_1Board.html#a91650ef03892e24f144d1adeb0e5addc',1,'board::Board']]]
+  ['move',['move',['../classrobot_1_1Robot.html#a0227c4a66b9a23adb02a9ddf441be825',1,'robot::Robot']]]
 ];

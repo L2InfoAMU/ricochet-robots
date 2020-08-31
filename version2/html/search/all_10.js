@@ -1,7 +1,7 @@
 var searchData=
 [
   ['rcolors',['RColors',['../classrcolors_1_1RColors.html',1,'rcolors']]],
-  ['replay',['replay',['../classGUIController_1_1MainWindow.html#a60a31538c9b32fc3b1c9aff8bb659e11',1,'GUIController::MainWindow']]],
+  ['replay',['replay',['../classmain_1_1MainWindow.html#ad778ae6b83bc497287aa2f86907a4615',1,'main::MainWindow']]],
   ['reward',['reward',['../classqlearn_1_1Qlearner.html#aa5d2c9fb82ed55754cab3f485551ba22',1,'qlearn::Qlearner']]],
   ['robot',['Robot',['../classrobot_1_1Robot.html',1,'robot']]],
   ['robot_5fgroup',['Robot_group',['../classrobot_1_1Robot__group.html',1,'robot']]],

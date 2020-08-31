@@ -5,14 +5,11 @@
 \item 
 def \hyperlink{classgame_1_1Game_af5743a4c7beabed4dd5dea74a39bbb99}{\+\_\+\+\_\+init\+\_\+\+\_\+} (self, board, robots, goal, record=True)
 \item 
-\mbox{\Hypertarget{classgame_1_1Game_a2ccf23306726654420eec1a50f67d1cb}\label{classgame_1_1Game_a2ccf23306726654420eec1a50f67d1cb}} 
-def {\bfseries add\+\_\+board} (self, board)
+def \hyperlink{classgame_1_1Game_a2ccf23306726654420eec1a50f67d1cb}{add\+\_\+board} (self, board)
 \item 
-\mbox{\Hypertarget{classgame_1_1Game_a7465d51560b2d485db6ed53907cf1397}\label{classgame_1_1Game_a7465d51560b2d485db6ed53907cf1397}} 
-def {\bfseries add\+\_\+goal} (self, goal)
+def \hyperlink{classgame_1_1Game_a7465d51560b2d485db6ed53907cf1397}{add\+\_\+goal} (self, goal)
 \item 
-\mbox{\Hypertarget{classgame_1_1Game_a7e642c0246cea6fa82e92247fa4c3b93}\label{classgame_1_1Game_a7e642c0246cea6fa82e92247fa4c3b93}} 
-def {\bfseries add\+\_\+robots} (self, robots)
+def \hyperlink{classgame_1_1Game_a7e642c0246cea6fa82e92247fa4c3b93}{add\+\_\+robots} (self, robots)
 \item 
 def \hyperlink{classgame_1_1Game_aaa2b3e9d8578764bc3eda7ab5841ecbb}{get\+\_\+state} (self)
 \item 
@@ -95,6 +92,27 @@ Le premier caractère est la couleur du robot, le deuxième est la direction.
 Exemple : si game ne comporte qu'un robot rouge
 game.actions_list() renvoie ["RN","RE","RS","RW"]
 \end{DoxyVerb}
+ \mbox{\Hypertarget{classgame_1_1Game_a2ccf23306726654420eec1a50f67d1cb}\label{classgame_1_1Game_a2ccf23306726654420eec1a50f67d1cb}} 
+\index{game\+::\+Game@{game\+::\+Game}!add\+\_\+board@{add\+\_\+board}}
+\index{add\+\_\+board@{add\+\_\+board}!game\+::\+Game@{game\+::\+Game}}
+\subsubsection{\texorpdfstring{add\+\_\+board()}{add\_board()}}
+{\footnotesize\ttfamily def game.\+Game.\+add\+\_\+board (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{board }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}redéfinit la grille de jeu \end{DoxyVerb}
+ \mbox{\Hypertarget{classgame_1_1Game_a7465d51560b2d485db6ed53907cf1397}\label{classgame_1_1Game_a7465d51560b2d485db6ed53907cf1397}} 
+\index{game\+::\+Game@{game\+::\+Game}!add\+\_\+goal@{add\+\_\+goal}}
+\index{add\+\_\+goal@{add\+\_\+goal}!game\+::\+Game@{game\+::\+Game}}
+\subsubsection{\texorpdfstring{add\+\_\+goal()}{add\_goal()}}
+{\footnotesize\ttfamily def game.\+Game.\+add\+\_\+goal (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{goal }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}redéfinit l'objectif du jeu \end{DoxyVerb}
+ \mbox{\Hypertarget{classgame_1_1Game_a7e642c0246cea6fa82e92247fa4c3b93}\label{classgame_1_1Game_a7e642c0246cea6fa82e92247fa4c3b93}} 
+\index{game\+::\+Game@{game\+::\+Game}!add\+\_\+robots@{add\+\_\+robots}}
+\index{add\+\_\+robots@{add\+\_\+robots}!game\+::\+Game@{game\+::\+Game}}
+\subsubsection{\texorpdfstring{add\+\_\+robots()}{add\_robots()}}
+{\footnotesize\ttfamily def game.\+Game.\+add\+\_\+robots (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{robots }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}redéfinit le groupe de robots \end{DoxyVerb}
  \mbox{\Hypertarget{classgame_1_1Game_a2c3428bb9f61284ee0febe00d7850dfa}\label{classgame_1_1Game_a2c3428bb9f61284ee0febe00d7850dfa}} 
 \index{game\+::\+Game@{game\+::\+Game}!do\+\_\+action@{do\+\_\+action}}
 \index{do\+\_\+action@{do\+\_\+action}!game\+::\+Game@{game\+::\+Game}}
@@ -146,7 +164,9 @@ L'ordre des robots dans ce tuple peut être obtenu par l'attribut color_keys
 \subsubsection{\texorpdfstring{save\+\_\+2\+\_\+json()}{save\_2\_json()}}
 {\footnotesize\ttfamily def game.\+Game.\+save\+\_\+2\+\_\+json (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{fp }\end{DoxyParamCaption})}
 
-\begin{DoxyVerb}writing data to a text file, using json format
+\begin{DoxyVerb}méthode obsolète
+writing data to a text file, using json format
+
 {
 "grid" : [ [int, ..., int],
             ...

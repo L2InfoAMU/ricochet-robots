@@ -73,14 +73,12 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Fonctions membres publiques</h2></td></tr>
-<tr class="memitem:a2358d27a7a8833adaf69138ceda4d7aa"><td class="memItemLeft" align="right" valign="top"><a id="a2358d27a7a8833adaf69138ceda4d7aa"></a>
-def&#160;</td><td class="memItemRight" valign="bottom"><b>__init__</b> (self, game)</td></tr>
+<tr class="memitem:a2358d27a7a8833adaf69138ceda4d7aa"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqlearn_1_1Qlearner.html#a2358d27a7a8833adaf69138ceda4d7aa">__init__</a> (self, game)</td></tr>
 <tr class="separator:a2358d27a7a8833adaf69138ceda4d7aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa5d2c9fb82ed55754cab3f485551ba22"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqlearn_1_1Qlearner.html#aa5d2c9fb82ed55754cab3f485551ba22">reward</a> (self, state, action)</td></tr>
 <tr class="separator:aa5d2c9fb82ed55754cab3f485551ba22"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afaa65137b88d1c13b8969036c0a9983f"><td class="memItemLeft" align="right" valign="top"><a id="afaa65137b88d1c13b8969036c0a9983f"></a>
-def&#160;</td><td class="memItemRight" valign="bottom"><b>learn</b> (self, nb_iter, mu=0.9)</td></tr>
-<tr class="separator:afaa65137b88d1c13b8969036c0a9983f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21001f2c11418262b3b0cfc58fb91f72"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqlearn_1_1Qlearner.html#a21001f2c11418262b3b0cfc58fb91f72">learn</a> (self, nb_iter, mu=0.9, c=1, explore=1)</td></tr>
+<tr class="separator:a21001f2c11418262b3b0cfc58fb91f72"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Attributs publics</h2></td></tr>
@@ -106,7 +104,92 @@ Attributs publics</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>qtable</b></td></tr>
 <tr class="separator:a85cd72fc90598ce1036f3bfbf1e19cc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Documentation des constructeurs et destructeur</h2>
+<a id="a2358d27a7a8833adaf69138ceda4d7aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2358d27a7a8833adaf69138ceda4d7aa">&#9670;&nbsp;</a></span>__init__()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def qlearn.Qlearner.__init__ </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>game</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">construit un apprenant pour le jeu game 
+</pre> 
+</div>
+</div>
 <h2 class="groupheader">Documentation des fonctions membres</h2>
+<a id="a21001f2c11418262b3b0cfc58fb91f72"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21001f2c11418262b3b0cfc58fb91f72">&#9670;&nbsp;</a></span>learn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def qlearn.Qlearner.learn </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>nb_iter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>mu</em> = <code>0.9</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>c</em> = <code>1</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>explore</em> = <code>1</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">apprend la Qtable en simulant nb_iter épisodes de jeu
+mu est le facteur de récompense retardée
+c le facteur d'apprentissage qui peut varier entre 0 et 1
+c = 0 , l'agent n'apprend rien, 
+c = 1 , l'agent met à jour complétement la valeur de Q (voir rapport)
+
+explore est le facteur d'exploration qui peut varier entre 0 et 1 :
+explore = 0  : l'agent choisit l'action à partir de la meilleure récompense dans la table
+explore = 1 : l'agent explore en choisissant toutes ses actions au hasard
+</pre> 
+</div>
+</div>
 <a id="aa5d2c9fb82ed55754cab3f485551ba22"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa5d2c9fb82ed55754cab3f485551ba22">&#9670;&nbsp;</a></span>reward()</h2>
 

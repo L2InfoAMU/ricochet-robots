@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['placer_5faleatoirement',['placer_aleatoirement',['../classGUIController_1_1MainWindow.html#a81c0d1b00634346ff032805641cc0aac',1,'GUIController::MainWindow']]],
-  ['print_5fmoves_5flist',['print_moves_list',['../classGUIController_1_1MainWindow.html#a6e850a914b0681184beb236d63d4597f',1,'GUIController::MainWindow']]],
-  ['print_5ftip',['print_tip',['../classGUIController_1_1MainWindow.html#a9801fb2a06f3308baaaf617b91245d0d',1,'GUIController::MainWindow']]]
+  ['onbuttontipclick',['onButtonTipClick',['../classmain_1_1MainWindow.html#a26dc40b9b5d9e0327b0f593850746448',1,'main::MainWindow']]],
+  ['onbuttonundoclick',['onButtonUndoClick',['../classmain_1_1MainWindow.html#a2acd695c824c327fa90308bc2ee511f3',1,'main::MainWindow']]],
+  ['open_5fgame',['open_game',['../classmain_1_1MainWindow.html#a841e6a28b64e63e03be4fd0073a38ce4',1,'main::MainWindow']]],
+  ['open_5fgrid',['open_grid',['../classgrid__visualiseur_1_1MainWindow.html#a6d4f89a1640755a326a358026815ca66',1,'grid_visualiseur.MainWindow.open_grid()'],['../classmain_1_1MainWindow.html#a960159ca187e8bb3a2a53a6ba312331c',1,'main.MainWindow.open_grid()']]]
 ];

@@ -1,11 +1,8 @@
 var searchData=
 [
-  ['save_5f2_5fjson',['save_2_json',['../classgame_1_1Game.html#a2d8234f8916943384bf5f756b616fe55',1,'game::Game']]],
-  ['save_5fas_5fjson',['save_as_json',['../classboard_1_1Board.html#aa8ced227328068a4365e0709d3563067',1,'board::Board']]],
-  ['save_5fgame',['save_game',['../classGUIController_1_1MainWindow.html#af6b4f741a83067f0fc0e93bbdfef7782',1,'GUIController::MainWindow']]],
-  ['save_5fgrid',['save_grid',['../classGUIController_1_1MainWindow.html#a2fc4a4cfac14aadcfb0a4d7287b6988c',1,'GUIController::MainWindow']]],
-  ['save_5fto_5fjson',['save_to_json',['../classgame_1_1Game.html#a7c525e5a47b01fb5bed17fe1438c13f5',1,'game::Game']]],
-  ['set_5fstate',['set_state',['../classgame_1_1Game.html#a7e87798fb7f81b80c11fcaec17860577',1,'game::Game']]],
-  ['solve',['solve',['../classGUIController_1_1MainWindow.html#a393caaf3fa3cd4840a2ac525bf0df9ab',1,'GUIController::MainWindow']]],
-  ['state_5fis_5fwon',['state_is_won',['../classgame_1_1Game.html#a9ae72edd1264e1effe875ec1af8051f9',1,'game::Game']]]
+  ['replay',['replay',['../classmain_1_1MainWindow.html#ad778ae6b83bc497287aa2f86907a4615',1,'main::MainWindow']]],
+  ['reward',['reward',['../classqlearn_1_1Qlearner.html#aa5d2c9fb82ed55754cab3f485551ba22',1,'qlearn::Qlearner']]],
+  ['rotate_5fhalf',['rotate_half',['../classcell_1_1Cell.html#a85bf248bab5f2fb81ab4498ec025e138',1,'cell::Cell']]],
+  ['rotate_5fleft',['rotate_left',['../classcell_1_1Cell.html#afe4fd9eff1237decc36d388600897f75',1,'cell::Cell']]],
+  ['rotate_5fright',['rotate_right',['../classcell_1_1Cell.html#a46fe2e7a6559049679f9e93e13abea79',1,'cell::Cell']]]
 ];
