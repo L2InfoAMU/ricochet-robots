@@ -8,10 +8,14 @@ class RColors(Enum) :
     YELLOW = 4
 
     def __str__(self) :
+        """ renvoie une représentation sous forme de chaine de la couleur"""
         return color_names[self]
 
     @classmethod
     def from_str(cls , string) : 
+        """ renvoie un objet RColors correspondant àstring 
+        string doit être un élément de ["R","G","B","Y"]
+        """
         assert string in color_by_name
         return color_by_name[string]
 

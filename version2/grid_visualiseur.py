@@ -1,3 +1,7 @@
+"""
+Un visualiseur de grilles écrits avec PySide2
+"""
+
 import sys
 from PySide2 import QtCore, QtGui, QtWidgets
 from PySide2.QtCore import Qt
@@ -9,12 +13,14 @@ from robot import Board
 class MainWindow(QMainWindow):
 
     def __init__(self):
+        """ initialisation de la fenêtre du visualiseur """
         super().__init__()
         self.label = QtWidgets.QLabel()
         self.create_menu()
 
 
     def create_menu(self) :
+        """ création du menu "Fichier" comportant la commande Open """
         menuBar = self.menuBar()
         file_menu = menuBar.addMenu("&Fichier")
 
@@ -27,6 +33,7 @@ class MainWindow(QMainWindow):
 
 
     def open_grid(self) :
+        """ affiche un dialogue pour l'ouverture d'un fichier """
         filename, filter = QFileDialog.getOpenFileName(self , 'selectionner un fichier contenant une grille','./grids','*.json')
         print(filename)
         board, = Board.load_from_json(filename) 
@@ -36,6 +43,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.label)
 
     def draw_Board(self,board):
+        """ dessine la grille dans objet Pixmap """
         canvas = QtGui.QPixmap(800, 800)
         canvas.fill(Qt.white)
         painter = MyPainter( 50 , canvas )
@@ -54,6 +62,7 @@ class MainWindow(QMainWindow):
         return canvas
         
 class MyPainter(QtGui.QPainter) :
+    """ Surcharge de la classe QPainter """
 	
 	def __init__(self,scale , *args ,**kwargs) :
 	    super().__init__(*args , **kwargs)

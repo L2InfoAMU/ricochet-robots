@@ -68,12 +68,14 @@ class Game :
 
 
     def add_board(self, board):
+        """ redéfinit la grille de jeu """
         self.board = board
 
     def add_goal(self, goal):
+        """ redéfinit l'objectif du jeu """
         self.goal = goal
-
     def add_robots(self, robots):
+        """ redéfinit le groupe de robots """
         self.robots = robots
         self.color_keys = [color for color in robots]
 
@@ -162,7 +164,10 @@ class Game :
 
     # deprecated method, use save_to_json instead
     def save_2_json(self, fp) :
-        """ writing data to a text file, using json format
+        """ 
+        méthode obsolète
+        writing data to a text file, using json format
+
         {
         "grid" : [ [int, ..., int],
                             ...

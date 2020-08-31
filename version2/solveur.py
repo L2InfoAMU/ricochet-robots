@@ -22,6 +22,7 @@ Pour l'état initial ce couple est (None, None).
 class solveur :
 
     def __init__(self, game) :
+        """ crée un solveur pour game """
         self.game = game
 
     @staticmethod

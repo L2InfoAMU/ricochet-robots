@@ -32,6 +32,10 @@ from goal import Goal
 
 class Robot :
     def __init__(self, group, color, position ) :
+        """ crée un robot de couleur color, élément de RColors
+        La position initiale est donnée par le couple position (x,y)
+        Le robot est ajouté au groupe de robots group
+        """
         self.group = group
         self.color = color
         self.position = position
@@ -46,6 +50,10 @@ class Robot :
         return f'"{str(self.color)}" : {str(list(self.position))}'
 
     def move (self, dir, board) :
+        """ déplace le robot 
+        - dans la direction donnée par dir, 
+        - sur le plateau de jeu donné par board
+        """
         robots = self.group
 
 
