@@ -1,1 +1,1 @@
-python GUIController.py
+python main.py
