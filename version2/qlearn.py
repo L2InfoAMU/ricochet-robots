@@ -1,12 +1,31 @@
 from stateencoder import StateEncoder
 from game import Game
 from numpy import array, zeros
-from random import randint,choice
+from random import randint,choice, random
+from math import inf
 
+def indices_max(data) :
+    """ renvoie la liste des indices des maximaix dans le tableau data
+    exemples indices_max([0,0,2,1,2]) renvoie [2,4] 
+    """
+    max = -inf
+    indices=[]
+
+    for i in range(len(data)) :
+        if data[i] > max :
+            max = data[i]
+            indices = [i]
+        elif data[i] == max :
+            indices.append(i)
+    
+    return indices
 
 class Qlearner :
 
     def __init__(self, game) :
+        """ construit un apprenant pour le jeu game 
+        """
+
         self.game = game
         self.actions = self.game.actions_list()
         self.encoder = StateEncoder(self.game)
@@ -32,23 +51,49 @@ class Qlearner :
         if game.state_is_won(new_state) : return 1 ,new_state
         return 0 ,new_state
 
-    def  learn(self, nb_iter, mu = 0.9) :
-        
+    def  learn(self, nb_iter, mu = 0.9, c = 1 ,explore = 1 ) :
+        """ apprend la Qtable en simulant nb_iter épisodes de jeu
+        mu est le facteur de récompense retardée
+        c le facteur d'apprentissage qui peut varier entre 0 et 1
+        c = 0 , l'agent n'apprend rien, 
+        c = 1 , l'agent met à jour complétement la valeur de Q (voir rapport)
+
+        explore est le facteur d'exploration qui peut varier entre 0 et 1 :
+        explore = 0  : l'agent choisit l'action à partir de la meilleure récompense dans la table
+        explore = 1 : l'agent explore en choisissant toutes ses actions au hasard
+        """
         for _ in range(nb_iter) :
             state_index = randint(0,self.state_number-1)
             state = self.int_to_state(state_index)
-            action = choice(self.actions)
+
+            # choix de l'action
+            # On fait de l'exploration avec une probabilité  égale à explore
+            if random() < explore : 
+                # choix aléatoire d'une action
+                action_index = randint(0,len (self.actions)-1)
+
+            else : # exploitation
+                indices = indices_max( self.qtable[state_index,:])
+                action_index = choice(indices)
+
+                
+            action = self.actions[action_index]
 
             immediate_reward ,new_state= self.reward(state,action)
-            new_state_index = self.state_to_int(new_state)
-            delay_reward = mu * max( self.qtable[new_state_index,:])
+            if immediate_reward == 1  :
+                delay_reward = 0
+            else :
+                new_state_index = self.state_to_int(new_state)
+                delay_reward = mu * max( self.qtable[new_state_index,:])
 
-            self.qtable[state_index] = immediate_reward + delay_reward
+            self.qtable[state_index,action_index] = (1-c) *self.qtable[state_index,action_index] + c* (immediate_reward + delay_reward)
+
 
 
 game = Game.load_from_json("games/game2x2.json")
 learner = Qlearner(game)
-learner.learn(100)
+learner.learn(1000)
+print (learner.qtable)
 
 
 
