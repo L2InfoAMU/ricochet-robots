@@ -37,6 +37,10 @@ class StateEncoder :
         self.state_number = arrangement(size,nr)
 
     def position_encoder_functions(self) :
+        """ renvoie les fonctions de numérotation des positions 
+            usage interne
+        """
+
         width = self.game.board.width
 
         def position_to_int( position) :
@@ -49,7 +53,10 @@ class StateEncoder :
         return position_to_int, int_to_position
           
     def state_index_function(self) :
-
+        """ renvoie les fonctions (encoder, decoder) définissant la bijection entre 
+        les états et leur numérotzation dans [0,N-1]
+        Les tuples positions sont convertis en entiers (numérotation des cases)
+        """
         s = len(self.game.robots)
         size = self.game.board.height*self.game.board.width
         

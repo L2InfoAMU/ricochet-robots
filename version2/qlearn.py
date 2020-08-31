@@ -66,6 +66,9 @@ class Qlearner :
             state_index = randint(0,self.state_number-1)
             state = self.int_to_state(state_index)
 
+            if self.game.state_is_won(state) : 
+                continue # pas de calcul de table pour les états gagnants
+
             # choix de l'action
             # On fait de l'exploration avec une probabilité  égale à explore
             if random() < explore : 
@@ -91,9 +94,40 @@ class Qlearner :
 
 
 game = Game.load_from_json("games/game2x2.json")
+
+learner = Qlearner(game)
+learner.learn(20)
+print ("qtable calculée avec 20 itérations pour l'exemple 1")
+print (learner.qtable)
+
+learner = Qlearner(game)
+learner.learn(100)
+print ("qtable calculée avec 100 itérations pour l'exemple 1")
+print (learner.qtable)
+
 learner = Qlearner(game)
 learner.learn(1000)
+print ("qtable calculée avec 1000 itérations pour l'exemple 1")
 print (learner.qtable)
+
+game = Game.load_from_json("games/game4x4.json")
+learner = Qlearner(game)
+learner.learn(20)
+print ("qtable calculée avec 20 itérations pour l'exemple 1")
+print (learner.qtable)
+
+learner = Qlearner(game)
+learner.learn(100)
+print ("qtable calculée avec 100 itérations pour l'exemple 1")
+print (learner.qtable)
+
+learner = Qlearner(game)
+learner.learn(1000)
+print ("qtable calculée avec 1000 itérations pour l'exemple 1")
+print (learner.qtable)
+
+
+
 
 
 
